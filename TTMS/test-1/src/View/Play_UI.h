@@ -11,6 +11,6 @@ void Play_UI_MgtEntry(void);
 
 int Play_UI_Query(int id);
 
-void Schedule_UI_MgtEntry(int play_id);
+int Schedule_UI_MgtEntry(int play_id);
 
 #endif

@@ -8,11 +8,11 @@ int Schedule_Perst_SelectByPlay(schedule_list_t list,int play_id);    //cong yan
 
 int Schedule_Perst_Insert(schedule_t *data);   
 
-int Schedule_Perst_Update(const schedule_t *data); 
+int Schedule_Perst_Update(schedule_t *data); 
 
 int Schedule_Perst_RemByID(int id);      //qu chu yan chu ji hua shu ju wen jian zhong zhi ding id de yan chu ji hua 
 
-
+int Schedule_Perst_SelectByID(schedule_list_t list,int id);
 
 
 #endif

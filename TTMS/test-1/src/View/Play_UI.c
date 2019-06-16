@@ -88,7 +88,7 @@ void Play_UI_MgtEntry(void)
 				break;
 			case's':
 			case'S':
-				printf( "Input the ID:");
+				printf( "Input the ju mu ID:");
 				scanf( "%d",&id);
 				getchar( );
 				if(Play_UI_Query(id))

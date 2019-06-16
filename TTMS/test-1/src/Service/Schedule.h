@@ -1,6 +1,8 @@
 #ifndef SCHEDULE_H_
 #define SCHEDULE_H_
+
 #include"Play.h"
+
 typedef struct 
 {
 	int hour;
@@ -32,9 +34,9 @@ int Schedule_Srv_Add(schedule_t *data);
 
 int Schedule_Srv_Modify(const schedule_t *data);
 
-int Schedule_Srv_DeleteByID(int id);     
-
-
-
+int Schedule_Srv_DeleteByID(int id);   
+ 
+ 
+ int Schedule_Srv_FetchByID(schedule_list_t head ,int id);
 
 #endif
