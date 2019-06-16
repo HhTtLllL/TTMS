@@ -99,6 +99,10 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'f':
 			case'F':
+				printf( "Input the ID:");
+				scanf( "%d",&id);
+				getchar( );
+				Schedule_UI_MgtEntry(id);
 				break;
 			case'p':
 			case'P':

@@ -1,5 +1,5 @@
-#ifndef SCHEDULE_UI_H_
-#define SCHEDULE_UI_H_
+#ifndef SCHEDULE_H_
+#define SCHEDULE_H_
 #include"Play.h"
 typedef struct 
 {
