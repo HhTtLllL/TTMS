@@ -208,3 +208,34 @@ int Schedule_Perst_SelectByID(schedule_list_t list,int id)
 	return recCount;
 }
 
+int Schedule_Perst_SelectByID_ticket(int id,schedule_t *buf)
+{
+	assert(NULL != buf);
+
+	int found = 0;
+	schedule_t data;
+	FILE *fp = fopen(SCHEDULE_DATA_FILE,"rb");
+	
+
+	if(NULL == fp)
+	{
+		printf( "the file cannot open!\n");
+		return 0;
+	}
+	while(!feof(fp))
+	{
+		if(fread(&data,sizeof(schedule_t),1,fp))
+		{
+			if(data.id == id)
+			{
+				*buf = data;
+				found = 1;
+				break;
+			}
+		}
+	}
+	
+	fclose(fp);
+
+	return found;
+}

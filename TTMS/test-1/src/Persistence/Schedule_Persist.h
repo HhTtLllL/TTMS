@@ -14,5 +14,6 @@ int Schedule_Perst_RemByID(int id);      //qu chu yan chu ji hua shu ju wen jian
 
 int Schedule_Perst_SelectByID(schedule_list_t list,int id);
 
+int Schedule_Perst_SelectByID_ticket(int id,schedule_t *buf);
 
 #endif

@@ -1,6 +1,6 @@
 #include"../View/Schedule_UI.h"
 #include"../Common/list.h"
-
+#include"../View/Ticket_UI.h"
 #include"../Service/Schedule.h"
 
 
@@ -81,6 +81,9 @@ void Schedule_UI_MgtEntry(int play_id)
 				}
 			case't':
 			case'T':
+				printf( "yu piao xiang guan de yan chu ji hua de ID :")
+				Ticket_UI_MgtEntry(schedule_id)
+				break;
 
 		}
 	}while(choice != 'r' && choice != 'R');
@@ -210,3 +213,6 @@ int Schedule_UI_Modify(int id)
 	return 1;
 
 }
+
+
+

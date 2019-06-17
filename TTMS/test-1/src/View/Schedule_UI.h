@@ -9,6 +9,6 @@ int Schedule_UI_Modify(int id);
 
 int Schedule_UI_Delete(int id);
 
-
+int Ticket_UI_MgtEntry(int schedule_id);
 
 #endif
