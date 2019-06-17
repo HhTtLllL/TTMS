@@ -1,12 +1,12 @@
 #ifndef TICKET_H_
 #define TICKET_H_
-
+#include"Schedule.h"
 
 typedef enum
 {
-	TICKET_AVL = 0;   //dai shou
-	TICKET_SOLD = 1;    //yi shou
-	TICKET_RESV = 9;    //yu  liu 
+	TICKET_AVL = 0,   //dai shou
+	TICKET_SOLD = 1,    //yi shou
+	TICKET_RESV = 9    //yu  liu 
 }ticket_status_t;
 
 typedef struct 
@@ -26,7 +26,7 @@ typedef struct ticket_node
 
 
 
-int Schedule_Srv_FetchByID(int id,schedule_t *buf);    //gen ju ID huo qu yan chu jia hua han shu
+int Schedule_Srv_FetchByID_ticket(int id,schedule_t *buf);    //gen ju ID huo qu yan chu jia hua han shu
 
 void Ticket_Srv_GenBatch(int schedule_id);       //pi liang zeng jia wen jian ticket zhong de piao de ge shu
 

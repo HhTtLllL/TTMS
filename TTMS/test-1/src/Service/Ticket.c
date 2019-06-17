@@ -24,3 +24,8 @@ void Ticket_Srv_GenBatch(int schedule_id)
 	return count;
 
 }
+
+void Ticket_Srv_deleteBatch(int schedule_id)
+{
+	return Tick_Perst_Rem(schedule_id);
+}

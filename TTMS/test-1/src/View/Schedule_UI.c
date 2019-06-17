@@ -10,6 +10,7 @@ static const int SCHEDULE_PAGE_SIZE = 5;
 
 void Schedule_UI_MgtEntry(int play_id)
 {
+	int schedule_id;
 	int i,id;
 	int yan_id;
 	char choice;
@@ -79,10 +80,13 @@ void Schedule_UI_MgtEntry(int play_id)
 					paging.totalRecords = Schedule_Srv_FetchByPlay(head,play_id);
 					List_Paging(head, paging, schedule_node_t);
 				}
+				break;
 			case't':
 			case'T':
-				printf( "yu piao xiang guan de yan chu ji hua de ID :")
-				Ticket_UI_MgtEntry(schedule_id)
+				printf( "yu piao xiang guan de yan chu ji hua de ID :");
+				scanf( "%d",&schedule_id);
+				getchar( );
+				Ticket_UI_MgtEntry(schedule_id);
 				break;
 
 		}

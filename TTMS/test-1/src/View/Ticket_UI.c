@@ -29,6 +29,10 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 	printf( "%5s %10s %10s %10s ","NAME","studio ID","Date","Time");
 	printf( "%s  %d  %d %d %d  %d %d %d",data.name,buf.studio_id,buf.date.year,buf.date.month,buf.date.day,buf.time.hour,buf.time.minute,buf.time.second);
 
+	printf( "[G]sheng cheng yan chu piao    [E]chong xin xheng cheng yan chu piao \n");
+	setbuf(stdin,NULL);
+	scanf("%c",&choice);
+	getchar( );
 
 	switch(choice)
 	{
@@ -36,10 +40,11 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 		case'g':
 			Ticket_Srv_GenBatch(schedule_id);
 			break;
-
+		case'e':
+		case'E':
+			Ticket_Srv_deleteBatch(schedule_id);
+			Ticket_Srv_GenBatch(schedule_id);
+			break;
 	}
-
-
-	
 
 }
