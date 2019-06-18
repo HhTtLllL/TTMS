@@ -51,16 +51,35 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 
 void Ticket_UI_Query(void)
 {
-	ticket_list_t list;
+/*	ticket_list_t list;
 
 	List_Init(list,ticket_node_t);
 
 	Ticket_Srv_FetchAll(list);
-
+*/	
 	printf( "==================================================\n");
 	printf( "******************Find Ticket*********************\n");
-	printf( "[C]ha   ");
-	
+	printf( "please input the id of the ticket :");
+
+	int id;
+	scanf("%d",&id);
+	getchar( );
+
+	Ticket_UI_ShowTicket(id);
+}
 
 
+int Ticket_UI_ShowTicket(int ticket_id)
+{
+	ticket_t buf;
+	int temp = Ticket_Srv_FetchByID(ticket_id,&buf);
+	if(temp == 0)
+	{
+		printf( "the ticket is not exist!\n");
+	}
+	else
+	{
+		printf( "ticket ID      schedule ID      Seat ID      Ticket Price      Ticket status    \n");
+		printf( "%6d  %6d     %6d    %6d   %6d    \n",buf.id,buf.schedule_id,buf.seat_id,buf.price,buf.status);
+	}
 }

@@ -28,11 +28,12 @@ typedef struct ticket_node
 
 int Schedule_Srv_FetchByID_ticket(int id,schedule_t *buf);    //gen ju ID huo qu yan chu jia hua han shu
 
-void Ticket_Srv_GenBatch(int schedule_id);       //pi liang zeng jia wen jian ticket zhong de piao de ge shu
+int Ticket_Srv_GenBatch(int schedule_id);       //pi liang zeng jia wen jian ticket zhong de piao de ge shu
 
 void Ticket_Srv_deleteBatch(int schedule_id);    //shan chu yan chu piao han shu
 
 void Ticket_Srv_FetchAll(ticket_list_t list);
 
+int Ticket_Srv_FetchByID(int id,ticket_t *buf);
 #endif
 

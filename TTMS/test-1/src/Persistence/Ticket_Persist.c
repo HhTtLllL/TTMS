@@ -60,6 +60,7 @@ int Ticket_Perst_Insert(seat_list_t  list,int schedule_id)
 
 }
 
+
 int  Tick_Perst_Rem(int schedule_id)
 {
 	if(rename(TICKET_DATA_FILE,TICKET_DATA_TEMP_FILE) < 0)
@@ -148,4 +149,34 @@ void Ticket_Perst_SelectAll(ticket_list_t list)
 	fclose(fp);
 
 	return ;
+}
+
+int Ticket_Perst_SelByID(int id,ticket_t *buf)
+{
+	int found = 0;
+	
+	ticket_t data;
+	FILE *fp = fopen(TICKET_DATA_FILE,"rb");
+	if(fp == NULL)
+	{
+		return 0;
+	}
+
+	while(!feof(fp))
+	{
+		if(fread(&data,sizeof(ticket_t),1,fp))
+		{
+			if(id == data.id)
+			{
+				*buf = data;
+				found = 1;
+				break;
+			}
+		}
+	}
+
+	fclose(fp);
+
+
+	return found;
 }

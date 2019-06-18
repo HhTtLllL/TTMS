@@ -6,7 +6,7 @@
 #include"../Persistence/Ticket_Persist.h"
 #include<assert.h>
 
-void Ticket_Srv_GenBatch(int schedule_id)
+int  Ticket_Srv_GenBatch(int schedule_id)
 {
 	int count = 0;
 	seat_list_t seat_head;
@@ -27,10 +27,16 @@ void Ticket_Srv_GenBatch(int schedule_id)
 
 void Ticket_Srv_deleteBatch(int schedule_id)
 {
-	return Tick_Perst_Rem(schedule_id);
+	Tick_Perst_Rem(schedule_id);
 }
 
-int Ticket_Srv_FetchAll(schedule_list_t list)
+/*int Ticket_Srv_FetchAll(schedule_list_t list)
 {
 	return Ticket_Perst_SelectAll(list);
 }
+*/
+int Ticket_Srv_FetchByID(int id,ticket_t *buf)
+{
+        return Ticket_Perst_SelByID(id,buf);
+}
+
