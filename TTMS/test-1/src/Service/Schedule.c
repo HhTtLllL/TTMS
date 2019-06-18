@@ -32,3 +32,8 @@ int Schedule_Srv_FetchByID_ticket(int id,schedule_t *buf)
 {
 	return Schedule_Perst_SelectByID_ticket(id,buf);
 }
+
+int Schedule_Srv_FetchByAll(schedule_list_t list)
+{
+	return Schedule_Perst_SelectAll(list);
+}

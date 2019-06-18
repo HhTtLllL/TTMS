@@ -9,5 +9,6 @@ int Schedule_UI_Modify(int id);
 
 int Schedule_UI_Delete(int id);
 
+int Schedule_UI_Qry(char *play_name);
 
 #endif

@@ -22,6 +22,7 @@ void Main_Menu(void) {
 		printf("[S]tudio Management.\n");
 		printf("[P]lay Management.\n");
 		printf("[T]icket Sale.\n");
+		printf( "[B]cha xun yan chu .\n");
 		printf("[R]eturn Ticket.\n");
 		printf("[Q]ueries\n");
 		printf("Ra[n]king and Statistics.\n");
@@ -39,7 +40,16 @@ void Main_Menu(void) {
 			break;
 		case 'P':
 		case 'p':
-			Play_UI_MgtEntry(0);
+			Play_UI_MgtEntry();
+			break;
+		case'B':
+		case'b':
+			Schedule_UI_ListAll();
+			break;
+		case't':
+		case'T':
+			printf( "查询演出票 \n");
+			Ticket_UI_Query();
 			break;
 /*		case 'Q':
 		case 'q':

@@ -36,9 +36,11 @@ int Schedule_Srv_Modify(const schedule_t *data);
 
 int Schedule_Srv_DeleteByID(int id);   
  
+int Schedule_Srv_FetchByAll(schedule_list_t list);
  
 int Schedule_Srv_FetchByID(schedule_list_t head ,int id);
 
 int Schedule_Srv_FetchByID_ticket(int id,schedule_t *buf);
+
 
 #endif

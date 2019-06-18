@@ -66,7 +66,7 @@ void Play_UI_MgtEntry(void)
 			case'd':
 			case'D':
 				setbuf(stdin,NULL);
-				printf("Input the ID:");
+				printf("ju mu ID  Input the ID:");
 				scanf( "%d",&id);
 				getchar( );
 				if(Play_UI_Delete(id))
@@ -77,7 +77,7 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'u':
 			case'U':
-				printf("Input the ID:");
+				printf("ju mu ID Input the ID:");
 				scanf("%d",&id);
 				getchar( );
 				if(Play_UI_Modify(id))
@@ -88,7 +88,7 @@ void Play_UI_MgtEntry(void)
 				break;
 			case's':
 			case'S':
-				printf( "Input the ju mu ID:");
+				printf( " ju mu IDInput the ju mu ID:");
 				scanf( "%d",&id);
 				getchar( );
 				if(Play_UI_Query(id))
@@ -99,7 +99,7 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'f':
 			case'F':
-				printf( "Input the ID:");
+				printf( " ju mu ID Input the ID:");
 				scanf( "%d",&id);
 				getchar( );
 				Schedule_UI_MgtEntry(id);

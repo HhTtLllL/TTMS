@@ -239,3 +239,40 @@ int Schedule_Perst_SelectByID_ticket(int id,schedule_t *buf)
 
 	return found;
 }
+
+int Schedule_Perst_SelectAll(schedule_list_t list)
+{
+	schedule_node_t *newNode;
+	schedule_t data;
+
+	int recCount = 0;
+
+	assert(NULL != list);
+
+	List_Free(list,schedule_node_t);
+
+	FILE *fp = fopen(SCHEDULE_DATA_FILE,"rb");
+
+	if(NULL == fp)    return 0;
+
+	while(!feof(fp))
+	{
+		if(fread(&data,sizeof(schedule_t),1,fp))
+		{
+			newNode = (schedule_node_t *)malloc(sizeof(schedule_node_t));
+
+			if(!newNode)
+			{
+				printf( "Waring ,Memory OverFlow!!!!\nCannot Load more Data into memory!!!\n");
+				break;
+			}
+
+			newNode->data = data;
+			List_AddTail(list,newNode);
+			recCount++;
+		}
+	}
+	fclose(fp);
+
+	return recCount;
+}

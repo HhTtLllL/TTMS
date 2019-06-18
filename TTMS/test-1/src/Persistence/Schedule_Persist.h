@@ -16,4 +16,6 @@ int Schedule_Perst_SelectByID(schedule_list_t list,int id);
 
 int Schedule_Perst_SelectByID_ticket(int id,schedule_t *buf);
 
+int Schedule_Perst_SelectAll(schedule_list_t list);
+
 #endif

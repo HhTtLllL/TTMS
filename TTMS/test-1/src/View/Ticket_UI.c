@@ -26,7 +26,7 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 
 	printf( "========================================================\n");
 	
-	printf( "%5s %10s %10s %10s ","NAME","studio ID","Date","Time");
+	printf( "%5s %10s %10s %10s \n","NAME","studio ID","Date","Time");
 	printf( "%s  %d  %d %d %d  %d %d %d",data.name,buf.studio_id,buf.date.year,buf.date.month,buf.date.day,buf.time.hour,buf.time.minute,buf.time.second);
 
 	printf( "[G]sheng cheng yan chu piao    [E]chong xin xheng cheng yan chu piao \n");
@@ -47,4 +47,8 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 			break;
 	}
 
+}
+
+void Ticket_UI_Query(void)
+{
 }

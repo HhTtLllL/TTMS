@@ -6,7 +6,7 @@
 #include<stdio.h>
 #include<unistd.h>
 #include<assert.h>
-
+#include<string.h>
 static const char PLAY_DATA_FILE[] = "Play.dat"; 
 static const char PLAY_DATA_TEMP_FILE[] = "PlayTmp.dat";
 static const char PLAY_KEY_NAME[] = "Play";
@@ -189,4 +189,47 @@ int Play_Perst_Update(const play_t *data)
 	fclose(fp);
 
 	return found;
+}
+
+
+int Play_Perst_SelectByName(play_list_t list,char condt[])
+{
+	play_node_t *newNode;
+	play_t data;
+
+	int rtn = 0;
+
+	assert(NULL != list);
+
+	List_Free(list,play_node_t);
+
+	FILE *fp = fopen(PLAY_DATA_FILE,"rb");
+	if(NULL == fp)   return 0;
+
+	while(!feof(fp))
+	{
+		if(fread(&data,sizeof(play_t),1,fp))
+		{
+			newNode = (play_node_t *)malloc(sizeof(play_node_t));
+			newNode->data = data;
+
+			if(!newNode)
+			{
+				printf( "Waring,Memory OverFlow!!!\nCannot Load more Data into memory!!!\n");
+				break;
+			}
+
+			if(!strcmp(newNode->data.name,condt))
+			{
+				List_AddTail(list,newNode);
+				rtn++;
+			}
+
+		}
+	}
+	
+	fclose(fp);
+
+	return rtn;
+
 }
