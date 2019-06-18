@@ -4,4 +4,6 @@
 //   schedule_id   biao shi yu piao xiang guan de yan chu ji hua de id 
 void Ticket_UI_MgtEntry(int schedule_id);
 
+
+void Ticket_UI_Query(void);
 #endif

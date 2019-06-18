@@ -51,4 +51,16 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 
 void Ticket_UI_Query(void)
 {
+	ticket_list_t list;
+
+	List_Init(list,ticket_node_t);
+
+	Ticket_Srv_FetchAll(list);
+
+	printf( "==================================================\n");
+	printf( "******************Find Ticket*********************\n");
+	printf( "[C]ha   ");
+	
+
+
 }

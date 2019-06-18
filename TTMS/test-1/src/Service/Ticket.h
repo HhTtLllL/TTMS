@@ -32,6 +32,7 @@ void Ticket_Srv_GenBatch(int schedule_id);       //pi liang zeng jia wen jian ti
 
 void Ticket_Srv_deleteBatch(int schedule_id);    //shan chu yan chu piao han shu
 
+void Ticket_Srv_FetchAll(ticket_list_t list);
 
 #endif
 

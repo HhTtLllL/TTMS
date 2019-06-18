@@ -44,7 +44,7 @@ int Ticket_Perst_Insert(seat_list_t  list,int schedule_id)
 	pos = list->next;
 	while(pos != temp)
 	{
-		data.id = key;
+		data.id = EntKey_Perst_GetNewKeys(TICKET_KEY_NAME,1);
 		data.schedule_id = schedule_id;
 		data.seat_id = pos->data.id;
 		data.price = buf.price;
@@ -108,4 +108,44 @@ int  Tick_Perst_Rem(int schedule_id)
 	remove(TICKET_DATA_TEMP_FILE);
 
 	return found;
+}
+
+
+
+void Ticket_Perst_SelectAll(ticket_list_t list)
+{
+	ticket_node_t *newNode;
+	ticket_t data;
+
+
+	assert(NULL != list);
+
+	List_Free(list,ticket_node_t);
+
+	FILE *fp = fopen(TICKET_DATA_FILE,"rb");
+
+	if(NULL == fp)
+	{
+		return ;
+	}
+
+	while(!feof(fp))
+	{
+		if(fread(&data,sizeof(ticket_t),1,fp))
+		{
+			newNode = (ticket_node_t *)malloc(sizeof(ticket_node_t));
+			if(!newNode)
+			{
+				printf( "Waring ,Memory OverFlow !!!\n Cannot Load more Data into memory !!!\n");
+				break;
+			}
+			newNode->data = data;
+
+			List_AddTail(list,newNode);
+		}
+	}
+
+	fclose(fp);
+
+	return ;
 }

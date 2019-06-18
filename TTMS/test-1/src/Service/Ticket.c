@@ -29,3 +29,8 @@ void Ticket_Srv_deleteBatch(int schedule_id)
 {
 	return Tick_Perst_Rem(schedule_id);
 }
+
+int Ticket_Srv_FetchAll(schedule_list_t list)
+{
+	return Ticket_Perst_SelectAll(list);
+}
