@@ -28,29 +28,28 @@ void Play_UI_MgtEntry(void)
 	do
 	{
 		printf(
-				"\n==================================================================\n");
+				"\n=======================================================================================\n");
 		printf(
-				"********************** Projection PLAy List **********************\n");
+				"****************************** Projection Play List ***********************************\n");
 
-		printf( "%5s %20s %5s %10s %3s %3s %8s %8s %3s\n","ID","NAME","TYPE","AREA","RATING","DURATION","STARTDATA","ENDDATA","PRICE");
-		printf( "----------------------------------------------------------\n");
+		printf( "%5s %15s %5s %10s %3s %3s %10s %10s     %3s\n","ID","NAME","TYPE","AREA","RATING","DURATION","STARTDATA","ENDDATA","PRICE");
+		printf( "---------------------------------------------------------------------------------------\n");
 
 		Paging_ViewPage_ForEach(head,paging,play_node_t,pos,i)
 		{
-			printf( "%5d %20s %5d %10s %3d %3d %4d %2d %2d %4d %2d %2d %4d\n",pos->data.id,pos->data.name,pos->data.type,pos->data.area,pos->data.rating,pos->data.duration,pos->data.start_date.year,pos->data.start_date.month,pos->data.start_date.day,pos->data.end_date.year,pos->data.end_date.month,pos->data.end_date.day,pos->data.price);	
+			printf( "%5d %15s %5d %10s %6d %6d %7d%3d%3d %4d%3d%3d     %4d\n",pos->data.id,pos->data.name,pos->data.type,pos->data.area,pos->data.rating,pos->data.duration,pos->data.start_date.year,pos->data.start_date.month,pos->data.start_date.day,pos->data.end_date.year,pos->data.end_date.month,pos->data.end_date.day,pos->data.price);	
 		}
 	
 
-		printf( "-----------------Total Recoeds: %2d-------------------Page %2d   %2d   -----\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
+		printf( "-----------------Total Recoeds: %2d---------------------------Page %2d   %2d   -----------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
 	
-		printf("*******************************************************************\n");
+		printf("***************************************************************************************\n");
 
 		printf("[P]revPage|[N]extPage | [A]dd|[D]elete|[U]pdate | [S]earch | [F]ix up | [R]eturn");
-		printf( "\n=============================================\n");
+		printf( "\n=======================================================================================\n");
 		setbuf(stdin,NULL);
-		printf( "your choice:");
+		printf( "your choice: ");
 		scanf( "%c",&choice);
-		printf( "choice = %c\n",choice);
 		getchar( );
 		setbuf(stdin,NULL);
 		switch(choice)
@@ -130,37 +129,36 @@ int Play_UI_Add(void)
 	play_t rec;
 	int newRecCount = 0;
 	char choice;
-
+	system("reset");
 	do
 	{
-		printf( "\n==================================\n");
-		printf( "************Add New Play*************\n");
-		printf( "-----------------------------------\n");
-		
-		printf( "play name  : ");
+		printf( "\n=======================================================================================\n");
+		printf( "************************************Add New Play***************************************\n");
+		printf( "---------------------------------------------------------------------------------------\n");
+		printf( "Please improve the information.\n");
+		printf( "play name : ");
 		fflush(stdin);
 		gets(rec.name);
-		printf( "the  type of the play  (1 is the FILE  ||  2  is the  opear   ||   3   is the concert)");
+		printf( "the  type of the play  (1 is the FILE || 2 is the opear || 3  is the concert) : ");
 		scanf( "%d",&(rec.type));
 		getchar( );
-		printf( "the play destination area  ?   ");
+		printf( "the play destination area : ");
 		gets(rec.area);
-		printf( "the grade of the play    (1 or 2 or 3)  ");
+		printf( "the grade of the play  (1 or 2 or 3) : ");
 		scanf( "%d",&rec.rating);
 		getchar( );
-		printf( "how long does the play last  ?");
+		printf( "how long does the play last :");
 		scanf( "%d",&rec.duration);
 		getchar( );
-		printf( "When does the play begin ? ");
+		printf( "When does the play begin : ");
 		scanf( "%d%d%d",&rec.start_date.year,&rec.start_date.month,&rec.start_date.day);
 		getchar( );
-		printf( "When does the play end ? ");
+		printf( "When does the play end : ");
 		scanf( "%d%d%d",&rec.end_date.year,&rec.end_date.month,&rec.end_date.day);
 		getchar( );
-		printf( "how much is it ?");
+		printf( "how much is it :");
 		scanf( "%d",&rec.price);
-		printf( "==============================\n");
-		printf( "%p\n",&rec);
+		printf( "=======================================================================================\n");
 		if(Play_Srv_Add(&rec))
 		{
 			newRecCount += 1;
@@ -168,10 +166,10 @@ int Play_UI_Add(void)
 		}
 		else	printf( "the new play added failed! \n");
 		
-		printf( "-----------------------------\n");
+		printf( "---------------------------------------------------------------------------------------\n");
 
 		printf( "[A]dd more,[R]eturn :");
-		fflush(stdin);
+		setbuf(stdin,NULL);
 		scanf("%c",&choice);
 		getchar( );
 	}while('a' == choice || 'A' == choice);
@@ -184,9 +182,9 @@ int Play_UI_Add(void)
 int Play_UI_Delete(int id)
 {
 	setbuf(stdin,NULL);
-
+	
 	int rtn = 0;
-	printf("\nid = %d\n",id);
+
 	if(Play_Srv_DeleteByID(id))
 	{
 		printf( " the play deleted successfully!\n");
@@ -215,35 +213,40 @@ int Play_UI_Modify(int id)
 		getchar();
 		return 0;
 	}
-	printf("\n==================================================\n");
-	printf("**********************updata    projection   play *******************\n");
-	printf("play  id :  %d",rec.id);
+
+	system("reset");
+	printf("=======================================================================================\n");
+	printf("*******************************updata    projection   play ****************************\n");
+	printf( "---------------------------------------------------------------------------------------\n");
+	printf("play  id :  %d\n",rec.id);
 	printf("please enter new repertoire information \n");
 	printf( "play name  : ");
-		gets(rec.name);
-		printf( "the  type of the play  (1 is the FILE  ||  2  is the  opear   ||   3   is the concert)");
-		scanf( "%d",&(rec.type));
-		getchar( );
-		printf( "the play destination area  ?   ");
-		gets(rec.area);
-		printf( "the grade of the play    (1 or 2 or 3)  ");
-		scanf( "%d",&rec.rating);
-		getchar( );
-		printf( "how long does the play last  ?");
-		scanf( "%d",&rec.duration);
-		getchar( );
-		printf( "When does the play begin ? ");
-		scanf( "%d%d%d",&rec.start_date.year,&rec.start_date.month,&rec.start_date.day);
-		getchar( );
-		printf( "When does the play end ? ");
-		scanf( "%d%d%d",&rec.end_date.year,&rec.end_date.month,&rec.end_date.day);
-		getchar( );
-		printf( "how much is it ?");
-		scanf( "%d",&rec.price);
-		printf( "==============================\n");
-		printf( "%s\n",rec.name);
-Play_Srv_Modify(&rec);
-return 1;
+	gets(rec.name);
+	printf( "the  type of the play  (1 is the FILE  ||  2  is the  opear   ||   3   is the concert)");
+	scanf( "%d",&(rec.type));	
+	getchar( );
+	printf( "the play destination area  ?   ");
+	gets(rec.area);
+	printf( "the grade of the play    (1 or 2 or 3)  ");
+	scanf( "%d",&rec.rating);
+	getchar( );
+	printf( "how long does the play last  ?");
+	scanf( "%d",&rec.duration);
+	getchar( );
+	printf( "When does the play begin ? ");
+	scanf( "%d%d%d",&rec.start_date.year,&rec.start_date.month,&rec.start_date.day);
+	getchar( );
+	printf( "When does the play end ? ");
+	scanf( "%d%d%d",&rec.end_date.year,&rec.end_date.month,&rec.end_date.day);
+	getchar( );
+	printf( "how much is it ?");
+	scanf( "%d",&rec.price);
+	printf( "==============================\n");
+	printf( "%s\n",rec.name);
+	
+	Play_Srv_Modify(&rec);
+	
+	return 1;
 }
 
 int Play_UI_Query(int id)

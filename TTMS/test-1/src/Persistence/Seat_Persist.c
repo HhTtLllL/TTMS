@@ -1,13 +1,14 @@
 /*
 * Copyright(C), 2007-2008, XUPT Univ.
-* ÓÃÀı±àºÅ£ºTTMS_UC_02	 
+* ç”¨ä¾‹ç¼–å·ï¼šTTMS_UC_02	 
 * File name: Seat.h	  
-* Description : ÉèÖÃ×ùÎ»ÓÃÀı³Ö¾Ã»¯²ã	
+* Description : è®¾ç½®åº§ä½ç”¨ä¾‹æŒä¹…åŒ–å±‚	
 * Author:   XUPT  		 
 * Version:  v.1 	 
-* Date: 	2015Äê4ÔÂ22ÈÕ	
+* Date: 	2015å¹´4æœˆ22æ—¥	
 */
 
+#include "EntityKey_Persist.h"
 #include "Seat_Persist.h"
 #include "../Service/Seat.h"
 #include "../Common/list.h"
@@ -16,218 +17,341 @@
 #include<unistd.h>
 #include <assert.h>
 
+
+
 static const char SEAT_DATA_FILE[] = "Seat.dat";
 static const char SEAT_DATA_TEMP_FILE[] = "SeatTmp.dat";
 
-//Ìí¼Ó¶ÔÏóÖ÷¼ü±êÊ¶Ãû³Æ
+//æ·»åŠ å¯¹è±¡ä¸»é”®æ ‡è¯†åç§°
 static const char SEAT_KEY_NAME[] = "Seat";
 
 /*
-º¯Êı¹¦ÄÜ£ºÓÃÓÚÏòÎÄ¼şÖĞÌí¼ÓÒ»¸öĞÂ×ùÎ»Êı¾İ¡£
-²ÎÊıËµÃ÷£ºdataÎªseat_tÀàĞÍÖ¸Õë£¬±íÊ¾ĞèÒªÌí¼ÓµÄ×ùÎ»Êı¾İ½áµã¡£
-·µ »Ø Öµ£ºÕûĞÍ£¬±íÊ¾ÊÇ·ñ³É¹¦Ìí¼ÓÁË×ùÎ»µÄ±êÖ¾¡£
+å‡½æ•°åŠŸèƒ½ï¼šç”¨äºå‘æ–‡ä»¶ä¸­æ·»åŠ ä¸€ä¸ªæ–°åº§ä½æ•°æ®ã€‚
+å‚æ•°è¯´æ˜ï¼šdataä¸ºseat_tç±»å‹æŒ‡é’ˆï¼Œè¡¨ç¤ºéœ€è¦æ·»åŠ çš„åº§ä½æ•°æ®ç»“ç‚¹ã€‚
+è¿” å› å€¼ï¼šæ•´å‹ï¼Œè¡¨ç¤ºæ˜¯å¦æˆåŠŸæ·»åŠ äº†åº§ä½çš„æ ‡å¿—ã€‚
 */ 
-int Seat_Perst_Insert(seat_t *data) 
-{   
+
+
+int Seat_Perst_Insert(seat_t *data) {
+
+
 	assert(NULL!=data);
-	FILE *fp = fopen(SEAT_DATA_FILE,"rb+");
-	if(NULL == fp)
-	{
-		printf( "the file is not in here\n");
-	}
-	seat_t temp;
-	while(!feof(fp))
-	{
-		if(fread(&temp,sizeof(seat_t),1,fp))
-		{
-			if(temp.roomID == data->roomID && temp.row == data->row && temp.column == data->column )
-			{
-				printf( "roomID = %d id = %d row = %d col = %d\n",temp.roomID,temp.id,temp.row,temp.column);
-				if(temp.status == 0)
-				{
-					printf("addtemp.status = %d",temp.status);
-					temp.status = 1;
-					fseek(fp,-sizeof(seat_t),SEEK_CUR);
-					fwrite(&temp,sizeof(seat_t),1,fp);
-					break;
-				}
-			}
-		}
-	}
 
-	fclose(fp);
+	////ä»¥ä¸‹æ˜¯æ–°è®¾è®¡æ–¹æ¡ˆæ–¹æ¡ˆæ·»åŠ çš„ä»£ç 
+	////ä»¥ä¸‹æ˜¯æ–°è®¾è®¡æ–¹æ¡ˆæ–¹æ¡ˆæ·»åŠ çš„ä»£ç 
+	long key = EntKey_Perst_GetNewKeys(SEAT_KEY_NAME, 1); //ä¸ºæ–°æ¼”å‡ºå…åˆ†é…è·å–
+	if(key<=0)			//ä¸»é”®åˆ†é…å¤±è´¥ï¼Œç›´æ¥è¿”å›
+		return 0;
+	data->id = key;		//èµ‹ç»™æ–°å¯¹è±¡å¸¦å›åˆ°UIå±‚
+	////ä»¥ä¸Šæ˜¯æ–°è®¾è®¡æ–¹æ¡ˆæ–¹æ¡ˆæ·»åŠ çš„ä»£ç 
+	////ä»¥ä¸Šæ˜¯æ–°è®¾è®¡æ–¹æ¡ˆæ–¹æ¡ˆæ·»åŠ çš„ä»£ç 
 
-	return 0;
-}
 
-/*
-±êÊ¶·û£ºTTMS_SCU_Seat_Perst_InsertBatch
-º¯Êı¹¦ÄÜ£ºÓÃÓÚÏòÎÄ¼şÖĞÌí¼ÓÒ»Åú×ùÎ»Êı¾İ¡£
-²ÎÊıËµÃ÷£ºlistÎªseat_list_tÀàĞÍ£¬±íÊ¾ĞèÒªÌí¼ÓµÄÒ»Åú×ùÎ»µÄÁ´±íÍ·Ö¸Õë¡£
-·µ »Ø Öµ£ºÕûĞÍ£¬±íÊ¾³É¹¦Ìí¼ÓÒ»Åú×ùÎ»µÄ¸öÊı¡£
-*/
-int Seat_Perst_InsertBatch(seat_list_t list) {
-	seat_node_t *p;
-	assert(NULL!=list);
 
-	return 0;
-}
-int Seat_Perst_Del(const seat_t *data)
-{
-	assert(NULL != data);
-	FILE *fp = fopen(SEAT_DATA_FILE,"rb+");
-	if(NULL == fp)
-	{
-		printf( "the file is not in here\n");
+	FILE *fp = fopen(SEAT_DATA_FILE, "ab");
+	int rtn = 0;
+	if (NULL == fp) {
+		printf("Cannot open file %s!\n", SEAT_DATA_FILE);
 		return 0;
 	}
-	seat_t temp;
-	while(!feof(fp))
-	{
-		if(fread(&temp,sizeof(seat_t),1,fp))
-		{
-			if(temp.roomID == data->roomID && temp.row == data->row && temp.column == data->column )
-			{
-				printf( "roomID = %d id = %d row = %d col = %d\n",temp.roomID,temp.id,temp.row,temp.column);
-				if(temp.status == 1);
-				{
-					temp.status = 0;
-					fseek(fp,-sizeof(seat_t),SEEK_CUR);
-					fwrite(&temp,sizeof(seat_t),1,fp);
-					break;
-				}
-			}
-		}
-	}
+
+	rtn = fwrite(data, sizeof(seat_t), 1, fp);
 
 	fclose(fp);
-
+	return rtn;
+	
 }
+
 /*
-±êÊ¶·û£ºTTMS_SCU_Seat_Perst_Update
-º¯Êı¹¦ÄÜ£ºÓÃÓÚÔÚÎÄ¼şÖĞ¸üĞÂÒ»¸ö×ùÎ»Êı¾İ¡£
-²ÎÊıËµÃ÷£ºdataÎªseat_tÀàĞÍÖ¸Õë£¬±íÊ¾ĞèÒª¸üĞÂµÄ×ùÎ»Êı¾İ½áµã¡£
-·µ »Ø Öµ£ºÕûĞÍ£¬±íÊ¾ÊÇ·ñ³É¹¦¸üĞÂÁË×ùÎ»µÄ±êÖ¾¡£
+æ ‡è¯†ç¬¦ï¼šTTMS_SCU_Seat_Perst_InsertBatch
+å‡½æ•°åŠŸèƒ½ï¼šç”¨äºå‘æ–‡ä»¶ä¸­æ·»åŠ ä¸€æ‰¹åº§ä½æ•°æ®ã€‚
+å‚æ•°è¯´æ˜ï¼šlistä¸ºseat_list_tç±»å‹ï¼Œè¡¨ç¤ºéœ€è¦æ·»åŠ çš„ä¸€æ‰¹åº§ä½çš„é“¾è¡¨å¤´æŒ‡é’ˆã€‚
+è¿” å› å€¼ï¼šæ•´å‹ï¼Œè¡¨ç¤ºæˆåŠŸæ·»åŠ ä¸€æ‰¹åº§ä½çš„ä¸ªæ•°ã€‚
 */
-int Seat_Perst_Update(const seat_t *data) 
-{
-	assert(NULL!=data);
+int Seat_Perst_InsertBatch(seat_list_t list) {
+
+	//printf("jincneg\n");
 
 
-	FILE *fp = fopen(SEAT_DATA_FILE,"rb+");
-//	fseek(fp,0L,SEEK_SET);
-	seat_t temp;
-	while(!feof(fp))
-	{
-		if(fread(&temp,sizeof(seat_t),1,fp))
-		{
-			if(temp.roomID == data->roomID && temp.row == data->row && temp.column == data->column )
-			{
+	assert(NULL!=list);
+	int i = 0;
+	seat_node_t *p = list;
+	FILE * fp = fopen(SEAT_DATA_FILE,"ab");
 
-					char flag;
-					printf( "please inpit you will Mod [%d,%d]:",temp.row+1,temp.column+1);
-					printf( "0 -> aisle,1 -> effect,other -> brokenn\n");
-					getchar( );
-					flag = getchar();
-					getchar( );
-					printf( "flag = %c\n",flag);
-					if(flag == '1') 
-						temp.status = 1;
-					else
-						temp.status = 2;
-					printf( "mod = temp.status = %d",temp.status);
-					fseek(fp,-sizeof(seat_t),SEEK_CUR);
-					fwrite(&temp,sizeof(seat_t),1,fp);
-			}
-		}
+    if(fp == NULL){
+        printf("Cannot open file %s",SEAT_DATA_FILE);
+        return 0;
+    }
+
+	while(list->next!=p){
+
+	list = list->next;
+	////ä»¥ä¸‹æ˜¯æ–°è®¾è®¡æ–¹æ¡ˆæ–¹æ¡ˆæ·»åŠ çš„ä»£ç 
+	////ä»¥ä¸‹æ˜¯æ–°è®¾è®¡æ–¹æ¡ˆæ–¹æ¡ˆæ·»åŠ çš„ä»£ç 
+	long key = EntKey_Perst_GetNewKeys(SEAT_KEY_NAME, 1); //ä¸ºæ–°æ¼”å‡ºå…åˆ†é…è·å–
+	if(key<=0)			//ä¸»é”®åˆ†é…å¤±è´¥ï¼Œç›´æ¥è¿”å›
+		return 0;
+	list->data.id = key;		//èµ‹ç»™æ–°å¯¹è±¡å¸¦å›åˆ°UIå±‚
+	////ä»¥ä¸Šæ˜¯æ–°è®¾è®¡æ–¹æ¡ˆæ–¹æ¡ˆæ·»åŠ çš„ä»£ç 
+	////ä»¥ä¸Šæ˜¯æ–°è®¾è®¡æ–¹æ¡ˆæ–¹æ¡ˆæ·»åŠ çš„ä»£ç 
+
+
+		fwrite(&list->data, sizeof(seat_t), 1, fp);
+		i++;
+		//printf("%d  ",i);
 	}
 
-	fclose(fp);
-	return 0;
+    fclose(fp);
+	return i;
 
 }
 
 /*
-Ê¶·û£ºTTMS_SCU_Seat_Perst_DelByID
-º¯Êı¹¦ÄÜ£ºÓÃÓÚ´ÓÎÄ¼şÖĞÉ¾³ıÒ»¸ö×ùÎ»µÄÊı¾İ¡£
-²ÎÊıËµÃ÷£º²ÎÊıIDÎªÕûĞÍ£¬±íÊ¾ĞèÒªÉ¾³ıµÄ×ùÎ»ID¡£ 
-·µ »Ø Öµ£ºÕûĞÍ£¬±íÊ¾ÊÇ·ñ³É¹¦É¾³ıÁË×ùÎ»µÄ±êÖ¾¡£
+æ ‡è¯†ç¬¦ï¼šTTMS_SCU_Seat_Perst_Update
+å‡½æ•°åŠŸèƒ½ï¼šç”¨äºåœ¨æ–‡ä»¶ä¸­æ›´æ–°ä¸€ä¸ªåº§ä½æ•°æ®ã€‚
+å‚æ•°è¯´æ˜ï¼šdataä¸ºseat_tç±»å‹æŒ‡é’ˆï¼Œè¡¨ç¤ºéœ€è¦æ›´æ–°çš„åº§ä½æ•°æ®ç»“ç‚¹ã€‚
+è¿” å› å€¼ï¼šæ•´å‹ï¼Œè¡¨ç¤ºæ˜¯å¦æˆåŠŸæ›´æ–°äº†åº§ä½çš„æ ‡å¿—ã€‚
+*/
+int Seat_Perst_Update(const seat_t *seatdata) {
+	assert(NULL!=seatdata);
+
+	FILE *fp = fopen(SEAT_DATA_FILE, "rb+");
+	if (NULL == fp) {
+		printf("Cannot open file %s!\n", SEAT_DATA_FILE);
+		return 0;
+	}
+
+	seat_t buf;
+	int found = 0;
+
+	while (!feof(fp)) {
+		if (fread(&buf, sizeof(seat_t), 1, fp)) {
+			if (buf.id == seatdata->id) {
+				fseek(fp, -((int)sizeof(seat_t)), SEEK_CUR);
+				fwrite(seatdata, sizeof(seat_t), 1, fp);
+				found = 1;
+				break;
+			}
+		}
+	}
+	fclose(fp);
+
+	return found;
+}
+
+/*
+è¯†ç¬¦ï¼šTTMS_SCU_Seat_Perst_DelByID
+å‡½æ•°åŠŸèƒ½ï¼šç”¨äºä»æ–‡ä»¶ä¸­åˆ é™¤ä¸€ä¸ªåº§ä½çš„æ•°æ®ã€‚
+å‚æ•°è¯´æ˜ï¼šå‚æ•°IDä¸ºæ•´å‹ï¼Œè¡¨ç¤ºéœ€è¦åˆ é™¤çš„åº§ä½IDã€‚ 
+è¿” å› å€¼ï¼šæ•´å‹ï¼Œè¡¨ç¤ºæ˜¯å¦æˆåŠŸåˆ é™¤äº†åº§ä½çš„æ ‡å¿—ã€‚
 */
 int Seat_Perst_DeleteByID(int ID) {
-	
-	return 0;
+
+	//å°†åŸå§‹æ–‡ä»¶é‡å‘½åï¼Œç„¶åè¯»å–æ•°æ®é‡æ–°å†™å…¥åˆ°æ•°æ®æ–‡ä»¶ä¸­ï¼Œå¹¶å°†è¦åˆ é™¤çš„å®ä½“è¿‡æ»¤æ‰ã€‚
+
+	//å¯¹åŸå§‹æ•°æ®æ–‡ä»¶é‡å‘½å
+	if(rename(SEAT_DATA_FILE, SEAT_DATA_TEMP_FILE)<0){
+		printf("Cannot open file %s!\n", SEAT_DATA_FILE);
+		return 0;
+	}
+
+	FILE *fpSour, *fpTarg;
+	fpSour = fopen(SEAT_DATA_TEMP_FILE, "rb");
+	if (NULL == fpSour ){
+		printf("Cannot open file %s!\n", SEAT_DATA_FILE);
+		return 0;
+	}
+
+	fpTarg = fopen(SEAT_DATA_FILE, "wb");
+	if ( NULL == fpTarg ) {
+		printf("Cannot open file %s!\n", SEAT_DATA_TEMP_FILE);
+		return 0;
+	}
+
+
+	seat_t buf;
+
+	int found = 0;
+	while (!feof(fpSour)) {
+		if (fread(&buf, sizeof(seat_t), 1, fpSour)) {
+			if (ID == buf.id) {
+				found = 1;
+				continue;
+			}
+			fwrite(&buf, sizeof(seat_t), 1, fpTarg);
+		}
+	}
+
+	fclose(fpTarg);
+	fclose(fpSour);
+
+	//åˆ é™¤ä¸´æ—¶æ–‡ä»¶
+	remove(SEAT_DATA_TEMP_FILE);
+	return found;
+
 }
 
 /*
-±êÊ¶·û£ºTTMS_SCU_Seat_Perst_DelAllByID
-º¯Êı¹¦ÄÜ£º¸ù¾İ±àºÅÓÃÓÚ´ÓÎÄ¼şÖĞÉ¾³ı×ùÎ»Êı¾İ¡£
-²ÎÊıËµÃ÷£º²ÎÊıroomIDÎªÕûĞÍ£¬±íÊ¾Ñİ³öÌüID¡£ 
-·µ »Ø Öµ£ºÕûĞÍ£¬±íÊ¾ÊÇ·ñ³É¹¦É¾³ıÁË×ùÎ»µÄ±êÖ¾¡£
+æ ‡è¯†ç¬¦ï¼šTTMS_SCU_Seat_Perst_DelAllByID
+å‡½æ•°åŠŸèƒ½ï¼šæ ¹æ®ç¼–å·ç”¨äºä»æ–‡ä»¶ä¸­åˆ é™¤åº§ä½æ•°æ®ã€‚
+å‚æ•°è¯´æ˜ï¼šå‚æ•°roomIDä¸ºæ•´å‹ï¼Œè¡¨ç¤ºæ¼”å‡ºå…IDã€‚ 
+è¿” å› å€¼ï¼šæ•´å‹ï¼Œè¡¨ç¤ºæ˜¯å¦æˆåŠŸåˆ é™¤äº†åº§ä½çš„æ ‡å¿—ã€‚
 */ 
 int Seat_Perst_DeleteAllByRoomID(int roomID) {
-	
-	return 0;
+
+
+	//å°†åŸå§‹æ–‡ä»¶é‡å‘½åï¼Œç„¶åè¯»å–æ•°æ®é‡æ–°å†™å…¥åˆ°æ•°æ®æ–‡ä»¶ä¸­ï¼Œå¹¶å°†è¦åˆ é™¤çš„å®ä½“è¿‡æ»¤æ‰ã€‚
+
+	//å¯¹åŸå§‹æ•°æ®æ–‡ä»¶é‡å‘½å
+	if(rename(SEAT_DATA_FILE, SEAT_DATA_TEMP_FILE)<0){
+		printf("Cannot open file %s!\n", SEAT_DATA_FILE);
+		return 0;
+	}
+
+	FILE *fpSour, *fpTarg;
+	fpSour = fopen(SEAT_DATA_TEMP_FILE, "rb");
+	if (NULL == fpSour ){
+		printf("Cannot open file %s!\n", SEAT_DATA_FILE);
+		return 0;
+	}
+
+	fpTarg = fopen(SEAT_DATA_FILE, "wb");
+	if ( NULL == fpTarg ) {
+		printf("Cannot open file %s!\n", SEAT_DATA_TEMP_FILE);
+		return 0;
+	}
+
+
+	seat_t buf;
+
+	int found = 0;
+	while (!feof(fpSour)) {
+		if (fread(&buf, sizeof(seat_t), 1, fpSour)) {
+			if (roomID == buf.roomID) {
+				found = 1;
+				continue;
+			}
+			fwrite(&buf, sizeof(seat_t), 1, fpTarg);
+		}
+	}
+
+	fclose(fpTarg);
+	fclose(fpSour);
+
+	//åˆ é™¤ä¸´æ—¶æ–‡ä»¶
+	remove(SEAT_DATA_TEMP_FILE);
+	return found;
 }
 
 /*
-±êÊ¶·û£ºTTMS_SCU_Studio_Perst_SelByID
-º¯Êı¹¦ÄÜ£ºÓÃÓÚ´ÓÎÄ¼şÖĞÔØÈëÒ»¸ö×ùÎ»µÄÊı¾İ¡£
-²ÎÊıËµÃ÷£ºµÚÒ»¸ö²ÎÊıIDÎªÕûĞÍ£¬±íÊ¾ĞèÒªÔØÈëÊı¾İµÄ×ùÎ»ID£»µÚ¶ş¸ö²ÎÊıbufÎªseat_tÖ¸Õë£¬Ö¸ÏòÔØÈë×ùÎ»Êı¾İµÄÖ¸Õë¡£
-·µ »Ø Öµ£ºÕûĞÍ£¬±íÊ¾ÊÇ·ñ³É¹¦ÔØÈëÁË×ùÎ»µÄ±êÖ¾¡£
+æ ‡è¯†ç¬¦ï¼šTTMS_SCU_Studio_Perst_SelByID
+å‡½æ•°åŠŸèƒ½ï¼šç”¨äºä»æ–‡ä»¶ä¸­è½½å…¥ä¸€ä¸ªåº§ä½çš„æ•°æ®ã€‚
+å‚æ•°è¯´æ˜ï¼šç¬¬ä¸€ä¸ªå‚æ•°IDä¸ºæ•´å‹ï¼Œè¡¨ç¤ºéœ€è¦è½½å…¥æ•°æ®çš„åº§ä½IDï¼›ç¬¬äºŒä¸ªå‚æ•°bufä¸ºseat_tæŒ‡é’ˆï¼ŒæŒ‡å‘è½½å…¥åº§ä½æ•°æ®çš„æŒ‡é’ˆã€‚
+è¿” å› å€¼ï¼šæ•´å‹ï¼Œè¡¨ç¤ºæ˜¯å¦æˆåŠŸè½½å…¥äº†åº§ä½çš„æ ‡å¿—ã€‚
 */
 int Seat_Perst_SelectByID(int ID, seat_t *buf) {
-	
-	return 0;
+	assert(NULL!=buf);
+
+	FILE *fp = fopen(SEAT_DATA_FILE, "rb");
+	if (NULL == fp) {
+		return 0;
+	}
+
+	seat_t data;
+	int found = 0;
+
+	while (!feof(fp)) {
+		if (fread(&data, sizeof(seat_t), 1, fp)) {
+			if (ID == data.id) {
+				*buf = data;
+				found = 1;
+				break;
+			};
+
+		}
+	}
+	fclose(fp);
+
+	return found;
 }
 
 /*
-±êÊ¶·û£ºTTMS_SCU_Seat_Perst_SelAll
-º¯Êı¹¦ÄÜ£ºÓÃÓÚ´ÓÎÄ¼şÖĞÔØÈëËùÓĞ×ùÎ»Êı¾İ¡£
-²ÎÊıËµÃ÷£ºlistÎªseat_list_tÀàĞÍ£¬±íÊ¾½«ÒªÔØÈëµÄ×ùÎ»Á´±íÍ·Ö¸Õë¡£
-·µ »Ø Öµ£ºÕûĞÍ£¬³É¹¦ÔØÈë×ùÎ»µÄ¸öÊı¡£
+æ ‡è¯†ç¬¦ï¼šTTMS_SCU_Seat_Perst_SelAll
+å‡½æ•°åŠŸèƒ½ï¼šç”¨äºä»æ–‡ä»¶ä¸­è½½å…¥æ‰€æœ‰åº§ä½æ•°æ®ã€‚
+å‚æ•°è¯´æ˜ï¼šlistä¸ºseat_list_tç±»å‹ï¼Œè¡¨ç¤ºå°†è¦è½½å…¥çš„åº§ä½é“¾è¡¨å¤´æŒ‡é’ˆã€‚
+è¿” å› å€¼ï¼šæ•´å‹ï¼ŒæˆåŠŸè½½å…¥åº§ä½çš„ä¸ªæ•°ã€‚
 */
 int Seat_Perst_SelectAll(seat_list_t list) {
 	
-	return 0;
+	seat_node_t *newNode;
+	seat_t data;
+	int recCount = 0;
+
+	assert(NULL!=list);
+
+	List_Free(list, seat_node_t);
+
+	FILE *fp = fopen(SEAT_DATA_FILE, "rb");
+	if (NULL == fp) { //æ–‡ä»¶ä¸å­˜åœ¨
+		return 0;
+	}
+
+	while (!feof(fp)) {
+		if (fread(&data, sizeof(seat_t), 1, fp)) {
+			newNode = (seat_node_t*) malloc(sizeof(seat_node_t));
+			if (!newNode) {
+				printf(
+						"Warning, Memory OverFlow!!!\n Cannot Load more Data into memory!!!\n");
+				break;
+			}
+			newNode->data = data;
+			List_AddTail(list, newNode);
+			recCount++;
+		}
+	}
+	fclose(fp);
+	return recCount;
+
 }
 
 /*
-±êÊ¶·û£ºTTMS_SCU_Seat_Perst_SelByRoomID
-º¯Êı¹¦ÄÜ£ºÓÃÓÚÔÚÎÄ¼şÖĞ¸ù¾İÑİ³öÌüIDÔØÈëËùÓĞ×ùÎ»Êı¾İ¡£
-²ÎÊıËµÃ÷£ºµÚÒ»¸ö²ÎÊılistÎªseat_list_tÀàĞÍ£¬±íÊ¾½«ÒªÔØÈëµÄ×ùÎ»Á´±íÍ·Ö¸Õë£¬µÚ¶ş¸ö²ÎÊıroomIDÎªÕûĞÍ£¬±íÊ¾Ñİ³öÌüID¡£
-·µ »Ø Öµ£ºÕûĞÍ£¬±íÊ¾³É¹¦ÔØÈëÁËÑİ³öÌü×ùÎ»µÄ¸öÊı¡£
+æ ‡è¯†ç¬¦ï¼šTTMS_SCU_Seat_Perst_SelByRoomID
+å‡½æ•°åŠŸèƒ½ï¼šç”¨äºåœ¨æ–‡ä»¶ä¸­æ ¹æ®æ¼”å‡ºå…IDè½½å…¥æ‰€æœ‰åº§ä½æ•°æ®ã€‚
+å‚æ•°è¯´æ˜ï¼šç¬¬ä¸€ä¸ªå‚æ•°listä¸ºseat_list_tç±»å‹ï¼Œè¡¨ç¤ºå°†è¦è½½å…¥çš„åº§ä½é“¾è¡¨å¤´æŒ‡é’ˆï¼Œç¬¬äºŒä¸ªå‚æ•°roomIDä¸ºæ•´å‹ï¼Œè¡¨ç¤ºæ¼”å‡ºå…IDã€‚
+è¿” å› å€¼ï¼šæ•´å‹ï¼Œè¡¨ç¤ºæˆåŠŸè½½å…¥äº†æ¼”å‡ºå…åº§ä½çš„ä¸ªæ•°ã€‚
 */
-int Seat_Perst_SelectByRoomID(seat_list_t list, int roomID) 
-{
-	            
-        int num = 1;
-        seat_list_t temp = (seat_list_t)malloc(sizeof(seat_node_t));
-        FILE *fp;
-        fp = fopen(SEAT_DATA_FILE,"ab+");
-
-        if(NULL == fp) 
-        {   
-                printf( "Cannot open file %s!\n",SEAT_DATA_FILE);
-                return 0;
-
-        }   
-//      List_Init(list,seat_node_t);
-
-        while(!feof(fp))
-        {   
-                if(fread(temp,sizeof(seat_node_t),1,fp))
-                {   
-                        if(temp->data.roomID == roomID)
-                        {           
-                                printf( "%d     \n",num);
-                                if(temp->data.status == 1)    num++;
-				List_AddTail(list,temp);
-                            	temp = (seat_list_t)malloc(sizeof(seat_node_t));
-                        }
-                }
-        }   
+int Seat_Perst_SelectByRoomID(seat_list_t list, int roomID) {
 
 
+	seat_list_t newNode;
+	seat_t data;
+	int recCount = 0;
 
-	return 0;
+	assert(NULL!=list);
+
+	List_Free(list, seat_node_t);
+
+	FILE *fp = fopen(SEAT_DATA_FILE, "rb");
+	if (NULL == fp) { //æ–‡ä»¶ä¸å­˜åœ¨
+		printf("cuo wu da kai %s",SEAT_DATA_FILE);
+		return 0;
+	}
+
+	while (!feof(fp)) {
+		if (fread(&data, sizeof(seat_t), 1, fp)) {
+			newNode = (seat_node_t*) malloc(sizeof(seat_node_t));
+			if (!newNode) {
+				printf(
+						"Warning, Memory OverFlow!!!\n Cannot Load more Data into memory!!!\n");
+				break;
+			}
+			if(data.roomID == roomID){
+				newNode->data = data;
+				List_AddTail(list, newNode);
+				recCount++;
+			}
+		}
+	}
+	fclose(fp);
+	return recCount;
 }

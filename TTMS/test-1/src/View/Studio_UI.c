@@ -9,7 +9,6 @@
 */
 
 #include "../View/Studio_UI.h"
-
 #include "../Common/list.h"
 #include "../Service/Studio.h"
 #include "../Service/Seat.h"
@@ -18,6 +17,7 @@
 static const int STUDIO_PAGE_SIZE = 5;
 
 #include <stdio.h>
+void Seat_UI_MgtEntry(int id);
 
 /*
 ��ʶ����TTMS_SCU_Studio_UI_MgtEnt 
@@ -68,10 +68,9 @@ void Studio_UI_MgtEntry(void) {
 		printf(
 				"\n==================================================================\n");
 		printf("Your Choice:");
-		fflush(stdin);
+		setbuf(stdin,NULL);
 		scanf("%c", &choice);
-		getchar( );
-		fflush(stdin);
+		setbuf(stdin,NULL);
 
 		switch (choice) {
 		case 'a':
@@ -86,7 +85,6 @@ void Studio_UI_MgtEntry(void) {
 		case 'D':
 			printf("Input the ID:");
 			scanf("%d", &id);
-			getchar( );
 			if (Studio_UI_Delete(id)) {	//������������
 				paging.totalRecords = Studio_Srv_FetchAll(head);
 				List_Paging(head, paging, studio_node_t);
@@ -96,7 +94,6 @@ void Studio_UI_MgtEntry(void) {
 		case 'U':
 			printf("Input the ID:");
 			scanf("%d", &id);
-			getchar( );
 			if (Studio_UI_Modify(id)) {	//������������
 				paging.totalRecords = Studio_Srv_FetchAll(head);
 				List_Paging(head, paging, studio_node_t);
@@ -106,7 +103,6 @@ void Studio_UI_MgtEntry(void) {
 		case 'S':
 			printf("Input the ID:");
 			scanf("%d", &id);
-			getchar( );
 			Seat_UI_MgtEntry(id);
 			paging.totalRecords = Studio_Srv_FetchAll(head);
 			List_Paging(head, paging, studio_node_t)
@@ -127,6 +123,7 @@ void Studio_UI_MgtEntry(void) {
 		}
 	} while (choice != 'r' && choice != 'R');
 	//�ͷ������ռ�
+	setbuf(stdin,NULL);
 	List_Destroy(head, studio_node_t);
 }
 
@@ -146,7 +143,8 @@ int Studio_UI_Add(void) {
 		printf("****************  Add New Projection Room  ****************\n");
 		printf("-------------------------------------------------------\n");
 		printf("Room Name:");
-		fflush(stdin);
+		setbuf(stdin,NULL);
+        getchar();
 		gets(rec.name);
 		printf("Row Count of Seats:");
 		scanf("%d", &(rec.rowsCount));
@@ -162,7 +160,7 @@ int Studio_UI_Add(void) {
 			printf("The new room added failed!\n");
 		printf("-------------------------------------------------------\n");
 		printf("[A]dd more, [R]eturn:");
-		fflush(stdin);
+		setbuf(stdin,NULL);
 		scanf("%c", &choice);
 	} while ('a' == choice || 'A' == choice);
 	return newRecCount;
@@ -193,7 +191,7 @@ int Studio_UI_Modify(int id) {
 	printf("-------------------------------------------------------\n");
 	printf("Room ID:%d\n", rec.id);
 	printf("Room Name[%s]:", rec.name);
-	fflush(stdin);
+	setbuf(stdin,NULL);
 	gets(rec.name);
 
 	List_Init(list, seat_node_t);
@@ -224,7 +222,7 @@ int Studio_UI_Modify(int id) {
 				"The room data updated successfully!\nPress [Enter] key to return!\n");
 	} else
 		printf("The room data updated failed!\nPress [Enter] key to return!\n");
-
+	setbuf(stdin,NULL);
 	getchar();
 	return rtn;
 }
@@ -239,20 +237,17 @@ int Studio_UI_Delete(int id) {
 
 	int rtn = 0;
 
-	if (Studio_Srv_DeleteByID(id)) 
-	{
+	if (Studio_Srv_DeleteByID(id)) {
 		//��ɾ����ӳ��ʱ��ͬʱ���ݷ�ӳ��idɾ����λ�ļ��е���λ
 		if (Seat_Srv_DeleteAllByRoomID(id))
 			printf("The seats of the room deleted successfully!\n");
 		printf(
 				"The room deleted successfully!\nPress [Enter] key to return!\n");
 		rtn = 1;
-	} else 
-	{
+	} else {
 		printf("The room does not exist!\nPress [Enter] key to return!\n");
 	}
-
+	setbuf(stdin,NULL);
 	getchar();
 	return rtn;
 }
-

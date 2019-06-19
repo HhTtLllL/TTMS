@@ -1,237 +1,235 @@
 /*
 * Copyright(C), 2007-2008, XUPT Univ.	
-* ������ţ�TTMS_UC_02 
+* 锟斤拷锟斤拷锟斤拷牛锟絋TMS_UC_02 
 * File name: Seat.c		  
-* Description : ������λ����ҵ���߼���	
+* Description : 锟斤拷锟斤拷锟斤拷位锟斤拷锟斤拷业锟斤拷锟竭硷拷锟斤拷	
 * Author:   XUPT  		 
 * Version:  v.1 	 
-* Date: 	2015��4��22��	
+* Date: 	2015锟斤拷4锟斤拷22锟斤拷	
 */
-#include<stdio.h>
 #include <stdlib.h>
 #include "../Common/list.h"
 #include "Seat.h"
+#include "../Persistence/Seat_Persist.h"
 
-static const char SEAT_DATA_FILE[] = "Seat.dat";
-static const char SEAT_DATA_TEMP_FILE[] = "SeatTmp.dat";
 /*
-�������ܣ���������һ������λ���ݡ�
-����˵����dataΪseat_t����ָ�룬��ʾ��Ҫ���ӵ���λ���ݽ�㡣
-�� �� ֵ�����ͣ���ʾ�Ƿ�ɹ���������λ�ı�־��
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷位锟斤拷锟捷★拷
+锟斤拷锟斤拷说锟斤拷锟斤拷data为seat_t锟斤拷锟斤拷指锟诫，锟斤拷示锟斤拷要锟斤拷锟接碉拷锟斤拷位锟斤拷锟捷斤拷锟�?
+锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟斤拷锟斤拷锟斤拷锟斤拷锟轿伙拷谋锟街撅拷锟�?
+*/
+
+/*int Seat_UI_Status2Char(seat_status_t status){
+	// 锟诫补锟斤拷锟斤拷锟斤拷
+
+       return 0;
+}
 */
 int Seat_Srv_Add(const seat_t *data){
-						// �벹������
-	Seat_Perst_Insert(*data);
-	return 0;
-}
 
+       return Seat_Perst_Insert(data);
+}
 /*
-�������ܣ�����������λ���ݡ�
-����˵����listΪseat_list_t����ָ�룬��ʾ��Ҫ���ӵ�������λ�����γɵ�������
-�� �� ֵ�����ͣ���ʾ�Ƿ�ɹ�������������λ�ı�־��
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷位锟斤拷锟捷★拷
+锟斤拷锟斤拷说锟斤拷锟斤拷list为seat_list_t锟斤拷锟斤拷指锟诫，锟斤拷示锟斤拷要锟斤拷锟接碉拷锟斤拷锟斤拷锟斤拷位锟斤拷锟斤拷锟轿成碉拷锟斤拷锟斤拷锟斤拷
+锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟轿伙拷谋锟街撅拷锟�?
 */
 int Seat_Srv_AddBatch(seat_list_t list){
-	// �벹������
+	// 锟诫补锟斤拷锟斤拷锟斤拷
        return 0;
 }
-
 /*
-�������ܣ������޸�һ����λ���ݡ�
-����˵����dataΪseat_t����ָ�룬��ʾ��Ҫ�޸ĵ���λ���ݽ�㡣
-�� �� ֵ�����ͣ���ʾ�Ƿ�ɹ��޸�����λ�ı�־��
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷锟睫革拷一锟斤拷锟斤拷位锟斤拷锟捷★拷
+锟斤拷锟斤拷说锟斤拷锟斤拷data为seat_t锟斤拷锟斤拷指锟诫，锟斤拷示锟斤拷要锟睫改碉拷锟斤拷位锟斤拷锟捷斤拷锟�?
+锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟斤拷薷锟斤拷锟斤拷锟轿伙拷谋锟街撅拷锟�?
 */
 
-
-int Seat_Srv_Del(const seat_t *data)
-{
-	Seat_Perst_Del(*data);
-	return 0;
-}
 int Seat_Srv_Modify(const seat_t *data){
-	
-	Seat_Perst_Update(*data);
-        //Seat_Perst_Del(*data);
-	return 0;
-}
+       return Seat_Perst_Update(data);
+	// 锟诫补锟斤拷锟斤拷锟斤拷
 
+}
 /*
-�������ܣ�������λIDɾ��һ����λ��
-����˵����IDΪ���ͣ���ʾ��Ҫɾ������λ���ݽ�㡣
-�� �� ֵ�����ͣ���ʾ�Ƿ�ɹ�ɾ������λ�ı�־��
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷锟斤拷位ID删锟斤拷一锟斤拷锟斤拷位锟斤拷
+锟斤拷锟斤拷说锟斤拷锟斤拷ID为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷要删锟斤拷锟斤拷锟斤拷位锟斤拷锟捷斤拷锟�?
+锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟缴撅拷锟斤拷锟斤拷锟轿伙拷谋锟街撅拷锟�?
 */
 int Seat_Srv_DeleteByID(int ID){
-	// �벹������
-       return 1;
+       return Seat_Perst_DeleteByID(ID);
+       // 锟诫补锟斤拷锟斤拷锟斤拷
 }
 
 /*
-�������ܣ�������λID��ȡ��λ���ݡ�
-����˵������һ������IDΪ���ͣ���ʾ��λID���ڶ�������bufΪseat_tָ�룬ָ�����ȡ����λ���ݽ�㡣
-�� �� ֵ�����ͣ���ʾ�Ƿ�ɹ���ȡ����λ�ı�־��
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷锟斤拷位ID锟斤拷取锟斤拷位锟斤拷锟捷★拷
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷ID为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷位ID锟斤拷锟节讹拷锟斤拷锟斤拷锟斤拷buf为seat_t指锟诫，指锟斤拷锟斤拷锟饺★拷锟斤拷锟轿伙拷锟斤拷萁锟姐。
+锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟斤拷锟饺★拷锟斤拷锟轿伙拷谋锟街撅拷锟�?
 */
 int Seat_Srv_FetchByID(int ID, seat_t *buf){
-	// �벹������
+	// 锟诫补锟斤拷锟斤拷锟斤拷
        return 0;
 }
 
 /*
-�������ܣ������ݳ���IDɾ��������λ��
-����˵����roomIDΪ���ͣ���ʾ��Ҫɾ��������λ���ݳ���ID��
-�� �� ֵ�����ͣ���ʾ�Ƿ�ɹ�ɾ�����ݳ���������λ�ı�־��
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷锟捷筹拷锟斤拷ID删锟斤拷锟斤拷锟斤拷锟斤拷位锟斤拷
+锟斤拷锟斤拷说锟斤拷锟斤拷roomID为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷要删锟斤拷锟斤拷锟斤拷锟斤拷位锟斤拷锟捷筹拷锟斤拷ID锟斤拷
+锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟缴撅拷锟斤拷锟斤拷莩锟斤拷锟斤拷锟斤拷锟斤拷锟轿伙拷谋锟街撅拷锟�?
 */
-inline int Seat_Srv_DeleteAllByRoomID(int roomID)
-{
-	
-	if(rename(SEAT_DATA_FILE, SEAT_DATA_TEMP_FILE)<0)//������,��� 0 ,���� -1
-	{
-		printf("Cannot open file %s!\n", SEAT_DATA_FILE);
-		return 0;
-	}
 
-	FILE *fpSour, *fpTarg;  
-
-	fpSour = fopen(SEAT_DATA_TEMP_FILE, "rb"); 
-
-	if (NULL == fpSour )
-	{
-		printf("Cannot open file %s!\n", SEAT_DATA_FILE);
-		return 0;
-	}
-
-	fpTarg = fopen(SEAT_DATA_FILE, "wb");   
-
-	if ( NULL == fpTarg ) 
-	{
-		printf("Cannot open file %s!\n", SEAT_DATA_TEMP_FILE);
-		return 0;
-	}
-
-	seat_t buf;  
-
-	int found = 0;
-	while (!feof(fpSour)) 
-	{
-		if (fread(&buf, sizeof(seat_t), 1, fpSour)) //�������,�� size ��� ����count ��,�fpsour��
-		{
-			if (roomID == buf.id) 
-			{
-				found = 1;
-				continue;
-			}
-			fwrite(&buf, sizeof(seat_t), 1, fpTarg);
-		}
-
-	}
-
-	fclose(fpTarg);
-	fclose(fpSour);
-
-	remove(SEAT_DATA_TEMP_FILE);
-
-	return found;
-
+inline int Seat_Srv_DeleteAllByRoomID(int roomID){
+       return Seat_Perst_DeleteAllByRoomID(roomID);
+	// 锟诫补锟斤拷锟斤拷锟斤拷
 }
 
-/*
-�������ܣ����ݸ����ݳ������С�������ʼ���ݳ�����������λ���ݣ�����ÿ����λ��㰴�в�����λ������
-����˵������һ������listΪseat_list_t����ָ�룬ָ����λ����ͷָ�룬�ڶ�������rowsCountΪ���ͣ���ʾ��λ�����кţ�����������colsCountΪ���ͣ���ʾ��λ�����кš�
-�� �� ֵ�����ͣ���ʾ�Ƿ�ɹ���ʼ�����ݳ�����������λ��
-*/
-int Seat_Srv_FetchByRoomID(seat_list_t list, int roomID)
-{
-	Seat_Perst_SelectByRoomID(list,roomID);
-        return 0;
 
+
+/*
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟捷革拷锟斤拷锟捷筹拷锟斤拷锟斤拷锟叫★拷锟斤拷锟斤拷锟斤拷始锟斤拷锟捷筹拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷位锟斤拷锟捷ｏ拷锟斤拷锟斤拷每锟斤拷锟斤拷位锟斤拷惆达拷胁锟斤拷锟斤拷锟轿伙拷锟斤拷锟斤拷锟�?
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷list为seat_list_t锟斤拷锟斤拷指锟诫，指锟斤拷锟斤拷位锟斤拷锟斤拷头指锟诫，锟节讹拷锟斤拷锟斤拷锟斤拷rowsCount为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷位锟斤拷锟斤拷锟叫号ｏ拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷colsCount为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷位锟斤拷锟斤拷锟叫号★拷
+锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟斤拷锟绞硷拷锟斤拷锟斤拷莩锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟轿伙拷锟�?
+*/
+
+int Seat_Srv_FetchByRoomID(seat_list_t list, int roomID){
+       int SeatCount;
+       SeatCount = Seat_Perst_SelectByRoomID(list,roomID);
+       Seat_Srv_SortSeatList(list);
+       return SeatCount; 
 }
-
 /*
-�������ܣ������ݳ���ID��ø��ݳ�������Ч��λ��
-����˵������һ������listΪseat_list_t���ͣ���ʾ��ȡ������Ч��λ����ͷָ�룬�ڶ�������roomIDΪ���ͣ���ʾ��Ҫ��ȡ��Ч��λ���ݳ���ID��
-�� �� ֵ�����ͣ���ʾ�ݳ�������Ч��λ������
+
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷锟捷筹拷锟斤拷ID锟斤拷酶锟斤拷莩锟斤拷锟斤拷锟斤拷锟叫э拷锟轿伙拷锟�?
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷list为seat_list_t锟斤拷锟酵ｏ拷锟斤拷示锟斤拷取锟斤拷锟斤拷锟斤拷效锟斤拷位锟斤拷锟斤拷头指锟诫，锟节讹拷锟斤拷锟斤拷锟斤拷roomID为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷要锟斤拷取锟斤拷效锟斤拷位锟斤拷锟捷筹拷锟斤拷ID锟斤拷
+锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟捷筹拷锟斤拷锟斤拷锟斤拷效锟斤拷位锟斤拷锟斤拷锟斤拷
 */
+
 int Seat_Srv_FetchValidByRoomID(seat_list_t list, int roomID)
 {
-       // �벹������
-       return 0;
+       //??????不确定？？？？？
+       int SeatCount;
+       SeatCount = Seat_Perst_SelectByRoomID(list,roomID);
+       seat_list_t temp = list;
+       while(list->next!=temp){
+              list = list->next;
+              if(list->data.status!=SEAT_GOOD){
+                     SeatCount--;
+              }
+       }
+       Seat_Srv_SortSeatList(list);
+       return SeatCount;
+
+       // 锟诫补锟斤拷锟斤拷锟斤拷
 }
 
+
+
 /*
-�������ܣ����ݸ����ݳ������С�������ʼ���ݳ�����������λ���ݣ�����ÿ����λ��㰴�в�����λ������
-����˵������һ������listΪseat_list_t����ָ�룬ָ����λ����ͷָ�룬�ڶ�������rowsCountΪ���ͣ���ʾ��λ�����кţ�����������colsCountΪ���ͣ���ʾ��λ�����кš�
-�� �� ֵ�����ͣ���ʾ�Ƿ�ɹ���ʼ�����ݳ�����������λ��
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟捷革拷锟斤拷锟捷筹拷锟斤拷锟斤拷锟叫★拷锟斤拷锟斤拷锟斤拷始锟斤拷锟捷筹拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷位锟斤拷锟捷ｏ拷锟斤拷锟斤拷每锟斤拷锟斤拷位锟斤拷惆达拷胁锟斤拷锟斤拷锟轿伙拷锟斤拷锟斤拷锟�?
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷list为seat_list_t锟斤拷锟斤拷指锟诫，指锟斤拷锟斤拷位锟斤拷锟斤拷头指锟诫，锟节讹拷锟斤拷锟斤拷锟斤拷rowsCount为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷位锟斤拷锟斤拷锟叫号ｏ拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷colsCount为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷位锟斤拷锟斤拷锟叫号★拷
+锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟斤拷锟绞硷拷锟斤拷锟斤拷莩锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟轿伙拷锟�?
 */
-int Seat_Srv_RoomInit(seat_list_t list, int roomID, int rowsCount,int colsCount)
-{
-	FILE *fp = NULL;
-	fp = fopen(SEAT_DATA_FILE,"ab");
-	if(fp == NULL)
-	{
-		printf( "the file not in here\n");
-		return 0;
-	}
-//	fp = fseek(fp,-1L,SEEK_END);
-	int n = 1;
-	seat_list_t temp;
-	List_Init(list,seat_node_t);
-	for(int i = 0;i < rowsCount;i++)		// �벹������
-	{
-		for(int j = 0;j < colsCount;j++)
-		{
-			temp = (seat_list_t)malloc(sizeof(seat_node_t));
-			temp->data.id = n;
-			temp->data.roomID = roomID;
-			temp->data.row = i;
-			temp->data.column = j;
-			temp->data.status = 1;
-			List_AddTail(list,temp);
-			printf( "n =   %d\n",n);
-			if(fwrite(temp,sizeof(seat_node_t),1,fp))     n++;
 
-		}
-	}
-/*	fseek(fp,-sizeof(seat_node_t),SEEK_CUR);
+int Seat_Srv_RoomInit(seat_list_t list, int roomID, int rowsCount,int colsCount) {
 
-	fread(temp,sizeof(seat_node_t),1,fp);
-	printf( "n  =  %d     stu =  %d      ",temp->data.id,temp->data.status);*/
-	fclose(fp);
-        return 0;
+       seat_list_t tem;
+       //List_Init(list,seat_node_t);
+       for(int i = 1;i <= rowsCount;i++){
+              for(int j = 1;j <= colsCount;j++){
+                     //printf("jincneglllll\n");
+                     tem = (seat_list_t)malloc(sizeof(seat_node_t));
+                     tem->data.column = j;
+                     tem->data.row = i;
+                     tem->data.roomID = roomID;
+                     tem->data.status = SEAT_GOOD;
+                     List_AddTail(list,tem);
+              }
+       }
+       return Seat_Perst_InsertBatch(list);
+       
 }
 
+
 /*
-�������ܣ�����λ����list����λ�кš��кŽ�������
-����˵����listΪseat_list_t���ͣ���ʾ��������λ����ͷָ�롣
-�� �� ֵ���ޡ�
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷位锟斤拷锟斤拷list锟斤拷锟斤拷位锟叫号★拷锟叫号斤拷锟斤拷锟斤拷锟斤拷
+锟斤拷锟斤拷说锟斤拷锟斤拷list为seat_list_t锟斤拷锟酵ｏ拷锟斤拷示锟斤拷锟斤拷锟斤拷锟斤拷位锟斤拷锟斤拷头指锟诫。
+锟斤拷 锟斤拷 值锟斤拷锟睫★拷
 */
+
 void Seat_Srv_SortSeatList(seat_list_t list) {
-       // �벹������
+       assert(list!=NULL);
+       seat_list_t listLeft;
+       seat_list_t p;
+       if(List_IsEmpty(list)){
+              return ;
+       }
+       else{
+              list->prev->next = NULL;
+              listLeft = list->next;
+              list->next = list->prev = list;
+              
+              while(listLeft != NULL){
+                     p = listLeft;
+                     listLeft = listLeft->next;
+                     Seat_Srv_AddToSoftedList(list,p);   
+              } 
+       }
+       return ;
 }
 
+
 /*
-�������ܣ���һ����λ�����뵽���������λ�����С�
-����˵������һ������listΪseat_list_t���ͣ���ʾ�����������λ����ͷָ�룬�ڶ�������nodeΪseat_node_tָ�룬��ʾ��Ҫ�������λ���ݽ�㡣
-�� �� ֵ���ޡ�
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷一锟斤拷锟斤拷位锟斤拷锟斤拷锟诫到锟斤拷锟斤拷锟斤拷锟斤拷锟轿伙拷锟斤拷锟斤拷小锟�?
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷list为seat_list_t锟斤拷锟酵ｏ拷锟斤拷示锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟轿伙拷锟斤拷锟酵分革拷耄�锟节讹拷锟斤拷锟斤拷锟斤拷node为seat_node_t指锟诫，锟斤拷示锟斤拷要锟斤拷锟斤拷锟斤拷锟轿伙拷锟斤拷萁锟姐。
+锟斤拷 锟斤拷 值锟斤拷锟睫★拷
 */
+
 void Seat_Srv_AddToSoftedList(seat_list_t list, seat_node_t *node) {
-       // �벹������
+       //问题
+       seat_list_t p ;
+       assert(list!=NULL && node!=NULL);
+       if(List_IsEmpty(list)){
+              List_AddTail(list,node);
+       }
+       else{
+              p = list->next;
+              while(p!=list&&(p->data.row < node->data.row||(p->data.row == node->data.row && p->data.column < node->data.column))){
+                     p=p->next;
+              }
+              List_InsertBefore(p,node);
+       }
+       // 锟诫补锟斤拷锟斤拷锟斤拷
 }
 
 /*
-�������ܣ�������λ���С��кŻ�ȡ��λ���ݡ�
-����˵������һ������listΪseat_list_t���ͣ���ʾ��λ����ͷָ�룬
-         �ڶ�������rowΪ���ͣ���ʾ����ȡ��λ���кţ�����������columnΪ���ͣ���ʾ����ȡ��λ���кš�
-�� �� ֵ��Ϊseat_node_tָ�룬��ʾ��ȡ������λ���ݡ�
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷锟斤拷位锟斤拷锟叫★拷锟叫号伙拷取锟斤拷位锟斤拷锟捷★拷
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷list为seat_list_t锟斤拷锟酵ｏ拷锟斤拷示锟斤拷位锟斤拷锟斤拷头指锟诫，
+锟节讹拷锟斤拷锟斤拷锟斤拷row为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷锟斤拷取锟斤拷位锟斤拷锟叫号ｏ拷锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷column为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷锟斤拷取锟斤拷位锟斤拷锟叫号★拷
+锟斤拷 锟斤拷 值锟斤拷为seat_node_t指锟诫，锟斤拷示锟斤拷取锟斤拷锟斤拷锟斤拷位锟斤拷锟捷★拷
 */
 seat_node_t * Seat_Srv_FindByRowCol(seat_list_t list, int row, int column) {
-       // �벹������
+       seat_list_t p;
+       p = list;
+       while(!((list->data.row == row) && (list->data.column == column))){
+              list = list->next;
+              if(list == p){
+                     break;
+              }
+       }
+       if(list->data.row == row && list->data.column == column){
+              return list;
+       }
+       else{
+              return NULL;
+       }
+       // 锟诫补锟斤拷锟斤拷锟斤拷
+      
+}
+/*
+锟斤拷锟斤拷锟斤拷锟杰ｏ拷锟斤拷锟斤拷锟斤拷位ID锟斤拷锟斤拷锟斤拷锟叫伙拷取锟斤拷位锟斤拷锟捷★拷
+锟斤拷锟斤拷说锟斤拷锟斤拷锟斤拷一锟斤拷锟斤拷锟斤拷list为seat_list_t锟斤拷锟酵ｏ拷指锟斤拷锟斤拷位锟斤拷锟斤拷锟斤拷锟斤拷锟斤拷锟节讹拷锟斤拷锟斤拷锟斤拷ID为锟斤拷锟酵ｏ拷锟斤拷示锟斤拷位ID锟斤拷
+锟斤拷 锟斤拷 值锟斤拷seat_node_t锟斤拷锟酵ｏ拷锟斤拷示锟斤拷取锟斤拷锟斤拷位锟斤拷锟捷★拷
+*/
+
+seat_node_t * Seat_Srv_FindByID(seat_list_t list, int rowID) {
+       // 锟诫补锟斤拷锟斤拷锟斤拷
        return NULL;
 }
 
-/*
-�������ܣ�������λID�������л�ȡ��λ���ݡ�
-����˵������һ������listΪseat_list_t���ͣ�ָ����λ�����������ڶ�������IDΪ���ͣ���ʾ��λID��
-�� �� ֵ��seat_node_t���ͣ���ʾ��ȡ����λ���ݡ�
-*/
-seat_node_t * Seat_Srv_FindByID(seat_list_t list, int rowID) {
-       // �벹������
-       return NULL;
-}
+

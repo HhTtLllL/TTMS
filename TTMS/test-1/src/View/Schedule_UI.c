@@ -30,11 +30,11 @@ void Schedule_UI_MgtEntry(int play_id)
 
 	do
 	{
-		printf( "\n============================================\n");
-		printf( "************************************Projection Schedue  List**************************\n");
+		printf( "\n====================================================================================\n");
+		printf( "*********************************Projection Schedue  List*****************************\n");
 
-		printf( "%20s  %20s%20s%20s%20s%20s","yan chu ID","shang ying ju mu","yan chu ding id","fang ying ri qi","fang ying shi jian","seat_count\n");
-		printf( "---------------------------------------------------------------\n");
+		printf( "%5s     %5s     %5s    %10s     %10s     %10s","Schedule ID","Play ID","studio Id","release data","release time","seat_count\n");
+		printf( "--------------------------------------------------------------------------------------\n");
 		Paging_ViewPage_ForEach(head,paging,schedule_node_t,pos,i)
 		{
 			printf("%3d %3d %3d %3d %3d %3d %3d %3d %3d %3d",pos->data.id,pos->data.play_id,pos->data.studio_id,pos->data.date.year,pos->data.date.month,pos->data.date.day,pos->data.time.hour,pos->data.time.minute,pos->data.time.second,pos->data.seat_count);
