@@ -32,8 +32,27 @@ int Ticket_Srv_GenBatch(int schedule_id);       //pi liang zeng jia wen jian tic
 
 void Ticket_Srv_deleteBatch(int schedule_id);    //shan chu yan chu piao han shu
 
-void Ticket_Srv_FetchAll(ticket_list_t list);
+int  Ticket_Srv_FetchAll(ticket_list_t list);
 
-int Ticket_Srv_FetchByID(int id,ticket_t *buf);
+int Ticket_Srv_FetchBySchID(int id,ticket_list_t list);
+
+
+
+
+//////////////////////////////
+
+//标识符:TTMS_SCU_Ticket_Srv_FetchBySchID
+//功能:根据演出计划的ID获取演出票的数据
+//int Ticket_Srv_FetchBySchID(int ID,ticket_list_t list);
+
+
+
+
+
+
+//标识符:TTMS_SCU_Ticket_Srv_Mod
+//功能:使用data中票的信息修改文件中票的状态
+//int Ticket_Srv_Modify(const ticket_t *data);
+
 #endif
 

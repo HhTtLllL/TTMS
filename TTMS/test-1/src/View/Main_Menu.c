@@ -12,7 +12,6 @@
 #include <stdio.h>
 
 #include "../View/Studio_UI.h"
-
 //ϵͳ���˵� 
 void Main_Menu(void) {
 	char choice;
@@ -25,7 +24,7 @@ void Main_Menu(void) {
 		printf( "[B]cha xun yan chu .\n");
 		printf("[R]eturn Ticket.\n");
 		printf("[Q]ueries\n");
-		printf("Ra[n]king and Statistics.\n");
+		printf("[R]anking and Statistics.\n");
 		printf("[A]ccount Management.\n");
 		printf("[E]xist.\n");
 		printf("\n==================================================================\n");
@@ -33,7 +32,9 @@ void Main_Menu(void) {
 		setbuf(stdin,NULL);
 		choice = getchar();
 		getchar();
+		setbuf(stdin,NULL);
 		switch (choice) {
+		setbug(stdin,NULL);
 		case 'S':
 		case 's':
 			Studio_UI_MgtEntry();
@@ -46,15 +47,15 @@ void Main_Menu(void) {
 		case'b':
 			Schedule_UI_ListAll();
 			break;
-		case't':
+/*		case't':
 		case'T':
 			printf( "查询演出票 \n");
 			Ticket_UI_Query();
 			break;
-/*		case 'Q':
+		case 'Q':
 		case 'q':
 			Queries_Menu();
-			break;
+			break;*/
 		case 'T':
 		case 't':
 			Sale_UI_MgtEntry();
@@ -63,7 +64,7 @@ void Main_Menu(void) {
 		case 'r':
 			Sale_UI_ReturnTicket();
 			break;
-		case 'N':
+/*		case 'N':
 		case 'n':
 			SalesAanalysis_UI_MgtEntry();
 			break;*/

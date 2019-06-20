@@ -10,6 +10,12 @@
 int  Ticket_Perst_Insert(seat_list_t list,int schedule_id);      //zai piao xin xi wen jian ticket.dat zhong pi liang jia ru list lian biao shang e suo you piao de xin xi
 
 
-int  Tick_Perst_Rem(int schedule_id);    //pi liang shan chu yan chu ji hua de ID hao
+int  Ticket_Perst_Rem(int schedule_id);    //pi liang shan chu yan chu ji hua de ID hao
 
+//
+//
+//int Ticket_Perst_SelBySchID(int ID,ticket_list_t list);
+
+
+int Ticket_Perst_SelBySchID(int ID,ticket_list_t list);
 #endif

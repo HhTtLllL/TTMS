@@ -206,7 +206,10 @@ void Seat_Srv_AddToSoftedList(seat_list_t list, seat_node_t *node) {
 seat_node_t * Seat_Srv_FindByRowCol(seat_list_t list, int row, int column) {
        seat_list_t p;
        p = list;
-       while(!((list->data.row == row) && (list->data.column == column))){
+       list = list->next;
+       while(!((list->data.row == row) && (list->data.column == column)))
+       {
+              printf("row    =  %d,col = %d\n",list->data.row,list->data.column);
               list = list->next;
               if(list == p){
                      break;

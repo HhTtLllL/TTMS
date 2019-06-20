@@ -19,12 +19,13 @@ static const char TICKET_KEY_NAME[] = "Ticket";
 
 int Ticket_Perst_Insert(seat_list_t  list,int schedule_id)
 {
-	FILE *fp = fopen(TICKET_DATA_FILE,"rb+");
+	FILE *fp = fopen(TICKET_DATA_FILE,"wb+");
 	
 	int rtn = 0;
 	seat_list_t temp;
 	seat_list_t pos;
 	schedule_t sch;
+	int sum = 0;
 
 	ticket_t data;
 
@@ -39,29 +40,29 @@ int Ticket_Perst_Insert(seat_list_t  list,int schedule_id)
 	Play_Perst_SelectByID(sch.play_id,&buf);
 	
 	int key = EntKey_Perst_GetNewKeys(TICKET_KEY_NAME,1);
-	
 	temp = list;
 	pos = list->next;
 	while(pos != temp)
 	{
+		sum++;
+
 		data.id = EntKey_Perst_GetNewKeys(TICKET_KEY_NAME,1);
 		data.schedule_id = schedule_id;
 		data.seat_id = pos->data.id;
 		data.price = buf.price;
 		data.status = 0;
-
+	pos = pos->next;
 		rtn = fwrite(&data,sizeof(ticket_t),1,fp);
 	}
 
-	
 	fclose(fp);
-
+	printf( " sheng cheng yan chu piao : %d \n",sum);
 	return rtn;
 
 }
 
 
-int  Tick_Perst_Rem(int schedule_id)
+int  Ticket_Perst_Rem(int schedule_id)
 {
 	if(rename(TICKET_DATA_FILE,TICKET_DATA_TEMP_FILE) < 0)
 	{
@@ -174,6 +175,73 @@ int Ticket_Perst_SelByID(int id,ticket_t *buf)
 			}
 		}
 	}
+
+	fclose(fp);
+
+
+	return found;
+}
+
+int Ticket_Perst_SelBySchID(int id,ticket_list_t list)
+{
+	int count = 0;
+
+	FILE *fp = fopen(TICKET_DATA_FILE,"rb");
+
+	if(NULL == fp)
+	{
+		printf( "the file is not exit");
+		return 0;
+	}
+
+	ticket_t data;
+	ticket_node_t * newNode;
+
+	while(!feof(fp))
+	{
+		if(fread(&data,sizeof(ticket_t),1,fp))
+		{
+			if(data.schedule_id == id)
+			{
+				count++;
+				newNode = (ticket_node_t *)malloc(sizeof(ticket_node_t));
+				newNode->data = data;
+				List_AddTail(list,newNode);
+			}
+		}
+	}
+
+	fclose(fp);
+	printf( "count = %d\n",count);
+	return count;
+}
+
+int Ticket_Perst_Update(const ticket_t *data)
+{
+	assert(NULL != data);
+	int found = -1;
+	FILE *fp = fopen(TICKET_DATA_FILE,"rb+");
+
+	if(NULL == fp)
+	{
+		printf( "the file is not exit\n!");
+		return -1;
+	}
+	
+	ticket_t temp;
+	while(!feof(fp))
+	{
+		if(fread(&temp,sizeof(ticket_t),1,fp))
+		{
+			if(temp.id = data->id)
+			{
+				found = 1;
+				fwrite(data,sizeof(ticket_t),1,fp);
+			}
+		}
+	}
+
+
 
 	fclose(fp);
 

@@ -30,11 +30,11 @@ void Schedule_UI_MgtEntry(int play_id)
 
 	do
 	{
-		printf( "\n====================================================================================\n");
-		printf( "*********************************Projection Schedue  List*****************************\n");
+		printf( "\n============================================\n");
+		printf( "************************************Projection Schedue  List**************************\n");
 
-		printf( "%5s     %5s     %5s    %10s     %10s     %10s","Schedule ID","Play ID","studio Id","release data","release time","seat_count\n");
-		printf( "--------------------------------------------------------------------------------------\n");
+		printf( "%20s  %20s%20s%20s%20s%20s","yan chu ID","shang ying ju mu","yan chu ding id","fang ying ri qi","fang ying shi jian","seat_count\n");
+		printf( "---------------------------------------------------------------\n");
 		Paging_ViewPage_ForEach(head,paging,schedule_node_t,pos,i)
 		{
 			printf("%3d %3d %3d %3d %3d %3d %3d %3d %3d %3d",pos->data.id,pos->data.play_id,pos->data.studio_id,pos->data.date.year,pos->data.date.month,pos->data.date.day,pos->data.time.hour,pos->data.time.minute,pos->data.time.second,pos->data.seat_count);
@@ -98,7 +98,7 @@ void Schedule_UI_MgtEntry(int play_id)
 
 }
 
-void Schedule_UI_ListAll()
+void Schedule_UI_ListAll(void)
 {
 	int i;
 	char choice;
@@ -115,8 +115,6 @@ void Schedule_UI_ListAll()
 	paging.pageSize = SCHEDULE_PAGE_SIZE;
 
 	paging.totalRecords = Schedule_Srv_FetchByAll(list);
-
-	
 	Paging_Locate_FirstPage(list,paging);
 
 	do
@@ -129,13 +127,9 @@ void Schedule_UI_ListAll()
 			{
 				printf( "%5s %20s %5s %10s %3s %3s %8s %8s %3s\n","ID","NAME","TYPE","AREA","RATING","DURATION","STARTDATA","ENDDATA","PRICE");
 				Play_Srv_FetchByID(pos->data.play_id,&play);
-
-
 				printf( "%5d %20s %5d %10s %3d %3d %4d %2d %2d %4d %2d %2d %4d\n",play.id,play.name,play.type,play.area,play.rating,play.duration,play.start_date.year,play.start_date.month,play.start_date.day,play.end_date.year,play.end_date.month,play.end_date.day,play.price);	
 				Studio_Srv_FetchByID(pos->data.studio_id,&studio);
-
-				printf( "studio _id  = %d\n",pos->data.studio_id);
-				printf("%5s  %18s  %10s  %10s  %10s\n", "studio ID","studio Name", "Rows Count","Columns Count", "Seats Count");
+				printf("%5s  %18s  %10s  %10s  %10s\n", "ID", "Name", "Rows Count","Columns Count", "Seats Count");
 				printf("%5d  %18s  %10d  %10d  %10d\n", studio.id,studio.name,studio.rowsCount,studio.colsCount,studio.seatsCount);
 			}
 		}
@@ -181,6 +175,7 @@ void Schedule_UI_ListAll()
 
 	List_Destroy(list,schedule_node_t);
 
+	return 0;
 
 }
 
@@ -201,11 +196,11 @@ int Schedule_UI_Qry(char *play_name)
 
 	while(list != temp)
 	{
-
-		
 		Schedule_Srv_FetchByPlay(list_s,list->data.id);
 		schedule_list_t temp_s = list_s;
+	
 		list_s = list_s->next;
+
 	
 		while(list_s != temp_s)
 		{
@@ -214,8 +209,7 @@ int Schedule_UI_Qry(char *play_name)
 			printf("%6s %3d %3d %3d %3d %3d %3d %3d %3d %3d",list->data.name,list->data.duration,list_s->data.studio_id,list_s->data.date.year,list_s->data.date.month,list_s->data.date.day,list_s->data.time.hour,list_s->data.time.minute,list_s->data.time.second,list_s->data.seat_count);
 			list_s = list_s->next;
 		}
-		list = list->next;
-		
+list = list->next;
 	}
 
 
@@ -229,6 +223,7 @@ int Schedule_UI_Add(int play_id)
 
 	do
 	{
+		studio_t buf;
 		printf( "\n================================================\n");
 		printf( "********************************Add New Projection Schedule*************************\n");
 		printf( "------------------------------------------------------------\n");
@@ -236,8 +231,23 @@ int Schedule_UI_Add(int play_id)
 		setbuf(stdin,NULL);
 		
 		rec.play_id = play_id;
-		printf( "studio ID:");
-		scanf( "%d",&rec.studio_id);
+		while(1)
+		{
+			printf( "studio ID:");
+			scanf( "%d",&rec.studio_id);
+			if(Studio_Srv_FetchByID(rec.studio_id,&buf))
+			{
+					break;
+			}
+			else
+			{			
+				printf("the studio is not exist!\n");
+				continue;
+			}
+			
+		}
+
+		
 		printf( "Screening Date:");
 		scanf( "%d%d%d",&rec.date.year,&rec.date.month,&rec.date.day);
 		printf( "show time :");

@@ -45,6 +45,10 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 			Ticket_Srv_deleteBatch(schedule_id);
 			Ticket_Srv_GenBatch(schedule_id);
 			break;
+		case'q':
+		case'Q':
+			Ticket_UI_Query();
+			break;
 	}
 
 }
@@ -82,4 +86,10 @@ int Ticket_UI_ShowTicket(int ticket_id)
 		printf( "ticket ID      schedule ID      Seat ID      Ticket Price      Ticket status    \n");
 		printf( "%6d  %6d     %6d    %6d   %6d    \n",buf.id,buf.schedule_id,buf.seat_id,buf.price,buf.status);
 	}
+}
+
+void Ticket_UI_Print(const ticket_t data)
+{
+	printf( "Ticket ID      Schedule ID    Saet ID  Price\n");
+	printf( "%d                  %d           %d      %d    ",data.id,data.schedule_id,data.seat_id,data.price);
 }
