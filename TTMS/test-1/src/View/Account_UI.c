@@ -10,8 +10,8 @@
 #include "../Common/list.h"
 #include "../Service/Account.h"
 static const int Account_PAGE_SIZE = 5;
+char ch;
 
-/*
 //系统登录
 int SysLogin(){
 		Account_Srv_InitSys();
@@ -36,7 +36,7 @@ int SysLogin(){
 			}
 		}
 	return 0;
-}*/
+}
 
 char Account_UI_Status2Char(account_type_t status) {
     if(status == 0)
@@ -62,12 +62,12 @@ void Account_UI_MgtEntry(void) {
 	paging.offset = 0;
 	paging.pageSize = Account_PAGE_SIZE;
 
-	//��������
 	paging.totalRecords = Account_Srv_FetchAll(head);
 	Paging_Locate_FirstPage(head, paging);
     
     
     do{
+		printf("[N]匿名用户    |    [X]售票员     |     [A]经理     |     [M]系统管理员");
 		printf(
 				"\n==================================================================\n");
 		printf(
@@ -76,7 +76,7 @@ void Account_UI_MgtEntry(void) {
 				"type");
 		printf(
 				"------------------------------------------------------------------\n");
-		printf("[USR_ANOMY]匿名用户|[USR_CLERK]售票员|[USR_MANG]经理|[USR_ADMIN]系统管理员\n");
+		
         Paging_ViewPage_ForEach(head, paging, account_node_t, pos, i){
 		printf("%7d  %18s  %18s  %15c\n", pos->data.id,
 		pos->data.username, pos->data.password, Account_UI_Status2Char(pos->data.type));
@@ -92,16 +92,17 @@ void Account_UI_MgtEntry(void) {
 				"[P]revPage|[N]extPage | [A]dd | [D]elete | [Q]uery | [M]od | [R]eturn");
 		printf(
 				"\n==================================================================\n");
+	
 		printf("Your Choice:");
-		//setbuf(stdin,NULL);
+		setbuf(stdin,NULL);
 		scanf("%c", &choice);
-		getchar();
-		//setbuf(stdin,NULL);
+		//getchar();
 
 		switch (choice)
         {
             case 'a':
-            case 'A':
+            case 'A':system("clear");
+
                 if (Account_UI_Add(head)) //�����ӳɹ����������һҳ��ʾ
                 {
                     paging.totalRecords = Account_Srv_FetchAll(head);
@@ -112,63 +113,65 @@ void Account_UI_MgtEntry(void) {
             	}
 			break;
             case 'd':
-            case 'D':
+            case 'D':system("clear");
+
                 printf("Input the username:");
-    		    //setbuf(stdin,NULL);
+				setbuf(stdin,NULL);
                 scanf("%s", usrName);
-    		    //setbuf(stdin,NULL);
+				getchar();
                 if (Account_UI_Delete(head,usrName)) {	//������������
+				printf("delete accept\n");
                     paging.totalRecords = Account_Srv_FetchAll(head);
                     List_Paging(head, paging, account_node_t);
                 }
                 else{
-                    printf("delete eor\n");
+                    printf("delete error\n");
                 }
 			    break;
 		    case 'q':
-		    case 'Q':
+		    case 'Q':system("clear");
+
     			printf("Input the username:");
-    		    //setbuf(stdin,NULL);
+				setbuf(stdin,NULL);
     			scanf("%s", usrName);
 				getchar();
-    		    //setbuf(stdin,NULL);
     			if (Account_UI_Query(head,usrName)) {	//������������
     				paging.totalRecords = Account_Srv_FetchAll(head);
     				List_Paging(head, paging, account_node_t);
     			}
                 else{
-                    printf("mod eor\n");
-    		        setbuf(stdin,NULL);
+                    printf("chaxun error\n");
                 }
                 break;
             case 'm':
-            case 'M':
+            case 'M':system("clear");
+
                 printf("Input the username:");
-    		    //setbuf(stdin,NULL);
+				setbuf(stdin,NULL);
                 scanf("%s", usrName);
 				getchar();
-    		    //setbuf(stdin,NULL);
                 if(Account_UI_Modify(head,usrName)){
+				printf("mod accept\n");
                 paging.totalRecords = Account_Srv_FetchAll(head);
                 List_Paging(head, paging, account_node_t);
                 }
                 break;
             case 'p':
-            case 'P':
+            case 'P'://system("clear");
+
                 if (!Pageing_IsFirstPage(paging)) {
 				Paging_Locate_OffsetPage(head, paging, -1, account_node_t);
 				}
 			break;
 		    case 'n':
-		    case 'N':
+		    case 'N'://system("clear");
+
 			    if (!Pageing_IsLastPage(paging)) {
 				    Paging_Locate_OffsetPage(head, paging, 1,account_node_t);
 			    }
 			    break;
         }
     }while(choice != 'r' && choice != 'R');
-	//�ͷ������ռ�
-	//setbuf(stdin,NULL);
 	List_Destroy(head, account_node_t);
 }
 int Account_UI_Add(account_list_t list){
@@ -181,45 +184,49 @@ int Account_UI_Add(account_list_t list){
 		printf("**************************  Add New User **************************\n");
 		printf("-------------------------------------------------------------------\n");
 		printf("please input you want add newname :");
-		//setbuf(stdin,NULL);
-        //getchar();
-		gets(data.username);
+		setbuf(stdin,NULL);
+		scanf("%s",data.username);
+		//gets(data.password);
+		getchar();
 		printf("===================================================================\n");
 		account_list_t temp = Account_Srv_FindByUsrName(list,data.username);
     	if(temp!=NULL){
 			printf("this user is already have\n");
-			//setbuf(stdin,NULL);
 			printf("[A]dd other, [R]eturn:");
-			//setbuf(stdin,NULL);
+			setbuf(stdin,NULL);
 			scanf("%c", &choice);
 			getchar();
-			//setbuf(stdin,NULL);
+
     	}
     	else{
     	    printf("please input you want passsword :");
-			scanf("%s",data.password);
-			getchar();
 			setbuf(stdin,NULL);
+        	//getchar();
+			scanf("%s",data.password);
+			//gets(data.password);
+			getchar();
 			printf("please input you want type :\n");
 			printf("===================================================================\n");
-			printf("[USR_ANOMY]匿名用户|[USR_CLERK]售票员|[USR_MANG]经理|[USR_ADMIN]系统管理员\n");
-			scanf("%d",data.type);
+			printf("[0]匿名用户  |  [1]售票员  |  [2]经理  |  [9]系统管理员");
+
+			setbuf(stdin,NULL);
+			scanf("%d",&data.type);
 			getchar();
-			//setbuf(stdin,NULL);
     	    if(Account_Srv_Add(&data)){
 				newRecCount += 1;
 				Account_Srv_FetchAll(list);
 				printf("The new user added successfully!\n");
-				//setbuf(stdin,NULL);
 			}
 			else
 			printf("The new room added failed!\n");
 		printf("-------------------------------------------------------------------\n");
 		printf("[A]dd more, [R]eturn:");
-		//setbuf(stdin,NULL);
+		setbuf(stdin,NULL);
 		scanf("%c", &choice);
-		getchar();
-		//setbuf(stdin,NULL);
+		char ch;while((ch=getchar())!='\n'&&ch!=EOF);
+		//printf("%d   ss",choice);
+		//getchar();
+
     	}
 	}while('a' == choice || 'A' == choice);
 	return newRecCount;
@@ -230,20 +237,36 @@ int Account_UI_Add(account_list_t list){
 int Account_UI_Modify(account_list_t list,char usrName[]){
 	account_list_t temp = Account_Srv_FindByUsrName(list,usrName);
 	if(temp != NULL){
-		char password[20];
-		printf("prease input the new password:");
-		//setbuf(stdin,NULL);
-		scanf("%s", password);
-		getchar();
-		//setbuf(stdin,NULL);
-		if(strcmp(password,temp->data.password)==0){
-			printf("mod eor,password 相同");
-			return 0;
-		}
-		Account_Srv_FetchAll(list);
-		return Account_Srv_Modify(&temp);
+		int choice = 10;
+		do{
+			char password[20];
+			printf("prease input the new password:");
+			setbuf(stdin,NULL);
+			//char ch;while((ch=getchar())!='\n'&&ch!=EOF);
+			scanf("%s", password);
+			if(strcmp(password,temp->data.password)==0){
+				printf("mod error,password 相同,please choice next\n");
+				printf("[0]exit  |   [1]input again\n");
+				scanf("%d",&choice);
+				setbuf(stdin,NULL);
+			}
+			else{
+				strcpy(temp->data.password,password);
+				int aaa = Account_Srv_Modify(temp);
+				if(aaa == 0){
+					return 0;
+				}
+				Account_Srv_FetchAll(list);
+				
+				return 1;
+			}
+		}while(choice!=0);
     }
-	return 0;
+	else{
+		printf("The room does not exist!\n");
+		return 0;
+	}
+	
 
 }
 
@@ -267,7 +290,7 @@ int Account_UI_Query(account_list_t list,char usrName[]){
 		printf("user password:%s\n",temp->data.password);
 		printf("user username:%s\n",temp->data.username);
 		printf("user type:%c\n",Account_UI_Status2Char(temp->data.type));
-		//setbuf(stdin,NULL);
+		//printf("\n\n\n\n\n\n\n\n\n");
 		return 1;
 	}
 	return 0;

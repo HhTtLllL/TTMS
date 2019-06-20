@@ -48,31 +48,14 @@ void Seat_UI_MgtEntry(int roomID) {
 	}
     seat_list_t head;
     List_Init(head,seat_node_t); 
-    if(Seat_Srv_FetchByRoomID(head,roomID) == 0){
+    if(Seat_Srv_FetchByRoomID(head,roomID) < rec.colsCount*rec.rowsCount){
         rec.seatsCount = Seat_Srv_RoomInit(head,roomID,rec.rowsCount,rec.colsCount);
         Studio_Srv_Modify(&rec);
     }
 
-    //printf("room = %d\n",rec.seatsCount);
-    /*seat_list_t head;
-    List_Init(head,seat_node_t); 
-    if(Seat_Srv_FetchByRoomID(head,roomID) == 0){
-        rec.seatsCount = Seat_Srv_RoomInit(head,roomID,rec.rowsCount,rec.colsCount);
-        Studio_Srv_Modify(&rec);
-    }
-    */
-    /*if(rec.seatsCount == 0){
-
-        rec.seatsCount = Seat_Srv_RoomInit(head,roomID,rec.rowsCount,rec.colsCount);
-    }
-    else{
-        rec.seatsCount = Seat_Srv_FetchByRoomID(head,roomID);
-    }*/
-    //Studio_Srv_Modify(&rec);
     do{
 
         printf("row:%d                   colum:%d                  seatsnumber:%d\n",rec.rowsCount,rec.colsCount,rec.seatsCount);    
-        //printf("   %d   \n",head->next->data.id);
         
         printf("-------------------------------------------------------------------\n");
         setbuf(stdin,NULL);
@@ -196,7 +179,7 @@ int Seat_UI_Add(seat_list_t list, int roomID, int row, int column) {  //ï¿½ï¿½ï¿
         temp.row = row;
         temp.status = SEAT_GOOD;
         temp.roomID = roomID;
-        //List_AddTail(list,temp);
+
         if(Seat_Srv_Add(&temp)){
             return 1;
         }
