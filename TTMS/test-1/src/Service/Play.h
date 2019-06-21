@@ -27,15 +27,15 @@ typedef struct       //date
 
 typedef struct
 {
-	int        id;               //ju mu id
-	char       name[30];        //ju mu ming zi
+	int        id;               //ju mu id.
+	char       name[30];        //ju mu ming zi.
 	play_type_t     type;        //lei xing 
-	char      area[10];         //chu pin di qu
+	char      area[10];         //chu pin di qu.
 	play_rating_t      rating;     // deng ji 
-	int        duration;             //shi chang 
-	ttms_date_t      start_date;        //kai shi ri qi
-	ttms_date_t      end_date;       //jie   shu   ri qi;
-	int         price;             //piao jia
+	int        duration;             //shi chang .
+	ttms_date_t      start_date;        //kai shi ri qi.
+	ttms_date_t      end_date;       //jie   shu   ri qi;.
+	int         price;             //piao jia.
 }play_t;
 
 typedef struct play_node

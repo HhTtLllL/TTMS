@@ -105,17 +105,17 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'p':
 			case'P':
-			/*	if (!Pageing_IsFirstPage(paging)) 
+				if (!Pageing_IsFirstPage(paging)) 
 				{
 					Paging_Locate_OffsetPage(head, paging, -1, play_node_t);
-				}*/
+				}
 				break;
 			case'n':
 			case'N':
-	/*			if (!Pageing_IsLastPage(paging)) 
+				if (!Pageing_IsLastPage(paging)) 
 				{
 					Paging_Locate_OffsetPage(head, paging, 1, play_node_t);
-				}*/
+				}
 				break;
 			}
 	}while(choice != 'r' && choice != 'R');

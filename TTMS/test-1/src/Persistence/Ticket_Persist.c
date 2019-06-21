@@ -1,5 +1,6 @@
 #include"Ticket_Persist.h"
 #include<stdlib.h>
+#include<stdlib.h>
 #include<assert.h>
 #include<stdio.h>
 #include"../Common/list.h"
@@ -92,7 +93,7 @@ int  Ticket_Perst_Rem(int schedule_id)
 	{
 		if(fread(&buf,sizeof(ticket_t),1,fpsour))
 		{
-			if(buf.id == schedule_id)
+			if(buf.schedule_id == schedule_id)
 			{
 				found += 1;
 				continue;
@@ -152,22 +153,21 @@ void Ticket_Perst_SelectAll(ticket_list_t list)
 	return ;
 }
 
-int Ticket_Perst_SelByID(int id,ticket_t *buf)
+int Ticket_Perst_SelByID(int id,ticket_t *buf)      //通过seat ID  找票
 {
 	int found = 0;
-	
 	ticket_t data;
 	FILE *fp = fopen(TICKET_DATA_FILE,"rb");
 	if(fp == NULL)
 	{
 		return 0;
 	}
-
 	while(!feof(fp))
 	{
 		if(fread(&data,sizeof(ticket_t),1,fp))
 		{
-			if(id == data.id)
+
+			if(id == data.seat_id)
 			{
 				*buf = data;
 				found = 1;
@@ -181,7 +181,34 @@ int Ticket_Perst_SelByID(int id,ticket_t *buf)
 
 	return found;
 }
+int Ticket_Perst_SelByticketID(int ticket_id,ticket_t *buf)
+{
+	int count = 0;
+	FILE *fp = fopen(TICKET_DATA_FILE,"rb");
+	if(NULL == fp)
+	{
+		printf( " the file is not exit!!\n");
+		return 0;
+	}
 
+	ticket_t data;
+	while(!feof(fp))
+	{
+		if(fread(&data,sizeof(ticket_t),1,fp))
+		{
+			if(data.id == ticket_id)
+			{
+				*buf = data;
+				count = 1;
+				break;
+			}
+		}
+	}
+
+	fclose(fp);
+
+	return count;
+}
 int Ticket_Perst_SelBySchID(int id,ticket_list_t list)
 {
 	int count = 0;
@@ -212,12 +239,13 @@ int Ticket_Perst_SelBySchID(int id,ticket_list_t list)
 	}
 
 	fclose(fp);
-	printf( "count = %d\n",count);
 	return count;
 }
 
 int Ticket_Perst_Update(const ticket_t *data)
 {
+
+
 	assert(NULL != data);
 	int found = -1;
 	FILE *fp = fopen(TICKET_DATA_FILE,"rb+");
@@ -233,18 +261,15 @@ int Ticket_Perst_Update(const ticket_t *data)
 	{
 		if(fread(&temp,sizeof(ticket_t),1,fp))
 		{
-			if(temp.id = data->id)
+			if(temp.id == data->id)
 			{
+				fseek(fp,-((int)sizeof(ticket_t)),SEEK_CUR);
 				found = 1;
 				fwrite(data,sizeof(ticket_t),1,fp);
+				break;
 			}
 		}
 	}
-
-
-
 	fclose(fp);
-
-
 	return found;
 }

@@ -12,18 +12,21 @@ static const int TICKET_PAGE_SIZE = 10;
 void Sale_UI_MgtEntry()
 {
 	char choice; 
+	char name[20];
 	int i;
 	int play_id;
 	play_node_t *pos;
 
 
 	play_list_t list;
+	play_list_t list_fetch;
 	List_Init(list,play_node_t);
-	
+	List_Init(list_fetch,play_node_t);
+
 	Pagination_t paging;
 	paging.offset = 0;
 	paging.pageSize = SALE_PAGE_SIZE;
-
+	Play_Srv_FetchAll(list_fetch);
 	paging.totalRecords = Play_Srv_FetchAll(list);     //获取全部 剧目 信息
 	Paging_Locate_FirstPage(list,paging);
 
@@ -49,6 +52,8 @@ void Sale_UI_MgtEntry()
 
 		printf( "[C]show Schedule      [S]find play name     [F]ind play name        [P]rev       [N]ext         [R]eturn          \n");
 		printf( "===================================================================================================================\n");
+		printf("please input your choice : ");
+		setbuf(stdin,NULL);
 		scanf( "%c",&choice);
 		getchar( );
 		switch(choice)
@@ -62,8 +67,27 @@ void Sale_UI_MgtEntry()
 				break;
 			case's':
 			case'S':
+				printf( "please input the Play_ name :");
+				setbuf(stdin,NULL);
+				gets(name);
 
-				//Play_Srv_FetchByName();
+				Play_Srv_FetchByName(list_fetch,name);
+				Play_Srv_Print(list_fetch);
+				break;
+
+			case'n':
+			case'N':
+				if(!Pageing_IsLastPage(paging))
+				{
+					Paging_Locate_OffsetPage(list, paging, 1, play_node_t);
+				}
+				break;
+			case'P':
+			case'p':
+				if(!Pageing_IsFirstPage(paging))
+				{
+					Paging_Locate_OffsetPage(list, paging,-1, play_node_t);
+				}
 				break;
 		}
 
@@ -96,29 +120,48 @@ void Sale_UI_ShowScheduler(int play_id)     //通过 剧目ID 显示 演出计�
 		printf( "*********************Schedule  List**********************\n");
 		printf( "---------------------------------------------------------\n");
 
-		printf( "%20s  %20s%20s%20s%20s%20s","yan chu ID","shang ying ju mu","yan chu ding id","fang ying ri qi","fang ying shi jian","seat_count\n");
+		printf( "|%15s | %15s |%15s |%15s |%15s |%15s |","yan chu ID","shang ying ju mu","yan chu ding id","fang ying ri qi","fang ying shi jian","seat_count\n");
 		printf( "---------------------------------------------------------------\n");
 		Paging_ViewPage_ForEach(list,paging,schedule_node_t,pos,i)
 		{
-			printf( "%3d %3d %3d %3d %3d %3d %3d %3d %3d %3d \n",pos->data.id,pos->data.play_id,pos->data.studio_id,pos->data.date.year,pos->data.date.month,pos->data.date.day,pos->data.time.hour,pos->data.time.minute,pos->data.time.second,pos->data.seat_count);
+			printf( "%3d   %3d   %3d   %3d  %3d  %3d     %3d    %3d        %3d                      %3d  \n",pos->data.id,pos->data.play_id,pos->data.studio_id,pos->data.date.year,pos->data.date.month,pos->data.date.day,pos->data.time.hour,pos->data.time.minute,pos->data.time.second,pos->data.seat_count);
 
 		}
 
-		printf( "-----totalRecords : %2d  ------------Page %2d %2d ---------------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
+		printf( "-----totalRecords : %2d  ------------Page %2d /%2d ---------------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
 		
 		printf( "[T] Show Ticket     [N]ext     [P]rev    [R]eturn \n");
 		printf( "Your choice : ");
+		setbuf(stdin,NULL);
+
 		scanf( "%c",&choice);
 		getchar( );
+
 		switch(choice)
 		{
 			case'T':
 			case't':
 				printf( "Please input Schedule ID:");
+				setbuf(stdin,NULL);
 				scanf( "%d",&schedule_id);
 				getchar( );
 				Sale_UI_ShowTicket(schedule_id);
 				break;
+			case'N':
+			case'n':
+				if (!Pageing_IsLastPage(paging))
+				{
+					Paging_Locate_OffsetPage(list, paging, 1, schedule_node_t);
+				}
+				break;
+			case'p':
+			case'P':
+				if (!Pageing_IsFirstPage(paging))
+				{
+					Paging_Locate_OffsetPage(list, paging, -1, schedule_node_t);
+				}
+				break;
+	
 		}
 		
 
@@ -138,16 +181,6 @@ int Sale_UI_ShowTicket(int schedule_id)
 	getchar( );
 	int seat = Seat_Srv_FetchValidByRoomID(list,studio_ID);
 	
-printf("\n\n\nSeat count  = %d\n\n\n",seat);
-	if(list == list->next)
-	{
-
-		printf( "komg \n");
-	}
-	else
-	{
-		printf( "bu kong \n");
-	}
 
 	int i;
 	char choice;
@@ -157,21 +190,22 @@ printf("\n\n\nSeat count  = %d\n\n\n",seat);
 //	List_Init(list,seat_node_t);
 	paging.offset = 0;
 	paging.pageSize = TICKET_PAGE_SIZE;
-	ticket_list_t list_t;
+	ticket_list_t list_ti;
 	
-	List_Init(list_t,ticket_node_t);
+	List_Init(list_ti,ticket_node_t);
 
-	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_t);
-	Paging_Locate_FirstPage(list_t,paging);
+	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
+	Paging_Locate_FirstPage(list_ti,paging);
 	do
 	{
+	//	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
 		printf( "======================================\n");
 		printf( "************Ticket********************\n");
 		printf( "--------------------------------------\n");
-		printf( "Ticket ID   Scheuid ID   Seat ID   Price       Ticket Status\n");
-		Paging_ViewPage_ForEach(list_t,paging,ticket_t,pos,i)
+		printf( "Ticket ID          Scheuid ID         Seat ID   Price               Ticket Status\n");
+		Paging_ViewPage_ForEach(list_ti,paging,ticket_t,pos,i)
 		{
-			printf("%5d %5d %5d %5d %5d\n",pos->data.id,pos->data.schedule_id,pos->data.seat_id,pos->data.price,pos->data.status);
+			printf("%5d         %5d         %5d           %5d      %5d\n",pos->data.id,pos->data.schedule_id,pos->data.seat_id,pos->data.price,pos->data.status);
 		}
 
 		printf( "------Total Records  : %2d ------------Page %2d / %2d-----\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
@@ -187,7 +221,7 @@ printf("\n\n\nSeat count  = %d\n\n\n",seat);
 			case'N':
 				if (!Pageing_IsLastPage(paging)) 
 				{
-					Paging_Locate_OffsetPage(list_t, paging, 1, ticket_node_t);
+					Paging_Locate_OffsetPage(list_ti, paging, 1, ticket_node_t);
 				}
 
 				break;
@@ -195,13 +229,15 @@ printf("\n\n\nSeat count  = %d\n\n\n",seat);
 			case'P':
 				if (!Pageing_IsFirstPage(paging)) 
 				{
-					Paging_Locate_OffsetPage(list_t, paging, -1,ticket_node_t);
+					Paging_Locate_OffsetPage(list_ti, paging, -1,ticket_node_t);
 				}
 				break;
 			case'S':
 			case's':
-				Sale_UI_SellTicket(list_t,list);
+				Sale_UI_SellTicket(list_ti,list);
+			//	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
 				break;
+
 		}
 
 	}while(choice != 'R'  && choice != 'r');
@@ -214,25 +250,40 @@ int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 	setbuf(stdin,NULL);
 	sale_t data_t;
 	int row,col;
-	printf("please input the row you want to buy :");
-	scanf( "%d",&row);
-	printf("please input the col you want to buy :");
-	scanf( "%d",&col);
-	getchar( );
-	
-	seat = Seat_Srv_FindByRowCol(list_s,row,col);
-
-	ticket_t buf;
-	account_t buf_a;
-	if(NULL == seat)
+	while(1)
 	{
-		printf( "the seat is not exit!\n");
-		return 0;
+		printf("please input the row you want to buy :");
+		scanf( "%d",&row);
+		printf("please input the col you want to buy :");
+		scanf( "%d",&col);
+		getchar( );
+		seat = Seat_Srv_FindByRowCol(list_s,row,col);
+
+		if(NULL == seat)
+		{
+			printf( "the seat is not exit!\n");
+			continue;
+		}
+
+		if(seat->data.status == '@')
+		{
+			printf("the seat is broken!\n\n");
+		}
+		else if(seat->data.status == ' ')
+		{
+			printf("the seat is empty!!\n");
+		}
+		else
+		{
+			break;
+		}
 	}
-	else
-	{
-		Ticket_Srv_FetchBySchID(seat->data.id,&buf);
+	
+		ticket_t buf;
+		account_t buf_a;
 
+		printf("seat->id = %d\n",seat->data.id);
+		Ticket_Srv_FetchByID(seat->data.id,&buf);
 		if(buf.status == 1)
 		{
 			printf( "the ticket is Sale!\n");
@@ -240,8 +291,10 @@ int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 		}
 		else
 		{
-			Ticket_Srv_Modify(&buf);
 			data_t.ticket_id = buf.id;
+
+			buf.status = 1;
+			Ticket_Srv_Modify(&buf);
 			while(1)
 			{
 				printf( "please input the saler ID:");
@@ -268,7 +321,7 @@ int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 
 			Ticket_UI_Print(buf);
 		}
-	}
+	
 }
 
 
@@ -288,7 +341,7 @@ void Sale_UI_ReturnTicket()
            printf("请输入当前的日期，时间，票的ID，售票员的ID\n");
            scanf("%d%d%d%d%d%d%d%d",&refound.date.year,&refound.date.month,&refound.date.day,&refound.time.hour,&refound.time.minute,&refound.time.second,&refound.ticket_id,&refound.user_id);
             refound.type=SALE_REFOUND;  //SALE_REFOUND退票
-            Sale_Srv_Add(&buf);
+ //           Sale_Srv_Add(refound);
         }
         else
         {

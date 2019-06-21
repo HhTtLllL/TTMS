@@ -36,7 +36,7 @@ int  Ticket_Srv_FetchAll(ticket_list_t list);
 
 int Ticket_Srv_FetchBySchID(int id,ticket_list_t list);
 
-
+int Ticket_Srv_FetchByticketID(int ticket_id,ticket_t *buf);        
 
 
 //////////////////////////////

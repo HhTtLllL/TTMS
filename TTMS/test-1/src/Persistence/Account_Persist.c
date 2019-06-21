@@ -59,7 +59,10 @@ int Account_Perst_Insert(account_t *data) {
 	long key = EntKey_Perst_GetNewKeys(ACCOUNT_KEY_NAME, 1); //为新演出厅分配获取
 	if(key<=0)			//主键分配失败，直接返回
 		return 0;
-	data->id = key;		//赋给新对象带回到UI层
+	data->id = key;
+
+	printf("key = %ld\n",key);	
+		//赋给新对象带回到UI层
 	////以上是新设计方案方案添加的代码
 	////以上是新设计方案方案添加的代码
 
@@ -204,10 +207,9 @@ int Account_Perst_SelectByID(int id, account_t *buf) {
 
 	account_t data;
 	int found = 0;
-
 	while (!feof(fp)) {
 		if (fread(&data, sizeof(account_t), 1, fp)) {
-			if (id == buf->id) {
+			if (id == data.id) {
 				*buf = data;
 				found = 1;
 				break;

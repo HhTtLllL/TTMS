@@ -1,7 +1,7 @@
 /*#include "StaSales_UI.h"
 #include <time.h>
-#include "../Common/List.h"
-#include "../Service/Sale.h"
+#include "../Common/list.h"
+//#include "../Service/Sale.h"
 #include "../Service/Account.h"
 
 //统计销售额界面

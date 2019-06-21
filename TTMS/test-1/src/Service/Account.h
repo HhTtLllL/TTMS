@@ -7,6 +7,7 @@
 #ifndef ACCOUNT_H_
 #define ACCOUNT_H_
 
+
 //定义枚举类型account_type_t，描述用户的角色
 typedef enum {
 	USR_ANOMY = 0, //USR_ANOMY  匿名用户
@@ -33,6 +34,7 @@ typedef struct account_node {
 //创建管理员Admin匿名系统用户
 void Account_Srv_InitSys();
 
+account_t gl_CurUser;
 //验证系统用户的用户名和密码
 int Account_Srv_Verify(char usrName[], char pwd[]);
 

@@ -2,6 +2,7 @@
 #include"../Persistence/Play_persist.h"
 #include<stdlib.h>
 #include<assert.h>
+#include<stdio.h>
 
 
 int Play_Srv_FetchAll(play_list_t list)     //du qu wen jian zhong de suo you ju mu
@@ -32,4 +33,28 @@ int Play_Srv_Modify(const play_t *data)
 int Play_Srv_FetchByName(play_list_t list,char condt[])
 {
 	return Play_Perst_SelectByName(list,condt);
+}
+void Play_Srv_Print(play_list_t list)
+{
+	play_list_t temp;
+	temp = list;
+
+	list = list->next;
+	if(list != temp)
+	{
+		printf( "******************* %s  Play List***********************\n",list->data.name);
+		printf( "Play ID   Type     Area      Rating     Duration     Start_date           End_date         Price     \n");
+	}
+	else
+	{
+		printf( "****************Nothing************************\n");
+		return ;
+	}
+	while(list != temp)
+	{
+		printf( "   %d      %d     %s        %d            %d         %d.%d.%d           %d.%d.%d          %d",list->data.id,list->data.type,list->data.area,list->data.rating,list->data.duration,list->data.start_date.year,list->data.start_date.month,list->data.start_date.day,list->data.end_date.year,list->data.end_date.month,list->data.end_date.day,list->data.price);
+	list = list->next;
+	}
+
+	return ;
 }
