@@ -10,6 +10,7 @@ static const int SCHEDULE_PAGE_SIZE = 5;
 
 void Schedule_UI_MgtEntry(int play_id)
 {
+	system("clear");
 	int schedule_id;
 	int i,id;
 	int yan_id;
@@ -30,17 +31,17 @@ void Schedule_UI_MgtEntry(int play_id)
 
 	do
 	{
-		printf( "\n============================================\n");
-		printf( "************************************Projection Schedue  List**************************\n");
+		printf( "=================================================================================================\n");
+		printf( "*****************************************Projection Schedue  List*******************************\n");
 
-		printf( "%20s  %20s%20s%20s%20s%20s","yan chu ID","shang ying ju mu","yan chu ding id","fang ying ri qi","fang ying shi jian","seat_count\n");
-		printf( "---------------------------------------------------------------\n");
+		printf( "%s  %10s    %10s    %15s    %15s    %15s","Schedule ID","Play ID","Studio ID","fang ying ri qi","fang ying shi jian","seat_count\n");
+		printf( "-------------------------------------------------------------------------------------------------\n");
 		Paging_ViewPage_ForEach(head,paging,schedule_node_t,pos,i)
 		{
-			printf("%3d %3d %3d %3d %3d %3d %3d %3d %3d %3d",pos->data.id,pos->data.play_id,pos->data.studio_id,pos->data.date.year,pos->data.date.month,pos->data.date.day,pos->data.time.hour,pos->data.time.minute,pos->data.time.second,pos->data.seat_count);
+			printf("%3d                %3d       %3d              %d.%2d.%2d           %d:%2d:%2d                  %3d\n",pos->data.id,pos->data.play_id,pos->data.studio_id,pos->data.date.year,pos->data.date.month,pos->data.date.day,pos->data.time.hour,pos->data.time.minute,pos->data.time.second,pos->data.seat_count);
 		}
 
-		printf("---totalRecords: %2d -----------Page %2d/%2d------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
+		printf("---totalRecords: %2d ------------------------------------------Page %2d/%2d------------------------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
 
 		printf("[P]revPage  [N]extPage [A]dd [U]pdate [D]elete [T]icket [R]eturn");
 
@@ -61,7 +62,7 @@ void Schedule_UI_MgtEntry(int play_id)
 				break;
 			case'd':
 			case'D':
-				printf("yan chu ji hua ID:");
+				printf("Schedule ID:");
 				scanf( "%d",&yan_id);
 				getchar( );
 				if(Schedule_UI_Delete(yan_id))
@@ -72,7 +73,7 @@ void Schedule_UI_MgtEntry(int play_id)
 				break;
 			case'U':
 			case'u':
-				printf( "yan chu ji hua ID: ");
+				printf( "Schedule ID: ");
 				scanf( "%d",&yan_id);
 				getchar( );
 				if(Schedule_UI_Modify(yan_id))
@@ -83,7 +84,7 @@ void Schedule_UI_MgtEntry(int play_id)
 				break;
 			case't':
 			case'T':
-				printf( "yan chu ji hua de ID :");
+				printf( "Schedule ID :");
 				scanf( "%d",&schedule_id);
 				getchar( );
 				Ticket_UI_MgtEntry(schedule_id);
@@ -100,6 +101,7 @@ void Schedule_UI_MgtEntry(int play_id)
 
 void Schedule_UI_ListAll(void)
 {
+	system("clear");
 	int i;
 	char choice;
 
@@ -150,6 +152,7 @@ void Schedule_UI_ListAll(void)
 		{
 			case'n':
 			case'N':
+				setbuf(stdin,NULL);
 				if(!Pageing_IsLastPage(paging))
 				{
 					Paging_Locate_OffsetPage(list,paging,1,schedule_node_t);
@@ -157,6 +160,7 @@ void Schedule_UI_ListAll(void)
 				break;
 			case'P':
 			case'p':
+				setbuf(stdin,NULL);
 				if(!Pageing_IsFirstPage(paging))
 				{
 					Paging_Locate_OffsetPage(list,paging,-1,schedule_node_t);
@@ -164,6 +168,7 @@ void Schedule_UI_ListAll(void)
 				break;
 			case'Q':
 			case'q':
+				setbuf(stdin,NULL);
 				printf( "please input the name you want to find :");
 				gets(play_name);
 				Schedule_UI_Qry(play_name);
@@ -205,18 +210,21 @@ int Schedule_UI_Qry(char *play_name)
 		while(list_s != temp_s)
 		{
 			rtn++;
-			printf( "%20s %20s %20s %20s %20s %20s","shang ying ju mu","yan chu shi chang ","yng chu ding id ","fang ying ri qi","fang ying shi jian","seat_count\n");
-			printf("%6s %3d %3d %3d %3d %3d %3d %3d %3d %3d",list->data.name,list->data.duration,list_s->data.studio_id,list_s->data.date.year,list_s->data.date.month,list_s->data.date.day,list_s->data.time.hour,list_s->data.time.minute,list_s->data.time.second,list_s->data.seat_count);
+			printf( "%s %10s %10s %20s %20s %20s","Play ","Play Time  ","Studio ID ","fang ying ri qi","fang ying shi jian","seat_count\n");
+			printf("%6s %3d %3d %3d %3d %3d %3d %3d %3d %3d\n",list->data.name,list->data.duration,list_s->data.studio_id,list_s->data.date.year,list_s->data.date.month,list_s->data.date.day,list_s->data.time.hour,list_s->data.time.minute,list_s->data.time.second,list_s->data.seat_count);
 			list_s = list_s->next;
 		}
 list = list->next;
 	}
 
+	printf("please press Enter !\n");
+	getchar();
 
 	return rtn;
 }
 int Schedule_UI_Add(int play_id)
 {
+	system("reset");
 	schedule_t rec;
 	int newRecCount  = 0;
 	char choice;

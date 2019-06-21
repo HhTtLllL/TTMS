@@ -24,13 +24,14 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 	Schedule_Srv_FetchByID_ticket(schedule_id,&buf);
 	Play_Srv_FetchByID(buf.play_id,&data);
 
-	printf( "========================================================\n");
+	printf( "=======================================================================\n");
 	
-	printf( "%5s %10s %10s %10s \n","NAME","studio ID","Date","Time");
-	printf( "%s  %d  %d %d %d  %d %d %d",data.name,buf.studio_id,buf.date.year,buf.date.month,buf.date.day,buf.time.hour,buf.time.minute,buf.time.second);
+	printf( "Name          Stduio ID                Date                  Time       \n");
+	printf( "%s                 %d             %d.%d.%d               %d:%d:%d\n",data.name,buf.studio_id,buf.date.year,buf.date.month,buf.date.day,buf.time.hour,buf.time.minute,buf.time.second);
 
 	printf( "[G]sheng cheng yan chu piao    [E]chong xin xheng cheng yan chu piao \n");
 	setbuf(stdin,NULL);
+	printf("Your choice:");
 	scanf("%c",&choice);
 	getchar( );
 
@@ -38,12 +39,15 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 	{
 		case'G':
 		case'g':
+			system("reset");
 			Ticket_Srv_GenBatch(schedule_id);
+			printf("Successlly!\n");
 			break;
 		case'e':
 		case'E':
 			Ticket_Srv_deleteBatch(schedule_id);
 			Ticket_Srv_GenBatch(schedule_id);
+			printf("Successlly!\n");
 			break;
 		case'q':
 		case'Q':

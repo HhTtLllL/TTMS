@@ -9,7 +9,7 @@ static const int PLAY_PAGE_SIZE = 5;
 
 void Play_UI_MgtEntry(void)
 {
-	
+	system("clear");
 	setbuf(stdin,NULL);
 	int i,id;
 	char choice;
@@ -56,6 +56,7 @@ void Play_UI_MgtEntry(void)
 		{
 			case'a':
 			case'A':
+				setbuf(stdin,NULL);
 				if(Play_UI_Add())
 				{
 					paging.totalRecords = Play_Srv_FetchAll(head);
@@ -65,7 +66,7 @@ void Play_UI_MgtEntry(void)
 			case'd':
 			case'D':
 				setbuf(stdin,NULL);
-				printf("ju mu ID  Input the ID:");
+				printf("Play_ID:");
 				scanf( "%d",&id);
 				getchar( );
 				if(Play_UI_Delete(id))
@@ -76,7 +77,8 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'u':
 			case'U':
-				printf("ju mu ID Input the ID:");
+				setbuf(stdin,NULL);
+				printf("Play_ID:");
 				scanf("%d",&id);
 				getchar( );
 				if(Play_UI_Modify(id))
@@ -87,7 +89,8 @@ void Play_UI_MgtEntry(void)
 				break;
 			case's':
 			case'S':
-				printf( " ju mu IDInput the ju mu ID:");
+				setbuf(stdin,NULL);
+				printf( "Play_ID:");
 				scanf( "%d",&id);
 				getchar( );
 				if(Play_UI_Query(id))
@@ -98,13 +101,16 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'f':
 			case'F':
-				printf( " ju mu ID Input the ID:");
+				setbuf(stdin,NULL);
+				printf( "Input the Play_ID:");
 				scanf( "%d",&id);
 				getchar( );
+				setbuf(stdin,NULL);
 				Schedule_UI_MgtEntry(id);
 				break;
 			case'p':
 			case'P':
+				setbuf(stdin,NULL);
 				if (!Pageing_IsFirstPage(paging)) 
 				{
 					Paging_Locate_OffsetPage(head, paging, -1, play_node_t);
@@ -112,6 +118,7 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'n':
 			case'N':
+				setbuf(stdin,NULL);
 				if (!Pageing_IsLastPage(paging)) 
 				{
 					Paging_Locate_OffsetPage(head, paging, 1, play_node_t);
@@ -129,7 +136,7 @@ int Play_UI_Add(void)
 	play_t rec;
 	int newRecCount = 0;
 	char choice;
-	system("reset");
+	system("clear");
 	do
 	{
 		printf( "\n=======================================================================================\n");
@@ -214,7 +221,7 @@ int Play_UI_Modify(int id)
 		return 0;
 	}
 
-	system("reset");
+	system("clear");
 	printf("=======================================================================================\n");
 	printf("*******************************updata    projection   play ****************************\n");
 	printf( "---------------------------------------------------------------------------------------\n");

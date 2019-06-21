@@ -143,8 +143,8 @@ int Studio_UI_Add(void) {
 		printf("****************  Add New Projection Room  ****************\n");
 		printf("-------------------------------------------------------\n");
 		printf("Room Name:");
-		setbuf(stdin,NULL);
-        getchar();
+	 	setbuf(stdin,NULL);
+ 	        getchar();
 		gets(rec.name);
 		printf("Row Count of Seats:");
 		scanf("%d", &(rec.rowsCount));

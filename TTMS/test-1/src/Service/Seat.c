@@ -215,7 +215,6 @@ seat_node_t * Seat_Srv_FindByRowCol(seat_list_t list, int row, int column) {
               }
        }
        if(list->data.row == row && list->data.column == column){
-              printf("->data.row = %d,col = %d\n",list->data.row,list->data.column);
               return list;
        }
        else{
