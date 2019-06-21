@@ -1,11 +1,11 @@
-/*#include "SalesAnalysis_UI.h"
+#include "SalesAnalysis_UI.h"
 #include "../Service/SalesAnalysis.h"
 #include "../Common/list.h"
 #include "../Service/Account.h"
 #include "../Service/Ticket.h"
 #include "../Service/Play.h"
 #include "../Service/Schedule.h"
-//#include "../Service/Sale.h"
+#include "../Service/Sale.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -79,4 +79,3 @@ void SalesAnalysis_UI_MgtEntry (){
     setbuf(stdin,NULL);
 	List_Destroy(head,salesanalysis_node_t);
 }
-*/

@@ -4,10 +4,10 @@
  *  Created on: 2015年6月12日
  *      Author: Administrator
  */
-/*#include <string.h>
+#include <string.h>
 #include <stdio.h>
 #include "SalesAnalysis.h"
-//#include "Sale.h"
+#include "Sale.h"
 #include "Ticket.h"
 #include "Play.h"
 #include "Schedule.h"
@@ -83,14 +83,14 @@ void SalesAnalysis_Srv_AddToSoftedList(salesanalysis_list_t list, salesanalysis_
 int Ticket_Srv_StatRevBySchID(int schedule_id, int *soldCount){
 	int value;
 	ticket_list_t list;
-	ticket_node_t * sale;
-	sale_node_t p;
+	ticket_node_t * p;
+	sale_node_t * sale;
 	*soldCount = 0;
 	List_Init(list,ticket_node_t);
 	*soldCount = Ticket_Srv_FetchBySchID(list,schedule_id);
 	List_ForEach(list,sale){
-		Sale_Srv_FetchByTicketID(sale->data.id,&p);
-		if(sale->data.status == 1){
+		Sale_Srv_FetchByTicketID(sale->data.id,sale);
+		if(p->data.status == 1&&sale->data.type == 1){
 			(*soldCount)++;
 			value+=p->data.price;
 		}
@@ -137,7 +137,6 @@ int Ticket_Srv_FetchBySchID(ticket_list_t list, int schedule_id){
 //根据票ID获取销售记录
 int Sale_Srv_FetchByTicketID(int ticket_id, sale_t *sale){
 	//wenti
-	return sale_Perst_SelByTicketID(ticket_id);
+	return sale_Perst_SelByTicketID(ticket_id,sale);
 
 }
-*/

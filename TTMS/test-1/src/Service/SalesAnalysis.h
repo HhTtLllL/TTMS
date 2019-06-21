@@ -7,7 +7,7 @@
 #ifndef SALESANALYSIS_H_
 #define SALESANALYSIS_H_
 
-//#include "Sale.h"
+#include "Sale.h"
 #include "Ticket.h"
 #include "Play.h"
 #include "Schedule.h"
