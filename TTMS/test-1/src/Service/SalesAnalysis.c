@@ -12,6 +12,7 @@
 #include "Play.h"
 #include "Schedule.h"
 #include "../Common/list.h"
+//#include "../Persistence/Sale_Persist.c"
 
 //获取剧目票房
 int SalesAnalysis_Srv_StaticSale(salesanalysis_list_t list){
@@ -31,7 +32,7 @@ int SalesAnalysis_Srv_StaticSale(salesanalysis_list_t list){
 		newNode->data.duration = pos->data.duration;
 		Ticket_Srv_StatRevBySchID(pos->data.id, newNode->data.totaltickets);
 		strcpy(newNode->data.name,pos->data.name);
-		//newNode->data.sales
+		Schedule_Srv_StatRevByPlay(pos->data.id,newNode->data.sales);
 		List_AddTail(list,newNode);
 	//wen ti 	
 	}
@@ -119,11 +120,11 @@ int Schedule_Srv_StatRevByPlay(int play_id,int *soldCount){
 }
 
 
-int Ticket_Srv_FetchBySchID(ticket_list_t list, int schedule_id){
+int Ticket_Srv_FetchBySchID( int schedule_id,ticket_list_t list){
 	int Count = 0;
 	ticket_list_t tickList;
 	List_Free(list,ticket_node_t);
-	Count = Ticket_Perst_SelectBySchID(tickList,schedule_id);
+	Count = Ticket_Perst_SelBySchID(schedule_id,tickList);
 	if(Count<=0){
 		List_Destroy(tickList,ticket_node_t);
 		return 0;
@@ -137,6 +138,6 @@ int Ticket_Srv_FetchBySchID(ticket_list_t list, int schedule_id){
 //根据票ID获取销售记录
 int Sale_Srv_FetchByTicketID(int ticket_id, sale_t *sale){
 	//wenti
-	return sale_Perst_SelByTicketID(ticket_id,sale);
+	return Sale_Perst_SelByTicketID(ticket_id,sale);
 
 }

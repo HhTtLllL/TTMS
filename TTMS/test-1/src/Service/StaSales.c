@@ -10,7 +10,7 @@ int StaSales_Srv_CompSaleVal(int usrID, ttms_date_t stDate, ttms_date_t endDate)
 	sale_list_t saleList;
 	sale_node_t *pSale;
 	List_Init(saleList,sale_node_t);
-	sale_Perst_SelByID(saleList,usrID);
+	Sale_Perst_SelByID(saleList,usrID);
 	List_ForEach(saleList,pSale)
 	{
 		amount+=pSale->data.value;

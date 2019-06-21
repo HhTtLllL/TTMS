@@ -11,6 +11,7 @@ static const int TICKET_PAGE_SIZE = 10;
 
 void Sale_UI_MgtEntry()
 {
+	system("clear");
 	char choice; 
 	char name[20];
 	int i;
@@ -32,12 +33,12 @@ void Sale_UI_MgtEntry()
 
 	do
 	{	printf(
-				"\n=======================================================================================\n");
+				"\n======================================================================================\n");
 		printf(
-				"****************************** Projection Play List ***********************************\n");
+				"***************************** Projection Play List ***********************************\n");
 
 		printf( "%5s %15s %5s %10s %3s %3s %10s %10s     %3s\n","ID","NAME","TYPE","AREA","RATING","DURATION","STARTDATA","ENDDATA","PRICE");
-		printf( "---------------------------------------------------------------------------------------\n");
+		printf( "--------------------------------------------------------------------------------------\n");
 
 		Paging_ViewPage_ForEach(list,paging,play_node_t,pos,i)
 		{
@@ -45,13 +46,13 @@ void Sale_UI_MgtEntry()
 		}
 	
 
-		printf( "-----------------Total Recoeds: %2d---------------------------Page %2d   %2d   -----------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
+		printf( "----------------Total Recoeds: %2d---------------------------Page %2d   %2d   -----------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
 	
-		printf("***************************************************************************************\n");
+		printf("**************************************************************************************\n");
 
 
-		printf( "[C]show Schedule      [S]find play name     [F]ind play name        [P]rev       [N]ext         [R]eturn          \n");
-		printf( "===================================================================================================================\n");
+		printf( "[C]show Schedule      [S]find play name          [P]rev       [N]ext         [R]eturn          \n");
+		printf( "======================================================================================\n");
 		printf("please input your choice : ");
 		setbuf(stdin,NULL);
 		scanf( "%c",&choice);
@@ -70,7 +71,7 @@ void Sale_UI_MgtEntry()
 				printf( "please input the Play_ name :");
 				setbuf(stdin,NULL);
 				gets(name);
-
+				system("clear");
 				Play_Srv_FetchByName(list_fetch,name);
 				Play_Srv_Print(list_fetch);
 				break;
@@ -98,6 +99,7 @@ void Sale_UI_MgtEntry()
 
 void Sale_UI_ShowScheduler(int play_id)     //通过 剧目ID 显示 演出计划
 {
+	system("clear");
 	int i;
 	char choice;
 	int schedule_id;
@@ -116,19 +118,19 @@ void Sale_UI_ShowScheduler(int play_id)     //通过 剧目ID 显示 演出计�
 
 	do
 	{
-		printf( "=========================================================\n");
-		printf( "*********************Schedule  List**********************\n");
-		printf( "---------------------------------------------------------\n");
+		printf( "===================================================================================================\n");
+		printf( "*****************************************Schedule  List*******************************************\n");
+		printf( "---------------------------------------------------------------------------------------------------\n");
 
-		printf( "|%15s | %15s |%15s |%15s |%15s |%15s |","yan chu ID","shang ying ju mu","yan chu ding id","fang ying ri qi","fang ying shi jian","seat_count\n");
-		printf( "---------------------------------------------------------------\n");
+		printf( " Schedule ID     Play ID      Stdio ID       fang ying ri qi     fang ying shi jian     seat_count\n");
+		printf( "---------------------------------------------------------------------------------------------------\n");
 		Paging_ViewPage_ForEach(list,paging,schedule_node_t,pos,i)
 		{
-			printf( "%3d   %3d   %3d   %3d  %3d  %3d     %3d    %3d        %3d                      %3d  \n",pos->data.id,pos->data.play_id,pos->data.studio_id,pos->data.date.year,pos->data.date.month,pos->data.date.day,pos->data.time.hour,pos->data.time.minute,pos->data.time.second,pos->data.seat_count);
+			printf( "         %3d         %3d          %3d             %3d.%2d.%2d           %3d:%3d:%3d               %d  \n",pos->data.id,pos->data.play_id,pos->data.studio_id,pos->data.date.year,pos->data.date.month,pos->data.date.day,pos->data.time.hour,pos->data.time.minute,pos->data.time.second,pos->data.seat_count);
 
 		}
 
-		printf( "-----totalRecords : %2d  ------------Page %2d /%2d ---------------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
+		printf( "-----totalRecords : %2d  -----------------------------Page %2d /%2d ------------------------------------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
 		
 		printf( "[T] Show Ticket     [N]ext     [P]rev    [R]eturn \n");
 		printf( "Your choice : ");
@@ -195,22 +197,23 @@ int Sale_UI_ShowTicket(int schedule_id)
 	List_Init(list_ti,ticket_node_t);
 
 	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
+
 	Paging_Locate_FirstPage(list_ti,paging);
 	do
 	{
+		system("clear");
 	//	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
-		printf( "======================================\n");
-		printf( "************Ticket********************\n");
-		printf( "--------------------------------------\n");
-		printf( "Ticket ID          Scheuid ID         Seat ID   Price               Ticket Status\n");
+		printf( "====================================================================================\n");
+		printf( "*****************************************Ticket*************************************\n");
+		printf( "------------------------------------------------------------------------------------\n");
+		printf( "Ticket ID          Scheuid ID         Seat ID       Price             Ticket Status\n");
 		Paging_ViewPage_ForEach(list_ti,paging,ticket_t,pos,i)
 		{
-			printf("%5d         %5d         %5d           %5d      %5d\n",pos->data.id,pos->data.schedule_id,pos->data.seat_id,pos->data.price,pos->data.status);
+			printf("  %5d               %5d            %5d      %5d                     %5d\n",pos->data.id,pos->data.schedule_id,pos->data.seat_id,pos->data.price,pos->data.status);
 		}
 
-		printf( "------Total Records  : %2d ------------Page %2d / %2d-----\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
+		printf( "------Total Records  : %2d ------------------------Page %2d / %2d----------------------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
 
-		printf( "*********************************************************\n");
 		printf( "[N]ext    [P]rev    [S]ale Ticket      [R]eturn    \n");
 		printf( "Your choice:");
 		scanf( "%c",&choice);
@@ -234,8 +237,9 @@ int Sale_UI_ShowTicket(int schedule_id)
 				break;
 			case'S':
 			case's':
-				Sale_UI_SellTicket(list_ti,list);
-			//	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
+			
+				if(Sale_UI_SellTicket(list_ti,list))
+					paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
 				break;
 
 		}
@@ -282,7 +286,6 @@ int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 		ticket_t buf;
 		account_t buf_a;
 
-		printf("seat->id = %d\n",seat->data.id);
 		Ticket_Srv_FetchByID(seat->data.id,&buf);
 		if(buf.status == 1)
 		{

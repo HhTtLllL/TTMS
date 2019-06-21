@@ -17,10 +17,7 @@ int  Ticket_Srv_GenBatch(int schedule_id)
 	schedule_t buf;
 	
 	Schedule_Srv_FetchByID_ticket(schedule_id,&buf);
-	printf( "studio_id = %d\n",buf.studio_id);
 	count = Seat_Srv_FetchValidByRoomID(seat_head,buf.studio_id);
-	printf( "Seat  count =  %d\n",count);
-		getchar( );
 	Ticket_Perst_Insert(seat_head,schedule_id);
 
 	return count;

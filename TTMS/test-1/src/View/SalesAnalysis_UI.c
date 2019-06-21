@@ -22,10 +22,9 @@ void SalesAnalysis_UI_MgtEntry (){
     paging.offset = 0;
 	paging.pageSize = SALESANALYSIS_PAGE_SIZE;
 
-    paging.totalRecords = SalesAnalysis_Srv_FetchAll(head);
+    paging.totalRecords = SalesAnalysis_Srv_StaticSale(head);
 	Paging_Locate_FirstPage(head, paging);
 
-    SalesAnalysis_Srv_StaticSale(head);
     SalesAnalysis_Srv_SortBySale(head);
     do{
         

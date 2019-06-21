@@ -57,7 +57,6 @@ int Ticket_Perst_Insert(seat_list_t  list,int schedule_id)
 	}
 
 	fclose(fp);
-	printf( " sheng cheng yan chu piao : %d \n",sum);
 	return rtn;
 
 }

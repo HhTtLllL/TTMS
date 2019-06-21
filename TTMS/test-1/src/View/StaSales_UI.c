@@ -3,7 +3,7 @@
 #include "../Common/list.h"
 #include "../Service/Sale.h"
 #include "../Service/Account.h"
-
+//#include "../Service/SalesAnalysis.h"
 //统计销售额界面
 void StaSales_UI_MgtEntry (){
     if(gl_CurUser.type==USR_CLERK){
@@ -35,11 +35,11 @@ void StaSales_UI_Self(){
     switch(choice){
         case 'd':
         case 'D'://当日
-        Salesanalysis_Srv_CompSaleVal(id,curdate,curdate);
+        SalesanAlysis_Srv_CompSaleVal(id,curdate,curdate);
         break;
         case 'm':
         case 'M'://当月
-        Salesanalysis_Srv_CompSaleVal(id,startdate,enddate);
+        SalesanAlysis_Srv_CompSaleVal(id,startdate,enddate);
         break;
     }
 
