@@ -3,14 +3,19 @@
 #include "../Common/list.h"
 #include "../Service/Sale.h"
 #include "../Service/Account.h"
-//#include "../Service/SalesAnalysis.h"
+#include "../Service/SalesAnalysis.h"
 //统计销售额界面
 void StaSales_UI_MgtEntry (){
+
     if(gl_CurUser.type==USR_CLERK){
         StaSales_UI_Self();
     }
     else if(gl_CurUser.type==USR_MANG){
         StaSales_UI_Clerk();
+    }
+    else{
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
     }
 }
 
@@ -35,11 +40,11 @@ void StaSales_UI_Self(){
     switch(choice){
         case 'd':
         case 'D'://当日
-        SalesanAlysis_Srv_CompSaleVal(id,curdate,curdate);
+        printf("Your sales this day are %d\n",SalesAnalysis_Srv_CompSaleVal(id,curdate,curdate));
         break;
         case 'm':
         case 'M'://当月
-        SalesanAlysis_Srv_CompSaleVal(id,startdate,enddate);
+        printf("Your sales this month are %d\n",SalesAnalysis_Srv_CompSaleVal(id,startdate,enddate));
         break;
     }
 
@@ -62,9 +67,11 @@ void StaSales_UI_Clerk(){
         scanf("%d%d%d",startdate.year,startdate.month,startdate.day);
         printf("please input enddate(year month day):");
         scanf("%d%d%d",enddate.year,enddate.month,enddate.day);
-        Salesanalysis_Srv_CompSaleVal(id,startdate,enddate);
+        printf("The salesman's sales during this period are %d\n",SalesAnalysis_Srv_CompSaleVal(id,startdate,enddate));
     }
     else{
+        printf("the user is not in this company!!,please input [Enter]");
+        getchar();
         return 0;
     }
 }

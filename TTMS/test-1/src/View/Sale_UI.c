@@ -196,7 +196,7 @@ int Sale_UI_ShowTicket(int schedule_id)
 	
 	List_Init(list_ti,ticket_node_t);
 
-	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
+	paging.totalRecords = Ticket_Srv_FetchBySchID(list_ti,schedule_id);
 
 	Paging_Locate_FirstPage(list_ti,paging);
 	do

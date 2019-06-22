@@ -13,7 +13,12 @@ int StaSales_Srv_CompSaleVal(int usrID, ttms_date_t stDate, ttms_date_t endDate)
 	Sale_Perst_SelByID(saleList,usrID);
 	List_ForEach(saleList,pSale)
 	{
-		amount+=pSale->data.value;
+		if(pSale->data.date.day<=endDate.day&&pSale->data.date.day>=stDate.day&&
+		pSale->data.date.year<=endDate.year&&pSale->data.date.year>=stDate.year&&
+		pSale->data.date.month<=endDate.month&&pSale->data.date.month>=stDate.month
+		){
+			amount += pSale->data.value;
+		}
 	}
 	return amount;
 }

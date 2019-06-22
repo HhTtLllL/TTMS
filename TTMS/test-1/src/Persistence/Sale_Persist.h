@@ -11,4 +11,5 @@ int Ticket_Srv_SelBySchID(int id,ticket_list_t list);
 int Sale_Perst_SelByTicketID (int ticket_id, sale_t *sale);
 
 int Sale_Perst_SelByID (sale_list_t list, int usrID);
+
 #endif

@@ -6,14 +6,19 @@
 * Version:  v.1 	 
 * Da
 */
-
+#include "MaiAccount_UI.h"
 #include "../View/Main_Menu.h"
-
+#include "SalesAnalysis_UI.h"
 #include <stdio.h>
-
+#include "StaSales_UI.h"
 #include "../View/Studio_UI.h"
 //ϵͳ���˵� 
 void Main_Menu(void) {
+	if(SysLogin()==0){
+		return ;
+	}
+	
+	
 	char choice;
 	do { 
 		printf("\n==================================================================\n");
@@ -23,9 +28,10 @@ void Main_Menu(void) {
 		printf("[T]icket Sale.\n");
 		printf( "[B]cha xun yan chu .\n");
 		printf("[R]eturn Ticket.\n");
-		printf("[Q]ueries\n");
-		printf("[R]anking and Statistics.\n");
+		printf("StaSales_[U]I_MgtEntry\n");
+		printf("Sa[l]esAanalysis.\n");
 		printf("[A]ccount Management.\n");
+		printf("[M]aiAccount\n");
 		printf("[E]xist.\n");
 		printf("\n==================================================================\n");
 		printf("Please input your choice:");
@@ -51,10 +57,6 @@ void Main_Menu(void) {
 		case'T':
 			printf( "查询演出票 \n");
 			Ticket_UI_Query();
-			break;
-		case 'Q':
-		case 'q':
-			Queries_Menu();
 			break;*/
 		case 'T':
 		case 't':
@@ -64,15 +66,24 @@ void Main_Menu(void) {
 		case 'r':
 			Sale_UI_ReturnTicket();
 			break;
-/*		case 'N':
-		case 'n':
+		case 'U':
+		case 'u':
+			StaSales_UI_MgtEntry();
+			break;
+		case 'L':
+		case 'l':
 			SalesAanalysis_UI_MgtEntry();
-			break;*/
+			break;
 		case 'A':
 		case 'a':
 			Account_UI_MgtEntry();
 			break;
+		case 'M':
+		case 'm':
+			MaiAccount_UI_MgtEntry();
+			break;
 		}
+		
 	} while ('E' != choice && 'e' != choice);
 }
 

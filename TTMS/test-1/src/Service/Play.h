@@ -1,6 +1,8 @@
 #ifndef PLAY_H_
 #define PLAY_H_
 
+#include "../Common/common.h"
+
 typedef enum      //type
 {
 	PLAY_TYPE_FILE = 1,
@@ -57,5 +59,6 @@ int Play_Srv_DeleteByID(int id);           //geng ju id shan chu ju mu
 int Play_Srv_FetchByID(int id,play_t *buf);     //   geng ju id huo qu ju mu
 
 int Play_Srv_FetchByName(play_list_t list,char condt[]);
+
 
 #endif

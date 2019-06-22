@@ -14,24 +14,47 @@ char ch;
 
 //系统登录
 int SysLogin(){
+		system("clear");
+		printf(
+    "       ********\n"
+    "      ************\n"                                              
+    "      ####....#.      ##########  ##########  ####     ####         ############\n"
+    "    #..###.....##.... ##########  ##########  #############       ######\n"
+    "    ###.......######     ###         ###      ###  ###  ###      #####\n"
+    "       ...........       #.#         #.#      ###   #   ###       #####\n"
+    "      ##*#######         ###         ###      ###       ###          #####\n"
+    "   ####*******######     #.#         #.#      ###       ###             #####\n"
+    "  ...#***.****.*###....  #.#         #.#      ###       ###               #####\n"
+    "  ....**********##.....  ###         ###      ###       ###                #####\n"
+    "  ....****    *****....                                               ########\n"                                  
+    "    ####        ####                                             ##########\n"
+    "  ######        ######            欢迎使用TTMS影院管理系统\n"                     
+    "################################################################################\n"
+    "#...#......#.##...#......#.##...#......#.##------------------------------------#\n"
+    "#..#....#....##..#....#....##..#....#....#######################################\n"
+    "##########################################                     #----------#\n"
+    "##########################################                     ############\n"
+    );
 		Account_Srv_InitSys();
 		int i = 0;
 		while(i<3){
 			char usrName[20],pwd[20];
 			printf("please input you name :");
 			setbuf(stdin,NULL);
-        	getchar();
+
 			gets(usrName);
+			//printf("%s\n",usrName);
 			printf("please input you password :");
 			setbuf(stdin,NULL);
-        	getchar();
+
 			gets(pwd);
+			//printf("%s\n",pwd);
 			if(Account_Srv_Verify(usrName,pwd)){
 				printf("the user is accept\n");
 				return 1;
 			}
 			else{
-				printf("login in eor");
+				printf("login in error\n");
 				i++;
 			}
 		}
@@ -51,6 +74,7 @@ char Account_UI_Status2Char(account_type_t status) {
 
 
 void Account_UI_MgtEntry(void) {
+	
 	int i,id;
 	char choice,usrName[20];
 
@@ -207,7 +231,7 @@ int Account_UI_Add(account_list_t list){
 			getchar();
 			printf("please input you want type :\n");
 			printf("===================================================================\n");
-			printf("[0]匿名用户  |  [1]售票员  |  [2]经理  |  [9]系统管理员");
+			printf("[0]匿名用户  |  [1]售票员  |  [2]经理  |  [9]系统管理员:");
 
 			setbuf(stdin,NULL);
 			scanf("%d",&data.type);
@@ -245,7 +269,7 @@ int Account_UI_Modify(account_list_t list,char usrName[]){
 			//char ch;while((ch=getchar())!='\n'&&ch!=EOF);
 			scanf("%s", password);
 			if(strcmp(password,temp->data.password)==0){
-				printf("mod error,password 相同,please choice next\n");
+				printf("mod error,password the same,please choice next\n");
 				printf("[0]exit  |   [1]input again\n");
 				scanf("%d",&choice);
 				setbuf(stdin,NULL);
