@@ -127,11 +127,11 @@ void Schedule_UI_ListAll(void)
 		{
 			//if(i % paging.pageSize != 0)
 			{
-				printf( "%5s %20s %5s %10s %3s %3s %8s %8s %3s\n","ID","NAME","TYPE","AREA","RATING","DURATION","STARTDATA","ENDDATA","PRICE");
+				printf( "%5s %20s %5s %10s %3s %3s %8s %8s %3s\n","Schedule ID","Schedule NAME","TYPE","AREA","RATING","DURATION","STARTDATA","ENDDATA","PRICE");
 				Play_Srv_FetchByID(pos->data.play_id,&play);
 				printf( "%5d %20s %5d %10s %3d %3d %4d %2d %2d %4d %2d %2d %4d\n",play.id,play.name,play.type,play.area,play.rating,play.duration,play.start_date.year,play.start_date.month,play.start_date.day,play.end_date.year,play.end_date.month,play.end_date.day,play.price);	
 				Studio_Srv_FetchByID(pos->data.studio_id,&studio);
-				printf("%5s  %18s  %10s  %10s  %10s\n", "ID", "Name", "Rows Count","Columns Count", "Seats Count");
+				printf("%5s  %18s  %10s  %10s  %10s\n", "Stduio ID", "Stdio Name", "Rows Count","Columns Count", "Seats Count");
 				printf("%5d  %18s  %10d  %10d  %10d\n", studio.id,studio.name,studio.rowsCount,studio.colsCount,studio.seatsCount);
 			}
 		}
