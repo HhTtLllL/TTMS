@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "account_ui.h": "c",
+        "maiaccount_ui.h": "c"
+    }
+}
