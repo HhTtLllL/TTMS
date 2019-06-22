@@ -3,7 +3,7 @@
 #include <stdio.h>
 #include "../Common/list.h"
 #include "../Service/Account.h"
-
+//extern  account_t gl_CurUser;
 //维护个人资料界面
 void MaiAccount_UI_MgtEntry () {
     account_t cdata = gl_CurUser;

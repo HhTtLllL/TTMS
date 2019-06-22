@@ -2,7 +2,7 @@
 #define STASALES_UI_H_
 
 #include "../Common/list.h"
-//#include "../Service/Sale.h"
+#include "../Service/Sale.h"
 #include "../Service/Account.h"
 
 static const int STASALES_PAGE_SIZE=6;

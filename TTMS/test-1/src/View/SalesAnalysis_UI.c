@@ -1,11 +1,11 @@
-/*#include "SalesAnalysis_UI.h"
+#include "SalesAnalysis_UI.h"
 #include "../Service/SalesAnalysis.h"
 #include "../Common/list.h"
 #include "../Service/Account.h"
 #include "../Service/Ticket.h"
 #include "../Service/Play.h"
 #include "../Service/Schedule.h"
-//#include "../Service/Sale.h"
+#include "../Service/Sale.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,10 +22,9 @@ void SalesAnalysis_UI_MgtEntry (){
     paging.offset = 0;
 	paging.pageSize = SALESANALYSIS_PAGE_SIZE;
 
-    paging.totalRecords = SalesAnalysis_Srv_FetchAll(head);
+    paging.totalRecords = SalesAnalysis_Srv_StaticSale(head);
 	Paging_Locate_FirstPage(head, paging);
 
-    SalesAnalysis_Srv_StaticSale(head);
     SalesAnalysis_Srv_SortBySale(head);
     do{
         
@@ -79,4 +78,3 @@ void SalesAnalysis_UI_MgtEntry (){
     setbuf(stdin,NULL);
 	List_Destroy(head,salesanalysis_node_t);
 }
-*/
