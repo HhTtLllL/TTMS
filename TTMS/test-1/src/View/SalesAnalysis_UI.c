@@ -26,9 +26,7 @@ void SalesAanalysis_UI_MgtEntry(){
 	Paging_Locate_FirstPage(head, paging);
     SalesAnalysis_Srv_SortBySale(head);
 	salesanalysis_node_t * newNode;
-	List_ForEach(head,newNode){
-		printf("play:%s\n",newNode->data.name);
-	}
+
     do{
         
         printf(

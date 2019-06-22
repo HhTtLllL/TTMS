@@ -26,10 +26,10 @@ void Main_Menu(void) {
 		printf("[S]tudio Management.\n");
 		printf("[P]lay Management.\n");
 		printf("[T]icket Sale.\n");
-		printf( "[B]cha xun yan chu .\n");
+		printf("[B]cha xun yan chu .\n");
 		printf("[R]eturn Ticket.\n");
-		printf("StaSales_[U]I_MgtEntry\n");
-		printf("Sa[l]esAanalysis.\n");
+		printf("StaSa[L]es\n");
+		printf("[Q]SalesAanalysis.\n");
 		printf("[A]ccount Management.\n");
 		printf("[M]aiAccount\n");
 		printf("[E]xist.\n");
@@ -66,12 +66,12 @@ void Main_Menu(void) {
 		case 'r':
 			Sale_UI_ReturnTicket();
 			break;
-		case 'U':
-		case 'u':
-			StaSales_UI_MgtEntry();
-			break;
 		case 'L':
 		case 'l':
+			StaSales_UI_MgtEntry();
+			break;
+		case 'Q':
+		case 'q':
 			SalesAanalysis_UI_MgtEntry();
 			break;
 		case 'A':

@@ -25,7 +25,7 @@ int SalesAnalysis_Srv_StaticSale(salesanalysis_list_t list){
 	List_Free(list,salesanalysis_node_t);
 	List_Init(playList,play_node_t);
 	Play_Srv_FetchAll(playList);
-	//printf("%d\n",playList->next->data.id);
+
 	List_ForEach(playList,pos){
 		sold++;
 		newNode = (salesanalysis_node_t *)malloc(sizeof(salesanalysis_node_t));
@@ -39,9 +39,7 @@ int SalesAnalysis_Srv_StaticSale(salesanalysis_list_t list){
 		newNode->data.sales = Schedule_Srv_StatRevByPlay(pos->data.id,&newNode->data.totaltickets);
 		List_AddTail(list,newNode);	
 	}
-	/*List_ForEach(list,newNode){
-		printf("play:%d\n",newNode->data.play_id);
-	}*/
+
 	List_Destroy(playList,play_node_t);
 	return sold;
 
@@ -102,11 +100,11 @@ int Ticket_Srv_StatRevBySchID(int schedule_id, int *soldCount){
 	*soldCount = Ticket_Srv_FetchBySchID(list,schedule_id);
 	List_ForEach(list,p){
 		Sale_Srv_FetchByTicketID(sale->data.id,sale);
-		printf("pr : %d  ",p->data.price);
+		//printf("pr : %d  ",p->data.price);
 		if(p->data.status == 1&&sale->data.type == 1){
 			(*soldCount)++;
 			value+=p->data.price;
-			printf("pr : %d  ",p->data.price);
+			//printf("pr : %d  ",p->data.price);
 		}
 	}
 	List_Destroy(list,ticket_node_t);
