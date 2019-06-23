@@ -93,18 +93,23 @@ int Ticket_Srv_StatRevBySchID(int schedule_id, int *soldCount){
 
 	ticket_list_t list;
 	ticket_node_t * p;
-	sale_node_t * sale;
+	
 	*soldCount = 0;
 	List_Init(list,ticket_node_t);
-
+//haode          
 	*soldCount = Ticket_Srv_FetchBySchID(list,schedule_id);
+	//printf("\n\n\n%d\n\n\n",list->next->data.price);
+	
 	List_ForEach(list,p){
-		Sale_Srv_FetchByTicketID(sale->data.id,sale);
-		//printf("pr : %d  ",p->data.price);
+		//printf("dadasdasad d\n");
+		sale_node_t * sale = (sale_node_t * )malloc(sizeof(sale_node_t));
+		int ci = Sale_Srv_FetchByTicketID(p->data.id,sale);
+		//printf("pr :fdsfdsfsdfdsfds %d  ",p->data.price);
+		//printf("pr : %d.........%d..........",p->data.status,ci);
 		if(p->data.status == 1&&sale->data.type == 1){
 			(*soldCount)++;
 			value+=p->data.price;
-			//printf("pr : %d  ",p->data.price);
+			//printf("pr : %d.........  ",p->data.price);
 		}
 	}
 	List_Destroy(list,ticket_node_t);
@@ -120,12 +125,12 @@ int Schedule_Srv_StatRevByPlay(int play_id,int *soldCount){
 	*soldCount = 0;
 	List_Init(list,schedule_node_t);
 	Schedule_Perst_SelectByPlay(list,play_id);
-	
+	//haode
 	List_ForEach(list,p){
 		value+=Ticket_Srv_StatRevBySchID(p->data.id,&sold);
 		*soldCount = *soldCount + sold;
 	}
-	printf("%d ",value);
+	//printf("%d ",value);
 	List_Destroy(list,schedule_node_t);
 
 	return value;
@@ -136,14 +141,23 @@ int Schedule_Srv_StatRevByPlay(int play_id,int *soldCount){
 int Ticket_Srv_FetchBySchID(ticket_list_t list, int schedule_id){
 	int Count = 0;
 	List_Free(list,ticket_node_t);
-	ticket_list_t tickList;
-	List_Init(tickList,ticket_node_t);
-	Count = Ticket_Perst_SelBySchID(schedule_id,tickList);
+	//ticket_list_t tickList,ticcc;
+	//List_Init(tickList,ticket_node_t);
+	//gengai
+	
+	Count = Ticket_Perst_SelBySchID(schedule_id,list);
+	//List_ForEach(list,ticcc){
+	//	printf(" tick ::%d  \n",ticcc->data.status);
+	//}
+	
 	if(Count<=0){
-		List_Destroy(tickList,ticket_node_t);
+		//List_Destroy(list,ticket_node_t);
 		return 0;
 	}
 	else{
+		//printf("count = %d",Count);
+		//list = tickList;
+		//List_Free(list,ticket_node_t);
 		return Count;
 	}
 

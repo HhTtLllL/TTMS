@@ -74,6 +74,10 @@ char Account_UI_Status2Char(account_type_t status) {
 
 
 void Account_UI_MgtEntry(void) {
+	if(gl_CurUser.type!=USR_ADMIN){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+    }
 	
 	int i,id;
 	char choice,usrName[20];
