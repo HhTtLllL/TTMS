@@ -18,12 +18,7 @@
 锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟斤拷锟斤拷锟斤拷锟斤拷锟轿伙拷谋锟街撅拷锟�?
 */
 
-/*int Seat_UI_Status2Char(seat_status_t status){
-	// 锟诫补锟斤拷锟斤拷锟斤拷
 
-       return 0;
-}
-*/
 int Seat_Srv_Add(const seat_t *data){
 
        return Seat_Perst_Insert(data);
@@ -102,7 +97,6 @@ int Seat_Srv_FetchByRoomID(seat_list_t list, int roomID){
 
 int Seat_Srv_FetchValidByRoomID(seat_list_t list, int roomID)
 {
-       //??????不确定？？？？？
        int SeatCount;
        SeatCount = Seat_Perst_SelectByRoomID(list,roomID);
        seat_list_t temp = list;
@@ -129,10 +123,9 @@ int Seat_Srv_FetchValidByRoomID(seat_list_t list, int roomID)
 int Seat_Srv_RoomInit(seat_list_t list, int roomID, int rowsCount,int colsCount) {
 
        seat_list_t tem;
-       //List_Init(list,seat_node_t);
        for(int i = 1;i <= rowsCount;i++){
               for(int j = 1;j <= colsCount;j++){
-                     //printf("jincneglllll\n");
+ 
                      tem = (seat_list_t)malloc(sizeof(seat_node_t));
                      tem->data.column = j;
                      tem->data.row = i;
@@ -181,7 +174,7 @@ void Seat_Srv_SortSeatList(seat_list_t list) {
 */
 
 void Seat_Srv_AddToSoftedList(seat_list_t list, seat_node_t *node) {
-       //问题
+
        seat_list_t p ;
        assert(list!=NULL && node!=NULL);
        if(List_IsEmpty(list)){

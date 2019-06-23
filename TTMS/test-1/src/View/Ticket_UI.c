@@ -2,8 +2,7 @@
 #include"../Common/list.h"
 #include"../Service/Ticket.h" 
 #include"../Service/Schedule.h"
-
-
+#include "../Service/Account.h"
 //#include"../Service/Schedule.h"
 #include"../Service/Play.h"
 static const int TICKET_PAGE_SIZE = 5;
@@ -13,6 +12,11 @@ static const int TICKET_PAGE_SIZE = 5;
 
 void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de yan chu ji hua de xn xi
 {   //schedule_id      piaos his yu piao xiang guan de yan chu ji hua de ID hao 
+	/*if(gl_CurUser.type!=USR_MANG || gl_CurUser.type!=USR_ANOMY){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+    }*/
 
 	int i,id;
 	int yan_id;
@@ -39,7 +43,7 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 	{
 		case'G':
 		case'g':
-			system("reset");
+			system("clear");
 			Ticket_Srv_GenBatch(schedule_id);
 			printf("Successlly!\n");
 			break;

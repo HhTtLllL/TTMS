@@ -50,7 +50,8 @@ int SysLogin(){
 			gets(pwd);
 			//printf("%s\n",pwd);
 			if(Account_Srv_Verify(usrName,pwd)){
-				printf("the user is accept\n");
+				printf("Welcome distinguished users,please input [Enter]!\n");
+				getchar();
 				return 1;
 			}
 			else{
@@ -77,8 +78,9 @@ void Account_UI_MgtEntry(void) {
 	if(gl_CurUser.type!=USR_ADMIN){
         printf("you can't join in there!please input the [Enter]");
         getchar();
+		return 0;
     }
-	
+
 	int i,id;
 	char choice,usrName[20];
 
@@ -99,7 +101,7 @@ void Account_UI_MgtEntry(void) {
 		printf(
 				"\n==================================================================\n");
 		printf(
-				"********************* Account guangli jiemian *********************\n");
+				"******************* Account Management Interface *******************\n");
 		printf("%7s  %18s  %18s  %15s\n", "ID", "username", "password",
 				"type");
 		printf(
@@ -168,7 +170,7 @@ void Account_UI_MgtEntry(void) {
     				List_Paging(head, paging, account_node_t);
     			}
                 else{
-                    printf("chaxun error\n");
+                    printf("query error\n");
                 }
                 break;
             case 'm':
@@ -214,7 +216,7 @@ int Account_UI_Add(account_list_t list){
 		printf("please input you want add newname :");
 		setbuf(stdin,NULL);
 		scanf("%s",data.username);
-		//gets(data.password);
+
 		getchar();
 		printf("===================================================================\n");
 		account_list_t temp = Account_Srv_FindByUsrName(list,data.username);
@@ -229,9 +231,9 @@ int Account_UI_Add(account_list_t list){
     	else{
     	    printf("please input you want passsword :");
 			setbuf(stdin,NULL);
-        	//getchar();
+
 			scanf("%s",data.password);
-			//gets(data.password);
+
 			getchar();
 			printf("please input you want type :\n");
 			printf("===================================================================\n");
@@ -252,8 +254,6 @@ int Account_UI_Add(account_list_t list){
 		setbuf(stdin,NULL);
 		scanf("%c", &choice);
 		char ch;while((ch=getchar())!='\n'&&ch!=EOF);
-		//printf("%d   ss",choice);
-		//getchar();
 
     	}
 	}while('a' == choice || 'A' == choice);
@@ -270,7 +270,7 @@ int Account_UI_Modify(account_list_t list,char usrName[]){
 			char password[20];
 			printf("prease input the new password:");
 			setbuf(stdin,NULL);
-			//char ch;while((ch=getchar())!='\n'&&ch!=EOF);
+			
 			scanf("%s", password);
 			if(strcmp(password,temp->data.password)==0){
 				printf("mod error,password the same,please choice next\n");
@@ -318,7 +318,7 @@ int Account_UI_Query(account_list_t list,char usrName[]){
 		printf("user password:%s\n",temp->data.password);
 		printf("user username:%s\n",temp->data.username);
 		printf("user type:%c\n",Account_UI_Status2Char(temp->data.type));
-		//printf("\n\n\n\n\n\n\n\n\n");
+		
 		return 1;
 	}
 	return 0;

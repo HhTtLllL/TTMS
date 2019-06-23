@@ -10,7 +10,7 @@
 
 #include "Seat_UI.h"
 #include "../Service/Seat.h"
-
+#include "../Service/Account.h"
 #include "../Service/Studio.h"
 #include "../Common/list.h"
 #include <stdio.h>
@@ -37,6 +37,11 @@ inline seat_status_t Seat_UI_Char2Status(char statusChar) {
 
 
 void Seat_UI_MgtEntry(int roomID) {
+    /*if(gl_CurUser.type!=USR_MANG){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+    }*/
 
     studio_t rec;
     char choice;

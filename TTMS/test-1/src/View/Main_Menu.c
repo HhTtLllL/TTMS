@@ -12,6 +12,7 @@
 #include <stdio.h>
 #include "StaSales_UI.h"
 #include "../View/Studio_UI.h"
+
 //ϵͳ���˵� 
 void Main_Menu(void) {
 	if(SysLogin()==0){
@@ -26,7 +27,7 @@ void Main_Menu(void) {
 		printf("[S]tudio Management.\n");
 		printf("[P]lay Management.\n");
 		printf("[T]icket Sale.\n");
-		printf("[B]cha xun yan chu .\n");
+		printf("[I]nquiry Performance.\n");
 		printf("[R]eturn Ticket.\n");
 		printf("StaSa[L]es\n");
 		printf("[Q]SalesAanalysis.\n");
@@ -49,15 +50,10 @@ void Main_Menu(void) {
 		case 'p':
 			Play_UI_MgtEntry();
 			break;
-		case'B':
-		case'b':
+		case'I':
+		case'i':
 			Schedule_UI_ListAll();
 			break;
-/*		case't':
-		case'T':
-			printf( "查询演出票 \n");
-			Ticket_UI_Query();
-			break;*/
 		case 'T':
 		case 't':
 			Sale_UI_MgtEntry();

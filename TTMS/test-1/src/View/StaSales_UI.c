@@ -59,9 +59,14 @@ void StaSales_UI_Clerk(){
     ttms_date_t startdate,enddate;
 
     char Usrname[20];
-    printf("please input the shouhuyuan username:");
+    printf("please input the Salesperson username:");
     scanf("%s",Usrname);
     if(Account_Srv_FetchByName(Usrname,&tem)){
+        if(tem.type!=USR_CLERK){
+            printf("This man is not a salesman,please input [Enter]");
+            getchar();
+            return ;
+        }
         id = tem.id;
         printf("please input startdate(year month day):");
         scanf("%d%d%d",startdate.year,startdate.month,startdate.day);

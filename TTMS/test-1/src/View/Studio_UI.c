@@ -7,7 +7,7 @@
 * Version:  v.1 	 
 * Date: 	2015��4��22��	
 */
-
+#include "../Service/Account.h"
 #include "../View/Studio_UI.h"
 #include "../Common/list.h"
 #include "../Service/Studio.h"
@@ -26,6 +26,13 @@ void Seat_UI_MgtEntry(int id);
 �� �� ֵ���ޡ�
 */
 void Studio_UI_MgtEntry(void) {
+
+	/*if(gl_CurUser.type!=USR_MANG){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+    }*/
+
 	int i, id;
 	char choice;
 
