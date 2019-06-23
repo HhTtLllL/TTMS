@@ -14,6 +14,7 @@ static const int SALESANALYSIS_PAGE_SIZE = 5;
 void SalesAanalysis_UI_MgtEntry(){
     int i;
     char choice;
+	
     salesanalysis_list_t head;
     salesanalysis_node_t *pos;
     Pagination_t paging;
@@ -30,30 +31,30 @@ void SalesAanalysis_UI_MgtEntry(){
     do{
         
         printf(
-				"\n==================================================================\n");
+				"\n===========================================================================\n");
 		printf(
-				"********************** Projection Room List **********************\n");
-		printf("%3s|%10s|%10s|%8s|%6s|%5s|%5s|%10s|%10s\n", "ID", "Name", "area","duration","ticket",
+				"************************** Projection Room List ***************************\n");
+		printf("%-3s|%-11s|%-11s|%-3s|%-6s|%-8s|%-5s|%-10s|%-10s\n", "ID", "Name", "area","len","ticket",
 				"sales", "price","start_date","end_date");
 		printf(
-				"------------------------------------------------------------------\n");
+				"---------------------------------------------------------------------------\n");
 		//��ʾ����
 		Paging_ViewPage_ForEach(head, paging, salesanalysis_node_t, pos, i){
-			printf("%3d|%10s|%10s|%8d|%6d|%5d|%5d|%4d/%2d/%2d|%4d/%2d/%2d\n", pos->data.play_id,
+			printf("%-3d|%-11s|%-11s|%-3d|%-6d|%-8d|%-5d|%4d/%2d/%2d|%4d/%2d/%2d\n", pos->data.play_id,
 					pos->data.name, pos->data.area, pos->data.duration,pos->data.totaltickets,pos->data.sales,
 					pos->data.price,pos->data.start_date.year,pos->data.start_date.month,pos->data.start_date.day,pos->data.end_date.year,pos->data.end_date.month,pos->data.end_date.day);
 		}
 
 		printf(
-				"------- Total Records:%2d ----------------------- Page %2d/%2d ----\n",
+				"------- Total Records:%2d ------------------------------ Page %2d/%2d --------\n",
 				paging.totalRecords, Pageing_CurPage(paging),
 				Pageing_TotalPages(paging));
 		printf(
-				"******************************************************************\n");
+				"***************************************************************************\n");
 		printf(
 				"[P]revPage        |         [N]extPage         |           [R]eturn");
 		printf(
-				"\n==================================================================\n");
+				"\n===========================================================================\n");
 		printf("Your Choice:");
 		setbuf(stdin,NULL);
 		scanf("%c", &choice);
