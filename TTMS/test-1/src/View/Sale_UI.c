@@ -183,7 +183,6 @@ int Sale_UI_ShowTicket(int schedule_id)
 	getchar( );
 	int seat = Seat_Srv_FetchValidByRoomID(list,studio_ID);
 	
-
 	int i;
 	char choice;
 	ticket_node_t *pos;
@@ -196,8 +195,11 @@ int Sale_UI_ShowTicket(int schedule_id)
 	
 	List_Init(list_ti,ticket_node_t);
 
-	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
-
+	printf( "-----\n");
+	getchar( );
+	paging.totalRecords = Ticket_Srv_FetchBySchID(list_ti,schedule_id);
+	printf( "-----\n");
+	getchar( );
 	Paging_Locate_FirstPage(list_ti,paging);
 	do
 	{
@@ -336,15 +338,24 @@ void Sale_UI_ReturnTicket()
     sale_t refound;
     printf("请输入票的ID");
     scanf("%d",&id);
-    if(Ticket_Srv_FetchBySchID(id,&buf)==1)   //查询票是否存在
+    if(Ticket_Srv_FetchByticketID(id,&buf)==1)   //查询票是否存在
     {
         if(buf.status == 1)//查询票是否售出
         {
+	   buf.status = 0; 
            Ticket_Srv_Modify(&buf);   //调用Ticket_Srv_Modify函数修改票的状态
-           printf("请输入当前的日期，时间，票的ID，售票员的ID\n");
-           scanf("%d%d%d%d%d%d%d%d",&refound.date.year,&refound.date.month,&refound.date.day,&refound.time.hour,&refound.time.minute,&refound.time.second,&refound.ticket_id,&refound.user_id);
-            refound.type=SALE_REFOUND;  //SALE_REFOUND退票
- //           Sale_Srv_Add(refound);
+	   
+	   refound.ticket_id = buf.id;
+	   refound.value = buf.price;
+	   refound.type = -1;  //SALE_REFOUND退票
+           printf("please input date   ");
+           scanf("%d%d%d",&refound.date.year,&refound.date.month,&refound.date.day);
+
+	   printf( "please input time ");
+	   scanf( "%d%d%d",&refound.time.hour,&refound.time.minute,&refound.time.second);
+	   printf( "please input Salesperson ID:");
+	   scanf( "%d",&refound.user_id);
+           Sale_Srv_Add(&refound);
         }
         else
         {

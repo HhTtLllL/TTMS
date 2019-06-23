@@ -208,8 +208,9 @@ int Ticket_Perst_SelByticketID(int ticket_id,ticket_t *buf)
 
 	return count;
 }
-int Ticket_Perst_SelBySchID(int id,ticket_list_t list)
+int Ticket_Perst_SelBySchID(int id,ticket_list_t list)   
 {
+
 	int count = 0;
 
 	FILE *fp = fopen(TICKET_DATA_FILE,"rb");

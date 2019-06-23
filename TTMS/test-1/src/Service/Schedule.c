@@ -2,6 +2,7 @@
 #include"../Persistence/Schedule_Persist.h"
 #include<stdlib.h>
 #include<assert.h>
+#include"Ticket.h"
 
 int Schedule_Srv_FetchByPlay(schedule_list_t head ,int play_id)
 {

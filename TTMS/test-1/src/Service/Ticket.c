@@ -43,12 +43,12 @@ int Ticket_Srv_FetchByID(int id,ticket_t *buf)      //gen ju  seat ID   get tick
         return Ticket_Perst_SelByID(id,buf);
 }
 
-int Ticket_Srv_FetchBySchID(int ID,ticket_list_t list)
-{
-	return Ticket_Perst_SelBySchID(ID,list);
-}
-
 int Ticket_Srv_Modify(const ticket_t *data)
 {
 	return Ticket_Perst_Update(data);
+}
+
+int Ticket_Srv_FetchBySchID(ticket_list_t list,int id)
+{
+     return Ticket_Perst_SelBySchID(id,list);
 }

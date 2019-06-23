@@ -11,7 +11,7 @@
 #include <stdlib.h>
 static const int SALESANALYSIS_PAGE_SIZE = 5;
 //统计票房界面
-void SalesAnalysis_UI_MgtEntry (){
+void SalesAanalysis_UI_MgtEntry(){
     int i;
     char choice;
     salesanalysis_list_t head;
@@ -24,21 +24,22 @@ void SalesAnalysis_UI_MgtEntry (){
 
     paging.totalRecords = SalesAnalysis_Srv_StaticSale(head);
 	Paging_Locate_FirstPage(head, paging);
-
     SalesAnalysis_Srv_SortBySale(head);
+	salesanalysis_node_t * newNode;
+
     do{
         
         printf(
 				"\n==================================================================\n");
 		printf(
 				"********************** Projection Room List **********************\n");
-		printf("%5d %20s %10s %4d %9d %9d %3d %13d %13d\n", "ID", "Name", "area","duration","totaltickets"
+		printf("%3s|%10s|%10s|%8s|%6s|%5s|%5s|%10s|%10s\n", "ID", "Name", "area","duration","ticket",
 				"sales", "price","start_date","end_date");
 		printf(
 				"------------------------------------------------------------------\n");
 		//��ʾ����
 		Paging_ViewPage_ForEach(head, paging, salesanalysis_node_t, pos, i){
-			printf("%5d %20s %10s %4d %9d %9d %3d %4d %2d %2d %4d %2d %2d\n", pos->data.play_id,
+			printf("%3d|%10s|%10s|%8d|%6d|%5d|%5d|%4d/%2d/%2d|%4d/%2d/%2d\n", pos->data.play_id,
 					pos->data.name, pos->data.area, pos->data.duration,pos->data.totaltickets,pos->data.sales,
 					pos->data.price,pos->data.start_date.year,pos->data.start_date.month,pos->data.start_date.day,pos->data.end_date.year,pos->data.end_date.month,pos->data.end_date.day);
 		}
@@ -56,6 +57,7 @@ void SalesAnalysis_UI_MgtEntry (){
 		printf("Your Choice:");
 		setbuf(stdin,NULL);
 		scanf("%c", &choice);
+		getchar();
 		setbuf(stdin,NULL);
 
         

@@ -276,3 +276,51 @@ int Schedule_Perst_SelectAll(schedule_list_t list)
 
 	return recCount;
 }
+
+
+int Schedule_Perst_DeleBystduio_id(int studio_id)
+{
+		if(rename(SCHEDULE_DATA_FILE,SCHEDULE_DATA_TEMP_FILE) < 0)
+	{
+		printf("cannot open file %s!\n",SCHEDULE_DATA_FILE);
+		return 0;
+	}
+
+	FILE *fpsour,*fpTarg;
+
+	fpsour = fopen(SCHEDULE_DATA_TEMP_FILE,"rb");
+	if(NULL == fpsour)
+	{
+		printf( "cannot open file %s!\n",SCHEDULE_DATA_FILE);
+		return 0;
+	}
+
+	fpTarg = fopen(SCHEDULE_DATA_FILE,"wb");
+	if(NULL == fpTarg)
+	{
+		printf( "cannot open file %s!\n",SCHEDULE_DATA_TEMP_FILE);
+		return 0;
+	}
+
+	schedule_t buf;
+	int found = 0;
+
+	while(!feof(fpsour))
+	{
+		if(fread(&buf,sizeof(schedule_t),1,fpsour))
+		{
+			if(studio_id == buf.studio_id)
+			{
+				found = 1;
+				continue;
+			}
+			fwrite(&buf,sizeof(schedule_t),1,fpTarg);
+		}
+	}
+
+	fclose(fpsour);
+	fclose(fpTarg);
+
+	remove(SCHEDULE_DATA_TEMP_FILE);
+	return found;
+}

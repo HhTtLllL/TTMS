@@ -16,11 +16,12 @@
 #include <stdio.h>
 #include<unistd.h>
 #include <assert.h>
-
+#include"../Persistence/Schedule_Persist.h"
 
 static const char STUDIO_DATA_FILE[] = "Studio.dat"; //演出厅文件名常量 
 static const char STUDIO_DATA_TEMP_FILE[] = "StudioTmp.dat"; //演出厅临时文件名常量 
 static const char STUDIO_KEY_NAME[] = "Studio"; //演出厅名常量 
+
 
 /*
 标识符：TTMS_SCU_Studio_Perst_Insert
@@ -140,6 +141,7 @@ int Studio_Perst_DeleteByID(int ID) {
 	//删除临时文件
 	remove(STUDIO_DATA_TEMP_FILE);
 	Seat_Srv_DeleteAllByRoomID(ID);//删除已有的座位信息
+	Schedule_Perst_DeleBystduio_id(ID);
 	
 	return found;
 }
