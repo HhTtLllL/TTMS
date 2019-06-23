@@ -36,6 +36,7 @@ int  Ticket_Srv_FetchAll(ticket_list_t list);
 
 int Ticket_Srv_FetchByticketID(int ticket_id,ticket_t *buf);        
 
+int Ticket_Srv_FetchBySchID_ticket(ticket_list_t list,int id);
 
 //标识符:TTMS_SCU_Ticket_Srv_FetchBySchID
 //功能:根据演出计划的ID获取演出票的数据

@@ -195,16 +195,14 @@ int Sale_UI_ShowTicket(int schedule_id)
 	
 	List_Init(list_ti,ticket_node_t);
 
-	printf( "-----\n");
-	getchar( );
-	paging.totalRecords = Ticket_Srv_FetchBySchID(list_ti,schedule_id);
-	printf( "-----\n");
-	getchar( );
+	paging.totalRecords = Ticket_Srv_FetchBySchID_ticket(list_ti,schedule_id);
 	Paging_Locate_FirstPage(list_ti,paging);
 	do
 	{
 		system("clear");
 	//	paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
+	//
+	//
 		printf( "====================================================================================\n");
 		printf( "*****************************************Ticket*************************************\n");
 		printf( "------------------------------------------------------------------------------------\n");
@@ -239,9 +237,8 @@ int Sale_UI_ShowTicket(int schedule_id)
 				break;
 			case'S':
 			case's':
-			
-				if(Sale_UI_SellTicket(list_ti,list))
-					paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
+				Sale_UI_SellTicket(list_ti,list);
+				//paging.totalRecords = Ticket_Srv_FetchBySchID(schedule_id,list_ti);
 				break;
 
 		}

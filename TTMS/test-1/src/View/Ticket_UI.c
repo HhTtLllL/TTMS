@@ -96,6 +96,8 @@ void Ticket_UI_Print(const ticket_t data)
 {
 	printf( "Ticket ID      Schedule ID    Saet ID  Price\n");
 	printf( "%d                  %d           %d      %d    \n",data.id,data.schedule_id,data.seat_id,data.price);
+	printf( "-------------------\n");
+	getchar( );
 }
 
 

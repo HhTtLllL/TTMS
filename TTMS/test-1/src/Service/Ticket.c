@@ -48,7 +48,7 @@ int Ticket_Srv_Modify(const ticket_t *data)
 	return Ticket_Perst_Update(data);
 }
 
-int Ticket_Srv_FetchBySchID(ticket_list_t list,int id)
+int Ticket_Srv_FetchBySchID_ticket(ticket_list_t list,int id)
 {
      return Ticket_Perst_SelBySchID(id,list);
 }
