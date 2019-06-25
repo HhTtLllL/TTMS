@@ -9,7 +9,6 @@ static const int PLAY_PAGE_SIZE = 5;
 
 void Play_UI_MgtEntry(void)
 {
-	system("clear");
 	setbuf(stdin,NULL);
 	int i,id;
 	char choice;
@@ -27,6 +26,7 @@ void Play_UI_MgtEntry(void)
 	Paging_Locate_FirstPage(head,paging);
 	do
 	{
+		system("clear");
 		printf(
 				"\n=======================================================================================\n");
 		printf(
@@ -47,16 +47,15 @@ void Play_UI_MgtEntry(void)
 
 		printf("[P]revPage|[N]extPage | [A]dd|[D]elete|[U]pdate | [S]earch | [F]ix up | [R]eturn");
 		printf( "\n=======================================================================================\n");
-		setbuf(stdin,NULL);
-		printf( "your choice: ");
+	
+		char ch;while((ch=getchar())!='\n'&&ch!=EOF);
+		printf( "your choice1: ");
 		scanf( "%c",&choice);
-		getchar( );
 		setbuf(stdin,NULL);
 		switch(choice)
 		{
 			case'a':
 			case'A':
-				setbuf(stdin,NULL);
 				if(Play_UI_Add())
 				{
 					paging.totalRecords = Play_Srv_FetchAll(head);
@@ -65,7 +64,7 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'd':
 			case'D':
-				setbuf(stdin,NULL);
+				char ch;while((ch=getchar())!='\n'&&ch!=EOF);
 				printf("Play_ID:");
 				scanf( "%d",&id);
 				getchar( );
@@ -77,7 +76,7 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'u':
 			case'U':
-				setbuf(stdin,NULL);
+				char ch;while((ch=getchar())!='\n'&&ch!=EOF);
 				printf("Play_ID:");
 				scanf("%d",&id);
 				getchar( );
@@ -89,6 +88,7 @@ void Play_UI_MgtEntry(void)
 				break;
 			case's':
 			case'S':
+				char ch;while((ch=getchar())!='\n'&&ch!=EOF);
 				setbuf(stdin,NULL);
 				printf( "Play_ID:");
 				scanf( "%d",&id);
@@ -101,6 +101,7 @@ void Play_UI_MgtEntry(void)
 				break;
 			case'f':
 			case'F':
+				char ch;while((ch=getchar())!='\n'&&ch!=EOF);
 				setbuf(stdin,NULL);
 				printf( "Input the Play_ID:");
 				scanf( "%d",&id);
@@ -139,32 +140,35 @@ int Play_UI_Add(void)
 	system("clear");
 	do
 	{
+		setbuf(stdin,NULL);
 		printf( "\n=======================================================================================\n");
 		printf( "************************************Add New Play***************************************\n");
 		printf( "---------------------------------------------------------------------------------------\n");
 		printf( "Please improve the information.\n");
 		printf( "play name : ");
-		fflush(stdin);
 		gets(rec.name);
+		setbuf(stdin,NULL);
 		printf( "the  type of the play  (1 is the FILE || 2 is the opear || 3  is the concert) : ");
 		scanf( "%d",&(rec.type));
-		getchar( );
+		setbuf(stdin,NULL);
 		printf( "the play destination area : ");
 		gets(rec.area);
+		setbuf(stdin,NULL);
 		printf( "the grade of the play  (1 or 2 or 3) : ");
 		scanf( "%d",&rec.rating);
-		getchar( );
+		setbuf(stdin,NULL);
 		printf( "how long does the play last :");
 		scanf( "%d",&rec.duration);
-		getchar( );
+		setbuf(stdin,NULL);
 		printf( "When does the play begin : ");
 		scanf( "%d%d%d",&rec.start_date.year,&rec.start_date.month,&rec.start_date.day);
-		getchar( );
+		setbuf(stdin,NULL);
 		printf( "When does the play end : ");
 		scanf( "%d%d%d",&rec.end_date.year,&rec.end_date.month,&rec.end_date.day);
-		getchar( );
+		setbuf(stdin,NULL);
 		printf( "how much is it :");
 		scanf( "%d",&rec.price);
+		setbuf(stdin,NULL);
 		printf( "=======================================================================================\n");
 		if(Play_Srv_Add(&rec))
 		{
@@ -178,7 +182,7 @@ int Play_UI_Add(void)
 		printf( "[A]dd more,[R]eturn :");
 		setbuf(stdin,NULL);
 		scanf("%c",&choice);
-		getchar( );
+		setbuf(stdin,NULL);
 	}while('a' == choice || 'A' == choice);
 
 	return newRecCount;
@@ -227,27 +231,31 @@ int Play_UI_Modify(int id)
 	printf( "---------------------------------------------------------------------------------------\n");
 	printf("play  id :  %d\n",rec.id);
 	printf("please enter new repertoire information \n");
+	setbuf(stdin,NULL);
 	printf( "play name  : ");
 	gets(rec.name);
+	setbuf(stdin,NULL);
 	printf( "the  type of the play  (1 is the FILE  ||  2  is the  opear   ||   3   is the concert)");
 	scanf( "%d",&(rec.type));	
-	getchar( );
+	setbuf(stdin,NULL);
 	printf( "the play destination area  ?   ");
 	gets(rec.area);
+	setbuf(stdin,NULL);
 	printf( "the grade of the play    (1 or 2 or 3)  ");
 	scanf( "%d",&rec.rating);
-	getchar( );
+	setbuf(stdin,NULL);
 	printf( "how long does the play last  ?");
 	scanf( "%d",&rec.duration);
-	getchar( );
+	setbuf(stdin,NULL);
 	printf( "When does the play begin ? ");
 	scanf( "%d%d%d",&rec.start_date.year,&rec.start_date.month,&rec.start_date.day);
-	getchar( );
+	setbuf(stdin,NULL);
 	printf( "When does the play end ? ");
 	scanf( "%d%d%d",&rec.end_date.year,&rec.end_date.month,&rec.end_date.day);
-	getchar( );
+	setbuf(stdin,NULL);
 	printf( "how much is it ?");
 	scanf( "%d",&rec.price);
+	setbuf(stdin,NULL);
 	printf( "==============================\n");
 	printf( "%s\n",rec.name);
 	

@@ -22,6 +22,7 @@ void Main_Menu(void) {
 	
 	char choice;
 	do { 
+		system("clear");
 		printf("\n==================================================================\n");
 		printf("**************** Theater Ticket Management System ****************\n");
 		printf("[S]tudio Management.\n");
@@ -37,11 +38,11 @@ void Main_Menu(void) {
 		printf("\n==================================================================\n");
 		printf("Please input your choice:");
 		setbuf(stdin,NULL);
-		choice = getchar();
-		getchar();
+
+		scanf( "%c",&choice);
+		printf( "youe choice : %c\n",choice);
 		setbuf(stdin,NULL);
 		switch (choice) {
-		setbug(stdin,NULL);
 		case 'S':
 		case 's':
 			Studio_UI_MgtEntry();

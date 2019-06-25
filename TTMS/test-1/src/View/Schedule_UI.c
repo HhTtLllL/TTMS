@@ -30,7 +30,7 @@ void Schedule_UI_MgtEntry(int play_id)
 
 
 	do
-	{
+	{      // printf( "seat count = %d\n",pos->data.seat_count);
 		printf( "=================================================================================================\n");
 		printf( "*****************************************Projection Schedue  List*******************************\n");
 
