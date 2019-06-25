@@ -11,6 +11,11 @@ static const int TICKET_PAGE_SIZE = 10;
 
 void Sale_UI_MgtEntry()
 {
+	if(gl_CurUser.type!=USR_CLERK||gl_CurUser.type!=USR_ANOMY){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+	}
 	system("clear");
 	char choice; 
 	char name[20];
@@ -249,6 +254,7 @@ int Sale_UI_ShowTicket(int schedule_id)
 
 int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 {
+
 	seat_node_t * seat = NULL;
 	setbuf(stdin,NULL);
 	sale_t data_t;
@@ -330,6 +336,7 @@ int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 
 void Sale_UI_ReturnTicket()
 {
+
     int id;
     ticket_t buf;
     sale_t refound;

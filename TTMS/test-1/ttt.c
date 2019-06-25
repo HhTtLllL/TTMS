@@ -3,7 +3,7 @@
 #include<unistd.h>
 #include<assert.h>
 #include<string.h>
-int len = 64;
+const int len = 20;
 int getch()
 {
  int c=0;

@@ -12,11 +12,11 @@ static const int TICKET_PAGE_SIZE = 5;
 
 void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de yan chu ji hua de xn xi
 {   //schedule_id      piaos his yu piao xiang guan de yan chu ji hua de ID hao 
-	/*if(gl_CurUser.type!=USR_MANG || gl_CurUser.type!=USR_ANOMY){
+	if(gl_CurUser.type!=USR_MANG || gl_CurUser.type!=USR_CLERK){
         printf("you can't join in there!please input the [Enter]");
         getchar();
 		return 0;
-    }*/
+  }
 
 	int i,id;
 	int yan_id;
@@ -33,7 +33,7 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 	printf( "Name          Stduio ID                Date                  Time       \n");
 	printf( "%s                 %d             %d.%d.%d               %d:%d:%d\n",data.name,buf.studio_id,buf.date.year,buf.date.month,buf.date.day,buf.time.hour,buf.time.minute,buf.time.second);
 
-	printf( "[G]sheng cheng yan chu piao    [E]chong xin xheng cheng yan chu piao \n");
+	printf( "[G]enerating tickets    [R]eproduction of tickets \n");
 	setbuf(stdin,NULL);
 	printf("Your choice:");
 	scanf("%c",&choice);
@@ -47,8 +47,8 @@ void Ticket_UI_MgtEntry(int schedule_id)    // xian shi yu can shu dui ying de y
 			Ticket_Srv_GenBatch(schedule_id);
 			printf("Successlly!\n");
 			break;
-		case'e':
-		case'E':
+		case'r':
+		case'R':
 			Ticket_Srv_deleteBatch(schedule_id);
 			Ticket_Srv_GenBatch(schedule_id);
 			printf("Successlly!\n");

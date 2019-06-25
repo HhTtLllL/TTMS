@@ -12,6 +12,11 @@
 static const int SALESANALYSIS_PAGE_SIZE = 5;
 //统计票房界面
 void SalesAanalysis_UI_MgtEntry(){
+	if(gl_CurUser.type==USR_ADMIN||gl_CurUser.type==USR_ANOMY){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+	}
     int i;
     char choice;
 	

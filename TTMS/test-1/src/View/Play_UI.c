@@ -1,7 +1,7 @@
 #include"../View/Play_UI.h"
 #include"../Common/list.h"
 #include"../Service/Play.h"
-
+#include "../Service/Account.h"
 
 #include<stdio.h>
 
@@ -9,6 +9,11 @@ static const int PLAY_PAGE_SIZE = 5;
 
 void Play_UI_MgtEntry(void)
 {
+	if(gl_CurUser.type==USR_ADMIN){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+	}
 	system("clear");
 	setbuf(stdin,NULL);
 	int i,id;
@@ -133,12 +138,18 @@ void Play_UI_MgtEntry(void)
 
 int Play_UI_Add(void)
 {
+	
 	play_t rec;
 	int newRecCount = 0;
 	char choice;
 	system("clear");
 	do
 	{
+		if(gl_CurUser.type!=USR_MANG){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+		}
 		printf( "\n=======================================================================================\n");
 		printf( "************************************Add New Play***************************************\n");
 		printf( "---------------------------------------------------------------------------------------\n");
@@ -188,6 +199,11 @@ int Play_UI_Add(void)
 
 int Play_UI_Delete(int id)
 {
+	if(gl_CurUser.type!=USR_MANG){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+	}
 	setbuf(stdin,NULL);
 	
 	int rtn = 0;
@@ -210,6 +226,11 @@ int Play_UI_Delete(int id)
 
 int Play_UI_Modify(int id)
 {
+	if(gl_CurUser.type!=USR_MANG){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+	}
 	play_t rec;
 	play_t data;
 	int rtn = 0;

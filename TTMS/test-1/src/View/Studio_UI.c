@@ -27,11 +27,11 @@ void Seat_UI_MgtEntry(int id);
 */
 void Studio_UI_MgtEntry(void) {
 
-	/*if(gl_CurUser.type!=USR_MANG){
+	if(gl_CurUser.type!=USR_MANG){
         printf("you can't join in there!please input the [Enter]");
         getchar();
 		return 0;
-    }*/
+    }
 
 	int i, id;
 	char choice;

@@ -3,6 +3,7 @@
 #include"../View/Ticket_UI.h"
 #include"../Service/Schedule.h"
 #include"../Service/Studio.h"
+#include "../Service/Account.h"
 
 static const int SCHEDULE_PAGE_SIZE = 5;
 
@@ -10,6 +11,12 @@ static const int SCHEDULE_PAGE_SIZE = 5;
 
 void Schedule_UI_MgtEntry(int play_id)
 {
+	if(gl_CurUser.type==USR_ADMIN){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+    }
+
 	system("clear");
 	int schedule_id;
 	int i,id;
@@ -224,7 +231,12 @@ list = list->next;
 }
 int Schedule_UI_Add(int play_id)
 {
-	system("reset");
+	if(gl_CurUser.type==USR_CLERK||gl_CurUser.type==USR_ANOMY){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+	}
+	system("clear");
 	schedule_t rec;
 	int newRecCount  = 0;
 	char choice;
@@ -295,6 +307,11 @@ int Schedule_UI_Add(int play_id)
 
 int Schedule_UI_Delete(int play_id)
 {
+	if(gl_CurUser.type==USR_CLERK||gl_CurUser.type==USR_ANOMY){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+	}
 	int rtn = 0;
 
 	if(Schedule_Srv_DeleteByID(play_id))
@@ -313,6 +330,11 @@ int Schedule_UI_Delete(int play_id)
 
 int Schedule_UI_Modify(int id)
 {
+	if(gl_CurUser.type==USR_CLERK||gl_CurUser.type==USR_ANOMY){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+	}
    	 schedule_list_t list;
 	 schedule_t rec;
 	 int rtn = 0;

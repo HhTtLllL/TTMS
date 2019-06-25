@@ -9,8 +9,32 @@
 #include <string.h>
 #include "../Common/list.h"
 #include "../Service/Account.h"
+#include<termios.h>
+#include<unistd.h>
+#include<assert.h>
+
 static const int Account_PAGE_SIZE = 5;
 char ch;
+const int len1 = 20;
+
+int getch()
+{
+ int c=0;
+ struct termios org_opts, new_opts;
+    int res=0;
+    //-----  store old settings -----------
+     res=tcgetattr(STDIN_FILENO, &org_opts);
+     assert(res==0);
+   //---- set new terminal parms --------
+  memcpy(&new_opts, &org_opts, sizeof(new_opts));
+  new_opts.c_lflag &= ~(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ECHOPRT | ECHOKE | ICRNL);                                                                                                    
+  tcsetattr(STDIN_FILENO, TCSANOW, &new_opts);
+  c=getchar();
+   //------  restore old settings ---------
+  res=tcsetattr(STDIN_FILENO, TCSANOW, &org_opts);
+  assert(res==0);
+  return c;
+}
 
 //系统登录
 int SysLogin(){
@@ -36,8 +60,9 @@ int SysLogin(){
     "##########################################                     ############\n"
     );
 		Account_Srv_InitSys();
-		int i = 0;
-		while(i<3){
+		int x = 3;
+		while(x>0){
+			printf("You have %d login opportunities\n",x);
 			char usrName[20],pwd[20];
 			printf("please input you name :");
 			setbuf(stdin,NULL);
@@ -47,16 +72,34 @@ int SysLogin(){
 			printf("please input you password :");
 			setbuf(stdin,NULL);
 
-			gets(pwd);
+			for(int i=  0;i<len1;i++)
+			{
+				pwd[i] = getch();
+				if(pwd[i] == '\n')
+				{
+					pwd[i] = '\0';
+					break;
+				}
+				if((int)pwd[i] == 127)
+				{
+					printf("\b \b");
+					i = i-2;
+				}
+				else
+				{
+					printf("*");
+				}
+				if(i < 0) pwd[0] = '\0';
+			}
 			//printf("%s\n",pwd);
 			if(Account_Srv_Verify(usrName,pwd)){
-				printf("Welcome distinguished users,please input [Enter]!\n");
+				printf("\nWelcome distinguished users,please input [Enter]!\n");
 				getchar();
 				return 1;
 			}
 			else{
 				printf("login in error\n");
-				i++;
+				x--;
 			}
 		}
 	return 0;
@@ -97,7 +140,7 @@ void Account_UI_MgtEntry(void) {
     
     
     do{
-		printf("[N]匿名用户    |    [X]售票员     |     [A]经理     |     [M]系统管理员");
+		printf("[N]匿名用户    |    [X]售票员     |     [M]经理     |     [A]系统管理员");
 		printf(
 				"\n==================================================================\n");
 		printf(
