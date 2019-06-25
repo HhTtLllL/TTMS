@@ -11,7 +11,7 @@ static const int TICKET_PAGE_SIZE = 10;
 
 void Sale_UI_MgtEntry()
 {
-	if(gl_CurUser.type!=USR_CLERK||gl_CurUser.type!=USR_ANOMY){
+	if(gl_CurUser.type==USR_ANOMY||gl_CurUser.type==USR_ADMIN){
         printf("you can't join in there!please input the [Enter]");
         getchar();
 		return 0;
