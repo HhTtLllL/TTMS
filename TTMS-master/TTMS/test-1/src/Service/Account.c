@@ -26,17 +26,17 @@ void Account_Srv_InitSys(){
 	setbuf(stdin,NULL);
     //getchar();
 	gets(data_admin.username);
-	printf("%s\n",data_admin.username);
+	//printf("%s\n",data_admin.username);
 	printf("please input you want passsword :");
 	setbuf(stdin,NULL);
 	scanf("%s",data_admin.password);
-	printf("%s\n",data_admin.password);
+	//printf("%s\n",data_admin.password);
 	setbuf(stdin,NULL);
 	printf("[0]anonymous   |   [1]Conductor   |   [2]manager   |   [9]admin");
 	printf("(!!!admin must!!!)please input you want type ,plseae input [9]:");
 	setbuf(stdin,NULL);
 	scanf("%d",&data_admin.type);
-	printf("%d\n",data_admin.type);
+	//printf("%d\n",data_admin.type);
 	setbuf(stdin,NULL);
 	Account_Srv_Add(&data_admin);
 
