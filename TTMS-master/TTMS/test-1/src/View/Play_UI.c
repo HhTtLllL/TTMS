@@ -1,5 +1,5 @@
-#include"../View/Play_UI.h"
 #include"../Common/list.h"
+#include"../Common/time.h"
 #include"../Service/Play.h"
 #include "../Service/Account.h"
 #include"../Service/Schedule.h"
@@ -161,12 +161,43 @@ int Play_UI_Add(void)
 		printf( "how long does the play last :");
 		scanf( "%d",&rec.duration);
 		getchar( );
-		printf( "When does the play begin : ");
-		scanf( "%d%d%d",&rec.start_date.year,&rec.start_date.month,&rec.start_date.day);
-		getchar( );
-		printf( "When does the play end : ");
-		scanf( "%d%d%d",&rec.end_date.year,&rec.end_date.month,&rec.end_date.day);
-		getchar( );
+
+		while(1)
+		{
+			while(1)
+			{
+				printf( "When does the play begin : ");
+				scanf( "%d%d%d",&rec.start_date.year,&rec.start_date.month,&rec.start_date.day);
+				getchar( );
+				if(time_judge(rec.start_date.year,rec.start_date.month,rec.start_date.day))
+				{
+					break;
+				}
+			}
+			while(1)
+			{
+				printf( "When does the play end : ");
+				scanf( "%d%d%d",&rec.end_date.year,&rec.end_date.month,&rec.end_date.day);
+				getchar( );
+				if(time_judge(rec.end_date.year,rec.end_date.month,rec.end_date.day))
+				{
+					break;
+				}
+
+			}
+
+			if( (rec.end_date.year >= rec.start_date.year && rec.end_date.month >= rec.start_date.month && rec.end_date.day >= rec.start_date.day) || 
+					(rec.end_date.year > rec.start_date.year) || 
+					(rec.end_date.year >= rec.start_date.year  && rec.end_date.month > rec.start_date.month))
+			{
+				break;
+			}
+			else
+			{
+				printf( "Error in input time\npleas again\n");
+			}
+		}
+
 		printf( "how much is it :");
 		scanf( "%d",&rec.price);
 		printf( "=======================================================================================\n");
@@ -302,8 +333,6 @@ int Play_UI_screen( )
 	
 	while(temp != head)    //删除对应的剧目 的 演出计划
 	{
-		printf( "删除 ID  = %d \n",head->data.id);
-		getchar( );
 		Schedule_Srv_DeleteByplayID(head->data.id);
 		head = head->next;
 	}
