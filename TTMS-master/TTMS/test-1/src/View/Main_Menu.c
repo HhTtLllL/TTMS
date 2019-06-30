@@ -30,7 +30,7 @@ void Main_Menu(void) {
 		printf("[T]icket Sale.\n");
 		printf("[I]nquiry Performance.\n");
 		printf("[R]eturn Ticket.\n");
-		printf("StaSa[L]es\n");
+		printf("[L]StaSaLes\n");
 		printf("[Q]SalesAanalysis.\n");
 		printf("[A]ccount Management.\n");
 		printf("[M]aiAccount\n");

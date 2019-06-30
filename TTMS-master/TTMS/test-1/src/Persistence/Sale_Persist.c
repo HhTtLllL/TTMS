@@ -58,7 +58,7 @@ int Sale_Perst_SelByID(sale_list_t list,int usrID){
 				printf( "Waring,Memory OverFlow!!!\nCannot Load more Data into memory!!!\n");
 				break;
 			}
-			if(usrID == data.id)
+			if(usrID == data.user_id)
 			{
 				List_AddTail(list,newNode);
 				rtn++;

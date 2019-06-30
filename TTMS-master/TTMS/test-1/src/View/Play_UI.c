@@ -14,7 +14,6 @@ void Play_UI_MgtEntry(void)
         getchar();
 		return 0;
 	}
-	system("clear");
 	int i,id;
 	char choice;
 
@@ -31,6 +30,7 @@ void Play_UI_MgtEntry(void)
 	Paging_Locate_FirstPage(head,paging);
 	do
 	{
+	system("clear");
 		printf(
 				"\n=======================================================================================\n");
 		printf(
@@ -282,6 +282,8 @@ int Play_UI_Query(int id)
 		printf( "Plays Not Existing\n");
 	}
 
+printf("pleasr Press the enter\n");
+getchar();
 	return rtn;
 
 }

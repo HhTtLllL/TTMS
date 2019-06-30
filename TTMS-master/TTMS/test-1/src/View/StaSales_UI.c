@@ -32,6 +32,7 @@ void StaSales_UI_Self(){
     ttms_date_t curdate,startdate,enddate;
     struct tm *p;
     time_t timep;
+    time(&timep);
     p = localtime(&timep);
     printf("[D]ay is One-day sales            |            [M]onth Monthly sales");
     printf("\nyou choice:");

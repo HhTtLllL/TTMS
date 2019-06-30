@@ -107,7 +107,7 @@ int Ticket_Srv_StatRevBySchID(int schedule_id, int *soldCount){
 		//printf("pr :fdsfdsfsdfdsfds %d  ",p->data.price);
 		//printf("pr : %d.........%d..........",p->data.status,ci);
 		if(p->data.status == 1&&sale->data.type == 1){
-			(*soldCount)++;
+			//(*soldCount)++;
 			value+=p->data.price;
 			//printf("pr : %d.........  ",p->data.price);
 		}
@@ -180,11 +180,18 @@ int SalesAnalysis_Srv_CompSaleVal(int usrID, ttms_date_t stDate, ttms_date_t end
 	Sale_Perst_SelByID (saleList,usrID);
 
 	List_ForEach(saleList, pSale){
+		//printf("%d         dsad",pSale->data.value);
+		//printf("%d  %d  %d \n",pSale->data.date.day,pSale->data.date.month,pSale->data.date.year);
 		if(pSale->data.date.day<=endDate.day&&pSale->data.date.day>=stDate.day&&
 		pSale->data.date.year<=endDate.year&&pSale->data.date.year>=stDate.year&&
 		pSale->data.date.month<=endDate.month&&pSale->data.date.month>=stDate.month
 		){
-			amount += pSale->data.value;
+			
+			if(pSale->data.type==1)
+			    amount += pSale->data.value;
+				else if(pSale->data.type==-1){
+					amount -=pSale->data.value;
+				}
 		}
 		
 	}
