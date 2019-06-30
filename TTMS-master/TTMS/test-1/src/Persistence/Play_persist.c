@@ -7,6 +7,8 @@
 #include<unistd.h>
 #include<assert.h>
 #include<string.h>
+#include<time.h>
+
 static const char PLAY_DATA_FILE[] = "Play.dat"; 
 static const char PLAY_DATA_TEMP_FILE[] = "PlayTmp.dat";
 static const char PLAY_KEY_NAME[] = "Play";
@@ -233,3 +235,90 @@ int Play_Perst_SelectByName(play_list_t list,char condt[])
 	return rtn;
 
 }
+int Play_Perst_screen(play_list_t list)
+{
+	struct mydate
+	{
+		unsigned year;
+		unsigned month;
+		unsigned day;
+	};
+
+	struct mydate Today( )
+	{
+		struct mydate today;
+		time_t rawtime;
+		struct tm *timeinfo;
+		time ( &rawtime );
+		timeinfo = localtime(&rawtime);
+		today.year = timeinfo->tm_year + 1900;
+		today.month = timeinfo->tm_mon + 1;
+		today.day = timeinfo->tm_mday;
+		return today;
+	}
+
+	struct mydate today = Today();
+
+	if(rename(PLAY_DATA_FILE,PLAY_DATA_TEMP_FILE) < 0)
+	{
+		printf( "can not open file %s\n",PLAY_DATA_FILE);
+		return 0;
+	}
+
+	FILE *fpsuor,*fpTarg;
+	fpsuor = fopen(PLAY_DATA_TEMP_FILE,"rb");
+
+	if(NULL == fpsuor)
+	{
+		printf( "cannot open file %s!\n",PLAY_DATA_TEMP_FILE);
+		return 0;
+	}
+
+	fpTarg = fopen(PLAY_DATA_FILE,"wb");
+
+	if(NULL == fpTarg)
+	{
+		printf( "cannot open file %s\n!",PLAY_DATA_FILE);
+		return 0;
+	}
+
+	play_t buf;
+	play_node_t *newNode;
+	int found = 0;
+	
+ printf("%4d/%02d/%02d\n",today.year,today.month,today.day);
+
+	while(!feof(fpsuor))
+	{
+		if(fread(&buf,sizeof(play_t),1,fpsuor))
+		{
+			if((buf.end_date.year >= today.year && buf.end_date.month >= today.month && buf.end_date.day >= today.day)  ||	
+			   (buf.end_date.year > today.year)   || (buf.end_date.year >= today.year  && buf.end_date.month > today.month)
+					)
+			{
+				  fwrite(&buf,sizeof(play_t),1,fpTarg);
+				  found++;
+			}
+			else
+			{
+				newNode = (play_node_t *)malloc(sizeof(play_node_t));
+				if(!newNode)
+				{
+					printf( "Warning, Memory OverFlow!!!\nCannot Load more Data into memory!!!\n");
+				}
+				newNode->data = buf;
+				List_AddTail(list,newNode);
+			}
+		}
+	}
+
+	fclose(fpTarg);
+	fclose(fpsuor);
+
+
+	remove(PLAY_DATA_TEMP_FILE);
+
+	return found;
+
+}
+

@@ -63,3 +63,10 @@ void Play_Srv_Print(play_list_t list)
 
 	return ;
 }
+
+
+
+int  Play_Srv_screen(play_list_t list)
+{
+	return Play_Perst_screen(list);
+}

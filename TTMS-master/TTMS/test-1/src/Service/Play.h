@@ -56,9 +56,10 @@ int Play_Srv_Add(play_t *data);            //tian jia xin ju mu
 int Play_Srv_Modify(const play_t *data);    //xiu gai ju mu
 
 int Play_Srv_DeleteByID(int id);           //geng ju id shan chu ju mu
+
 int Play_Srv_FetchByID(int id,play_t *buf);     //   geng ju id huo qu ju mu
 
 int Play_Srv_FetchByName(play_list_t list,char condt[]);
 
-
+int  Play_Srv_screen(play_list_t list);
 #endif

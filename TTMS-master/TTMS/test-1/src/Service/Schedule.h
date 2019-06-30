@@ -42,5 +42,6 @@ int Schedule_Srv_FetchByID(schedule_list_t head ,int id);
 
 int Schedule_Srv_FetchByID_ticket(int id,schedule_t *buf);
 
+int Schedule_Srv_DeleteByplayID(int play_id);   
 
 #endif

@@ -13,4 +13,5 @@ int Play_Perst_RemByID(int id);     //qu chu wen jian zhong de zhi ding de ID xi
 
 int Play_Perst_SelectByID(int id,play_t *buf);    //zai wen jian zhong zai ru zhi ding ID de ju mu xin xi dao buf zhong 
 
+int Play_Perst_screen(play_list_t list);
 #endif

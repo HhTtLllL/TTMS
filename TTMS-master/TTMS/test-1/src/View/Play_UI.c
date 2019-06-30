@@ -2,7 +2,7 @@
 #include"../Common/list.h"
 #include"../Service/Play.h"
 #include "../Service/Account.h"
-
+#include"../Service/Schedule.h"
 #include<stdio.h>
 char ch;
 static const int PLAY_PAGE_SIZE = 5;
@@ -14,9 +14,11 @@ void Play_UI_MgtEntry(void)
         getchar();
 		return 0;
 	}
+
+	
 	int i,id;
 	char choice;
-
+	Play_UI_screen();
 	play_list_t head;
 	play_node_t *pos;
 	Pagination_t paging;
@@ -286,4 +288,29 @@ printf("pleasr Press the enter\n");
 getchar();
 	return rtn;
 
+}
+int Play_UI_screen( )
+{
+	play_list_t head;
+	List_Init(head,play_node_t);
+
+	Play_Srv_screen(head);  //将删除的 剧目 提 到链表里
+
+	play_node_t *temp;
+	temp = head;
+	head = head->next;
+	
+	while(temp != head)    //删除对应的剧目 的 演出计划
+	{
+		printf( "删除 ID  = %d \n",head->data.id);
+		getchar( );
+		Schedule_Srv_DeleteByplayID(head->data.id);
+		head = head->next;
+	}
+
+
+
+
+
+	return 0;
 }

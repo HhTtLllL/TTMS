@@ -38,3 +38,8 @@ int Schedule_Srv_FetchByAll(schedule_list_t list)
 {
 	return Schedule_Perst_SelectAll(list);
 }
+
+int Schedule_Srv_DeleteByplayID(int play_id)
+{
+	return Schedule_Perst_DeleByplayid(play_id);
+}

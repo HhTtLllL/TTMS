@@ -19,4 +19,7 @@ int Schedule_Perst_SelectByID_ticket(int id,schedule_t *buf);
 int Schedule_Perst_SelectAll(schedule_list_t list);
 
 int Schedule_Perst_DeleBystduio_id(int studio_id);
+
+int Schedule_Perst_DeleByplayid(int play_id);
+
 #endif
