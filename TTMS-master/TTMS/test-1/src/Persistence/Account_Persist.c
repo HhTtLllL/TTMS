@@ -61,7 +61,7 @@ int Account_Perst_Insert(account_t *data) {
 		return 0;
 	data->id = key;
 
-	printf("key = %ld\n",key);	
+	//printf("key = %ld\n",key);	
 		//赋给新对象带回到UI层
 	////以上是新设计方案方案添加的代码
 	////以上是新设计方案方案添加的代码

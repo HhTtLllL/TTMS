@@ -115,7 +115,7 @@ int Schedule_Perst_RemByID(int id)
 	{
 		if(fread(&buf,sizeof(schedule_t),1,fpsour))
 		{
-			if(id == buf.id)
+			if(id == buf.play_id)
 			{
 				found = 1;
 				continue;

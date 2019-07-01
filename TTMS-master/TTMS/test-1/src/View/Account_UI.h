@@ -23,4 +23,6 @@ void Account_UI_MgtEntry();
 int Account_UI_Query(account_list_t list,char usrName[]);
 //功能：根据ID删除演出厅界面
 
+
+void creat_w(unsigned char input[64],unsigned long w[80]);
 #endif /* ACCOUNT_UI_H_ */

@@ -10,6 +10,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include "../Common/md5.h"
+
 
  account_t gl_CurUser;
 
@@ -18,36 +20,60 @@ void Account_Srv_InitSys(){
 	if(Account_Perst_CheckAccFile()==1){
 		return ;
 	}
+	char encrypt[20];
+	unsigned char decrypt[16];
 	account_t data_admin;
-	printf("it is no Account.dat,please init admin!!");
+	printf("it is no Account.dat,please init admin!!Please input [Enter]");
 	setbuf(stdin,NULL);
     getchar();
 	printf("please input you want init name :");
 	setbuf(stdin,NULL);
     //getchar();
 	gets(data_admin.username);
-	//printf("%s\n",data_admin.username);
+	
 	printf("please input you want passsword :");
 	setbuf(stdin,NULL);
-	scanf("%s",data_admin.password);
-	//printf("%s\n",data_admin.password);
+	scanf("%s",encrypt);
+	MD5_CTX md5;
+	MD5Init(&md5);         		
+	MD5Update(&md5,encrypt,strlen((char *)encrypt));
+	MD5Final(&md5,decrypt);
+	//printf("加密前:%s\n加密后:",encrypt);
+	for(int i=0;i<16;i++)
+	{
+		//printf("%02x",decrypt[i]);
+		data_admin.password[i] = decrypt[i];
+	}
+	
+	getchar();
+	putchar('\n');
+	/*for(int i=0;i<16;i++)
+	{
+		printf("%02x",data_admin.password[i]);
+	}*/
 	setbuf(stdin,NULL);
 	printf("[0]anonymous   |   [1]Conductor   |   [2]manager   |   [9]admin");
 	printf("(!!!admin must!!!)please input you want type ,plseae input [9]:");
 	setbuf(stdin,NULL);
 	scanf("%d",&data_admin.type);
-	//printf("%d\n",data_admin.type);
+	
 	setbuf(stdin,NULL);
 	Account_Srv_Add(&data_admin);
 
 }
 
 //验证登录账号是否已存在，存在，保存登录用户信息到全局变量gl_CurUser，return 1；否则return 0
-inline int Account_Srv_Verify(char usrName[], char pwd[]){
+inline int Account_Srv_Verify(char usrName[],unsigned char pwd[]){
 	account_t usr;
 	
 	if(Account_Perst_SelByName(usrName,&usr)){
-		if(strcmp(usr.password,pwd) == 0){
+		int x = 1;
+		for(int i = 0;i < 16;i++){
+			
+			if(pwd[i]!=usr.password[i])
+				x = 0;
+		}
+		if(x){
 			gl_CurUser = usr;
 			return 1;
 		}

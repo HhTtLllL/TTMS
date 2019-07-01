@@ -3,26 +3,9 @@
 #include <stdio.h>
 #include "../Common/list.h"
 #include "../Service/Account.h"
+#include "../Common/md5.h"
 
 const int len = 20;
-/*int getch()
-{
- int c=0;
- struct termios org_opts, new_opts;
-    int res=0;
-    //-----  store old settings -----------
-     res=tcgetattr(STDIN_FILENO, &org_opts);
-     assert(res==0);
-   //---- set new terminal parms --------
-  memcpy(&new_opts, &org_opts, sizeof(new_opts));
-  new_opts.c_lflag &= ~(ICANON | ECHO | ECHOE | ECHOK | ECHONL | ECHOPRT | ECHOKE | ICRNL);                                                                                                    
-  tcsetattr(STDIN_FILENO, TCSANOW, &new_opts);
-  c=getchar();
-   //------  restore old settings ---------
-  res=tcsetattr(STDIN_FILENO, TCSANOW, &org_opts);
-  assert(res==0);
-  return c;
-}*/
 
 //维护个人资料界面
 void MaiAccount_UI_MgtEntry () {
@@ -51,8 +34,21 @@ void MaiAccount_UI_MgtEntry () {
         }
         if(i < 0) cpassword[0] = '\0';
     }
-    if(strcmp(cdata.password,cpassword)==0){
-        printf("\naccept!!\n");
+
+    unsigned char decrypt[16];
+    MD5_CTX md5;
+    MD5Init(&md5);
+    MD5Update(&md5, cpassword, strlen((char *)cpassword));
+    MD5Final(&md5, decrypt);
+    int x = 1;
+    for(int i = 0;i < 16;i++){
+        
+        if(decrypt[i]!=cdata.password[i])
+            x = 0;
+    }
+
+    if(x){
+        printf("accept!!\n");
         int j = 3;
         while(j--){
             printf("\nyou have %d times\n",j);
@@ -77,7 +73,19 @@ void MaiAccount_UI_MgtEntry () {
                 if(i < 0) cpassword[0] = '\0';
             }
 
-                if(strcmp(cdata.password,cpassword)==0){
+                unsigned char decrypt[16];
+                MD5_CTX md5;
+                MD5Init(&md5);
+                MD5Update(&md5, cpassword, strlen((char *)cpassword));
+                MD5Final(&md5, decrypt);
+                int x = 1;
+                for(int i = 0;i < 16;i++){
+                    
+                    if(decrypt[i]!=cdata.password[i])
+                        x = 0;
+                }
+
+                if(x){
                 printf("\nthe password is same as you old password,please input again!!");
                 }
                 else{
@@ -102,8 +110,26 @@ void MaiAccount_UI_MgtEntry () {
                     }
                     if(i < 0) cpassword1[0] = '\0';
                 }
-                if(strcmp(cpassword,cpassword1)==0){
-                    strcpy(cdata.password,cpassword);
+
+
+                unsigned char decrypt1[16];
+                MD5_CTX md51;
+                MD5Init(&md51);
+                MD5Update(&md51, cpassword1, strlen((char *)cpassword1));
+                MD5Final(&md51, decrypt1);
+                int x1 = 1;
+                for(int i = 0;i < 16;i++){    
+                    if(decrypt1[i]!=decrypt[i])
+                        x1 = 0;
+                }
+
+
+
+                if(x){
+                    for(int i=0;i<16;i++)
+                    {
+                        cdata.password[i] = decrypt[i];
+                    }
                     Account_Srv_Modify(&cdata);
                     return 1;
                 }
@@ -138,7 +164,21 @@ void MaiAccount_UI_MgtEntry () {
             }
             if(i < 0) cpassword[0] = '\0';
         }
-        if(strcmp(cdata.password,cpassword)==0){
+
+        unsigned char decrypt[16];
+        MD5_CTX md5;
+        MD5Init(&md5);
+        MD5Update(&md5, cpassword, strlen((char *)cpassword));
+        MD5Final(&md5, decrypt);
+        int x = 1;
+        for(int i = 0;i < 16;i++){
+            
+            if(decrypt[i]!=cdata.password[i])
+                x = 0;
+        }
+
+
+        if(x){
             printf("accept!!\n");
             int j = 3;
             while(j--){
@@ -164,7 +204,22 @@ void MaiAccount_UI_MgtEntry () {
                     }
                     if(i < 0) cpassword[0] = '\0';
                 }
-                    if(strcmp(cdata.password,cpassword)==0){
+
+                unsigned char decrypt[16];
+                MD5_CTX md5;
+                MD5Init(&md5);
+                MD5Update(&md5, cpassword, strlen((char *)cpassword));
+                MD5Final(&md5, decrypt);
+                int x = 1;
+                for(int i = 0;i < 16;i++){
+                    
+                    if(decrypt[i]!=cdata.password[i])
+                        x = 0;
+                }
+
+
+
+                    if(x){
                     printf("the password is same as you old password,please input again!!");
                     }
                     else{
@@ -189,9 +244,23 @@ void MaiAccount_UI_MgtEntry () {
                         }
                         if(i < 0) cpassword1[0] = '\0';
                     }
-                    printf("%s\n",cpassword1);
-                    if(strcmp(cpassword,cpassword1)==0){
-                        strcpy(cdata.password,cpassword);
+
+                    unsigned char decrypt1[16];
+                    MD5_CTX md51;
+                    MD5Init(&md51);
+                    MD5Update(&md51, cpassword1, strlen((char *)cpassword1));
+                    MD5Final(&md51, decrypt1);
+                    int x1 = 1;
+                    for(int i = 0;i < 16;i++){    
+                        if(decrypt1[i]!=decrypt[i])
+                            x1 = 0;
+                    }
+
+                    if(x1){
+                        for(int i=0;i<16;i++)
+                        {
+                            cdata.password[i] = decrypt[i];
+                        }
                         Account_Srv_Modify(&cdata);
                         return 1;
                     }

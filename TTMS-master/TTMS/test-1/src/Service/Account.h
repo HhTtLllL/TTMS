@@ -21,7 +21,7 @@ typedef struct {
 	int  id;//用户id
 	account_type_t type;//用户类型
 	char username[30];//用户名
-	char password[30];//用户密码
+	unsigned char password[35];//用户密码
 } account_t;
 
 //定义系统用户账号双向链表
@@ -36,7 +36,7 @@ void Account_Srv_InitSys();
 
 account_t gl_CurUser;
 //验证系统用户的用户名和密码
-int Account_Srv_Verify(char usrName[], char pwd[]);
+int Account_Srv_Verify(char usrName[],unsigned char pwd[]);
 
 int Account_Srv_Add(const account_t *data);
 
@@ -52,7 +52,7 @@ int Account_Srv_FetchByName(char usrName[], account_t *buf);
 int Account_Srv_FetchAll(account_list_t list);
 
 //根据用户名获取系统用户指针
-account_node_t * Account_Srv_FindByUsrName(account_list_t list, char usrName[]);
+account_node_t * Account_Srv_FindByUsrName(account_list_t list,char usrName[]);
 
 
 #endif //ACCOUNT_H_

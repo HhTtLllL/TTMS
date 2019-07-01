@@ -5,6 +5,7 @@
 #include"../Service/Play.h"
 #include"Ticket_UI.h"
 #include"../Service/Account.h"
+#include<time.h>
 static const int SALE_PAGE_SIZE = 5;
 static const int SALESANALYSIS_PAGE_SIZE = 5;
 static const int TICKET_PAGE_SIZE = 10;
@@ -319,13 +320,16 @@ int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 			}
 			data_t.type = 1;
 			data_t.value = buf.price;
-			printf( "please input date:");
-			scanf( "%d%d%d",&data_t.date.year,&data_t.date.month,&data_t.date.day);
-			getchar( );
-			printf( "please input time:");
-			scanf( "%d%d%d",&data_t.time.hour,&data_t.time.minute,&data_t.time.second);
-			getchar( );
-
+			struct tm *p;
+			time_t timep;
+			time(&timep);
+			p = localtime(&timep);
+			data_t.date.year = p->tm_year + 1900;
+	    		data_t.date.month = p->tm_mon + 1;
+			data_t.date.day = p->tm_mday;
+			data_t.time.hour = p->tm_hour;
+			data_t.time.minute = p->tm_min;
+			data_t.time.second = p->tm_sec;
 			Sale_Srv_Add(&data_t);
 
 			Ticket_UI_Print(buf);
@@ -337,6 +341,11 @@ int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 
 void Sale_UI_ReturnTicket()
 {
+	if(gl_CurUser.type==USR_ADMIN){
+        printf("you can't join in there!please input the [Enter]");
+        getchar();
+		return 0;
+	}
 
     int id;
     ticket_t buf;
@@ -353,11 +362,16 @@ void Sale_UI_ReturnTicket()
 	   refound.ticket_id = buf.id;
 	   refound.value = buf.price;
 	   refound.type = -1;  //SALE_REFOUND退票
-           printf("please input date : ");
-           scanf("%d%d%d",&refound.date.year,&refound.date.month,&refound.date.day);
-
-	   printf( "please input time  :");
-	   scanf( "%d%d%d",&refound.time.hour,&refound.time.minute,&refound.time.second);
+	   struct tm *p;
+	   time_t timep;
+	   time(&timep);
+	   p = localtime(&timep);
+	   refound.date.year = p->tm_year + 1900;
+	   refound.date.month = p->tm_mon + 1;
+	   refound.date.day = p->tm_mday;
+	   refound.time.hour = p->tm_hour;
+	   refound.time.minute = p->tm_min;
+	   refound.time.second = p->tm_sec;
 	   printf( "please input Salesperson ID:");
 	   scanf( "%d",&refound.user_id);
 	   getchar();
