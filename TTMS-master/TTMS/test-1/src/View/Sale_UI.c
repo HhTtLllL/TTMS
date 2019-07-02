@@ -242,11 +242,11 @@ int Sale_UI_ShowTicket(int schedule_id)
         	        else
 			{
 				int flag;
+				flag=0;
 				    List_ForEach(list_ti,pos)
 		            {
 					//	printf("status   =%d  \n",pos->data.status);
 						//printf("seatid = %d\n",pos->data.seat_id);
-						flag=0;
 						seat_node_t *buf1;
 						buf1  =  Seat_Srv_FindByID(list, pos->data.seat_id);
 						//Seat_Srv_FetchByID(pos->data.seat_id, buf1);
@@ -263,7 +263,7 @@ int Sale_UI_ShowTicket(int schedule_id)
 							}
 							//printf("status   =%d  \n",pos->data.status);
 				 	   }
-					}//if(!flag) printf("   ");
+					}if(!flag) printf("   ");
 				} 
 		 	}
 		    putchar('\n');
