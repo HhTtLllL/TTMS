@@ -266,8 +266,7 @@ int Seat_Perst_SelectByID(int ID, seat_t *buf) {
 				*buf = data;
 				found = 1;
 				break;
-			};
-
+			}
 		}
 	}
 	fclose(fp);

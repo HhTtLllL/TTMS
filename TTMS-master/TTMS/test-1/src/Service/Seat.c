@@ -59,8 +59,9 @@ int Seat_Srv_DeleteByID(int ID){
 锟斤拷 锟斤拷 值锟斤拷锟斤拷锟酵ｏ拷锟斤拷示锟角凤拷晒锟斤拷锟饺★拷锟斤拷锟轿伙拷谋锟街撅拷锟�?
 */
 int Seat_Srv_FetchByID(int ID, seat_t *buf){
+       return Seat_Perst_SelectByID(ID,buf);
 	// 锟诫补锟斤拷锟斤拷锟斤拷
-       return 0;
+      // return 0;
 }
 
 /*
@@ -224,6 +225,13 @@ seat_node_t * Seat_Srv_FindByRowCol(seat_list_t list, int row, int column) {
 
 seat_node_t * Seat_Srv_FindByID(seat_list_t list, int rowID) {
        // 锟诫补锟斤拷锟斤拷锟斤拷
+       assert(NULL!=list);
+	seat_node_t *p;
+
+	List_ForEach(list,p)
+		if (p->data.id==rowID)
+			return p;
+
        return NULL;
 }
 

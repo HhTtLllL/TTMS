@@ -8,6 +8,7 @@
 #include<assert.h>
 #include<string.h>
 #include<time.h>
+#include<ctype.h>
 
 static const char PLAY_DATA_FILE[] = "Play.dat"; 
 static const char PLAY_DATA_TEMP_FILE[] = "PlayTmp.dat";
@@ -210,6 +211,7 @@ int Play_Perst_SelectByName(play_list_t list,char condt[])
 
 	while(!feof(fp))
 	{
+		int flag = 0;
 		if(fread(&data,sizeof(play_t),1,fp))
 		{
 			newNode = (play_node_t *)malloc(sizeof(play_node_t));
@@ -220,13 +222,78 @@ int Play_Perst_SelectByName(play_list_t list,char condt[])
 				printf( "Waring,Memory OverFlow!!!\nCannot Load more Data into memory!!!\n");
 				break;
 			}
+			char s1[100];
+			char s2[100];
+			
+			for(int i = 0;i < strlen(condt);i++)
+			{
+				s1[i] = condt[i];
+			}
+			for(int i = 0;i < strlen(newNode->data.name);i++)
+			{
+				s2[i] = newNode->data.name[i];
+			}
 
-			if(!strcmp(newNode->data.name,condt))
+
+
+
+			for(int i = 0;i < strlen(s1);i++)
+			{
+				s1[i] = toupper(s1[i]);
+			}
+			for(int i = 0;i < strlen(s2);i++)
+			{
+				s2[i] = toupper(s2[i]);
+			}
+			int j;
+			for(int i = 0;i < strlen(s2);i++)
+			{
+				int temp = i;
+				for(j = 0;j < strlen(s1);j++)
+				{
+					if(s2[temp] == s1[j])
+					{
+						temp++;
+						if(j == (strlen(s1) - 1))
+							flag = 1;
+						continue;
+					}
+					else
+					{
+						break;
+					}
+
+
+
+				}
+
+			}
+			
+/*			for(int i = 0;i < strlen(condt);i++)         第二版 模糊搜索
+			{
+				if(condt[i] == newNode->data.name[i])
+				{
+					continue;
+				}
+				else
+				{
+					flag = 0;
+					break;
+				}
+			}
+			printf( " flag = %d \n",flag);*/
+			if(flag == 1)
 			{
 				List_AddTail(list,newNode);
 				rtn++;
 			}
 
+/*			if(!strcmp(newNode->data.name,condt))     第一版搜索
+			{
+				List_AddTail(list,newNode);
+				rtn++;
+			}
+*/
 		}
 	}
 	

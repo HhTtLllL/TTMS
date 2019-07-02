@@ -72,8 +72,8 @@ int Seat_Srv_Modify(const seat_t *data);
 /*
 标识符：TTMS_SCU_Seat_Srv_DelByID 
 功能：删除座位
-*/
-int Seat_Srv_DeleteByID(int ID);
+*Seat_Srv_FindByRowCol
+iSeat_Srv_FindByRowColID);
 
 /*
 标识符：TTMS_SCU_Seat_Srv_DeleteAllByRoomID 

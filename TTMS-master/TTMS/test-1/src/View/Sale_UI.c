@@ -6,6 +6,8 @@
 #include"Ticket_UI.h"
 #include"../Service/Account.h"
 #include<time.h>
+#include"../Service/Studio.h"
+#include"../Service/Seat.h"
 static const int SALE_PAGE_SIZE = 5;
 static const int SALESANALYSIS_PAGE_SIZE = 5;
 static const int TICKET_PAGE_SIZE = 10;
@@ -80,7 +82,7 @@ void Sale_UI_MgtEntry()
 				gets(name);
 				system("clear");
 				Play_Srv_FetchByName(list_fetch,name);
-				Play_Srv_Print(list_fetch);
+				Play_Srv_Print(list_fetch,name);
 				break;
 
 			case'n':
@@ -122,7 +124,7 @@ void Sale_UI_ShowScheduler(int play_id)     //通过 剧目ID 显示 演出计�
 
 	paging.totalRecords = Schedule_Srv_FetchByPlay(list,play_id);    //获取   演出计划链表
 	Paging_Locate_FirstPage(list,paging);
-
+	studio_t buf;
 	do
 	{
 		printf( "===================================================================================================\n");
@@ -134,14 +136,15 @@ void Sale_UI_ShowScheduler(int play_id)     //通过 剧目ID 显示 演出计�
 		Paging_ViewPage_ForEach(list,paging,schedule_node_t,pos,i)
 		{
 			printf( "         %3d         %3d          %3d             %3d.%2d.%2d           %3d:%3d:%3d               %d  \n",pos->data.id,pos->data.play_id,pos->data.studio_id,pos->data.date.year,pos->data.date.month,pos->data.date.day,pos->data.time.hour,pos->data.time.minute,pos->data.time.second,pos->data.seat_count);
-
 		}
-
 		printf( "-----totalRecords : %2d  -----------------------------Page %2d /%2d ------------------------------------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
 		
 		printf( "[T] Show Ticket     [N]ext     [P]rev    [R]eturn \n");
+
+        //用于显示座位情况列表
+	//
+	///////////////////////////////////
 		printf( "Your choice : ");
-		setbuf(stdin,NULL);
 
 		scanf( "%c",&choice);
 		getchar( );
@@ -204,6 +207,7 @@ int Sale_UI_ShowTicket(int schedule_id)
 
 	paging.totalRecords = Ticket_Srv_FetchBySchID_ticket(list_ti,schedule_id);
 	Paging_Locate_FirstPage(list_ti,paging);
+	studio_t buf;
 	do
 	{
 		system("clear");
@@ -220,13 +224,62 @@ int Sale_UI_ShowTicket(int schedule_id)
 		}
 
 		printf( "------Total Records  : %2d ------------------------Page %2d / %2d----------------------\n",paging.totalRecords,Pageing_CurPage(paging),Pageing_TotalPages(paging));
+		Studio_Srv_FetchByID(studio_ID,&buf);
+
+		int xx = 0,yy = 1;		
+			for(int i=0; i <= buf.rowsCount;i++)
+        	{
+	            for(int j=0;j<=buf.colsCount;j++)
+        	    {
+                	if(i==0)
+			{
+        	            printf("%3d",xx++);
+                	}
+	                else if(j==0)
+			{
+                	    printf("%3d",yy++);
+	                }
+        	        else
+			{
+				int flag;
+				    List_ForEach(list_ti,pos)
+		            {
+					//	printf("status   =%d  \n",pos->data.status);
+						//printf("seatid = %d\n",pos->data.seat_id);
+						flag=0;
+						seat_node_t *buf1;
+						buf1  =  Seat_Srv_FindByID(list, pos->data.seat_id);
+						//Seat_Srv_FetchByID(pos->data.seat_id, buf1);
+						//printf("row = %d  col =  %d pos-sss = %d \n",buf1->data.row,buf1->data.column,pos->data.status);
+					    if(buf1->data.row ==i && buf1->data.column == j)
+					    {
+							if(pos->data.status==0){
+									printf( "%3c",'#');
+									flag = 1;
+							}
+							else{
+								flag = 1;
+								printf("   ");
+							}
+							//printf("status   =%d  \n",pos->data.status);
+				 	   }
+					}//if(!flag) printf("   ");
+				} 
+		 	}
+		    putchar('\n');
+		}
 
 		printf( "[N]ext    [P]rev    [S]ale Ticket      [R]eturn    \n");
+
+
 		printf( "Your choice:");
-		scanf( "%c",&choice);
+		choice = getchar();
+		//scanf( "%c",&choice);
 		getchar( );
+		
 		switch(choice)
 		{
+
 			case'n':
 			case'N':
 				if (!Pageing_IsLastPage(paging)) 
@@ -256,10 +309,8 @@ int Sale_UI_ShowTicket(int schedule_id)
 
 int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 {
-
 	seat_node_t * seat = NULL;
-	setbuf(stdin,NULL);
-	sale_t data_t;
+	sale_t data_t ;
 	int row,col;
 	while(1)
 	{
@@ -325,7 +376,7 @@ int Sale_UI_SellTicket(ticket_list_t list_t,seat_list_t list_s)
 			time(&timep);
 			p = localtime(&timep);
 			data_t.date.year = p->tm_year + 1900;
-	    		data_t.date.month = p->tm_mon + 1;
+	    	data_t.date.month = p->tm_mon + 1;
 			data_t.date.day = p->tm_mday;
 			data_t.time.hour = p->tm_hour;
 			data_t.time.minute = p->tm_min;
