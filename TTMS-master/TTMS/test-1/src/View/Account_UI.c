@@ -13,6 +13,7 @@
 #include <unistd.h>
 #include <assert.h>
 #include "../Common/md5.h"
+#include "MaiAccount_UI.h"
 
 static const int Account_PAGE_SIZE = 5;
 char ch;
@@ -121,6 +122,16 @@ int SysLogin()
 			x--;
 		}
 	}
+	printf("%d\n",x);
+	if(x==0){
+		char cho;
+		printf("Do you forget your password and want to reset it?\n[Y]es   or   [N]o:");
+		scanf("%c",&cho);
+		getchar();
+		if(cho=='Y'||cho=='y'){
+			MaiAccount_UI_Mgt();	
+		}
+	}
 	return 0;
 }
 
@@ -138,6 +149,8 @@ char Account_UI_Status2Char(account_type_t status)
 
 void Account_UI_MgtEntry(void)
 {
+	//printf("dsdasdas\n");
+	//printf("%d\n",gl_CurUser.type);
 	if (gl_CurUser.type != USR_ADMIN)
 	{
 		printf("you can't join in there!please input the [Enter]");
@@ -155,10 +168,10 @@ void Account_UI_MgtEntry(void)
 	List_Init(head, account_node_t);
 	paging.offset = 0;
 	paging.pageSize = Account_PAGE_SIZE;
-
+	
 	paging.totalRecords = Account_Srv_FetchAll(head);
 	Paging_Locate_FirstPage(head, paging);
-
+	//printf("dsdasdas\n");
 	do
 	{
 		printf("[N]匿名用户    |    [X]售票员     |     [M]经理     |     [A]系统管理员");
@@ -312,14 +325,37 @@ int Account_UI_Add(account_list_t list)
 			printf("please input you want passsword :");
 			setbuf(stdin, NULL);
 			char password[35];
-			scanf("%s", password);
+		//	scanf("%s", password);
+
+			for (int i = 0; i < len1; i++)
+			{
+			password[i] = getch();
+			if (password[i] == '\n')
+			{
+				password[i] = '\0';
+				break;
+			}
+			if ((int)password[i] == 127)
+			{
+				printf("\b \b");
+				i = i - 2;
+			}
+			else
+			{
+				printf("*");
+			}
+			if (i < 0)
+				password[0] = '\0';
+		}
+
+
 			unsigned char decrypt[16];
 			MD5_CTX md5;
 			MD5Init(&md5);
 			MD5Update(&md5, password, strlen((char *)password));
 			MD5Final(&md5, data.password);
 
-			getchar();
+		//	getchar();
 			printf("please input you want type :\n");
 			printf("===================================================================\n");
 			printf("[0]匿名用户  |  [1]售票员  |  [2]经理  |  [9]系统管理员:");
@@ -327,6 +363,10 @@ int Account_UI_Add(account_list_t list)
 			setbuf(stdin, NULL);
 			scanf("%d", &data.type);
 			getchar();
+			printf("Please enter your security questions.\n");
+			scanf("%s",data.mipao);
+			getchar();
+
 			if (Account_Srv_Add(&data))
 			{
 				newRecCount += 1;
@@ -361,7 +401,31 @@ int Account_UI_Modify(account_list_t list, char usrName[])
 			setbuf(stdin, NULL);
 			int x;
 
-			scanf("%s", password);
+		//	scanf("%s", password);
+
+
+			for (int i = 0; i < len1; i++)
+			{
+			password[i] = getch();
+			if (password[i] == '\n')
+			{
+				password[i] = '\0';
+				break;
+			}
+			if ((int)password[i] == 127)
+			{
+				printf("\b \b");
+				i = i - 2;
+			}
+			else
+			{
+				printf("*");
+			}
+			if (i < 0)
+				password[0] = '\0';
+		}
+
+
 			unsigned char decrypt[16];
 			MD5_CTX md5;
 			MD5Init(&md5);

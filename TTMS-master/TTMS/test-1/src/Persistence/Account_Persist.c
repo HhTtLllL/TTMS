@@ -34,7 +34,9 @@ int Account_Perst_SelectAll(account_list_t list) {
 	}
 
 	while (!feof(fp)) {
+		//printf("dsdasdas\n");
 		if (fread(&data, sizeof(account_t), 1, fp)) {
+			//printf("dsdasdaaaaaaaaaaaaaaas\n");
 			newNode = (account_node_t*) malloc(sizeof(account_node_t));
 			if (!newNode) {
 				printf(

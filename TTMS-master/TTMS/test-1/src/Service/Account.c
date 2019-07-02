@@ -14,7 +14,7 @@
 
 
  account_t gl_CurUser;
-
+const int len1;
 //创建系统初始化账号admin
 void Account_Srv_InitSys(){
 	if(Account_Perst_CheckAccFile()==1){
@@ -23,7 +23,7 @@ void Account_Srv_InitSys(){
 	char encrypt[20];
 	unsigned char decrypt[16];
 	account_t data_admin;
-	printf("it is no Account.dat,please init admin!!Please input [Enter]");
+	printf("it is no Account.dat,please init admin!!please input[E]nter");
 	setbuf(stdin,NULL);
     getchar();
 	printf("please input you want init name :");
@@ -33,7 +33,29 @@ void Account_Srv_InitSys(){
 	
 	printf("please input you want passsword :");
 	setbuf(stdin,NULL);
-	scanf("%s",encrypt);
+	//scanf("%s",encrypt);
+
+	for (int i = 0; i < len1; i++)
+	{
+		encrypt[i] = getch();
+		if (encrypt[i] == '\n')
+		{
+			encrypt[i] = '\0';
+			break;
+		}
+		if ((int)encrypt[i] == 127)
+		{
+			printf("\b \b");
+			i = i - 2;
+		}
+		else
+		{
+			printf("*");
+		}
+		if (i < 0)
+			encrypt[0] = '\0';
+	}
+
 	MD5_CTX md5;
 	MD5Init(&md5);         		
 	MD5Update(&md5,encrypt,strlen((char *)encrypt));
@@ -45,18 +67,24 @@ void Account_Srv_InitSys(){
 		data_admin.password[i] = decrypt[i];
 	}
 	
-	getchar();
-	putchar('\n');
-	/*for(int i=0;i<16;i++)
+	//getchar();
+	/*putchar('\n');
+	for(int i=0;i<16;i++)
 	{
 		printf("%02x",data_admin.password[i]);
 	}*/
 	setbuf(stdin,NULL);
-	printf("[0]anonymous   |   [1]Conductor   |   [2]manager   |   [9]admin");
+	printf("\n[0]anonymous   |   [1]Conductor   |   [2]manager   |   [9]admin");
 	printf("(!!!admin must!!!)please input you want type ,plseae input [9]:");
 	setbuf(stdin,NULL);
 	scanf("%d",&data_admin.type);
-	
+	getchar();
+
+	printf("please input your mibao number:(only you know):\n");
+	scanf("%s",data_admin.mipao);
+	//printf("%s",data_admin.mipao);
+	getchar();
+
 	setbuf(stdin,NULL);
 	Account_Srv_Add(&data_admin);
 
@@ -80,6 +108,19 @@ inline int Account_Srv_Verify(char usrName[],unsigned char pwd[]){
 		else{
 			return 0;
 		}
+	}
+	return 0;
+}
+
+
+int Account_Srv_Verifyno(char usrName[]){
+	account_t usr;
+	if(Account_Perst_SelByName(usrName,&usr)){
+			gl_CurUser = usr;
+			return 1;
+	}
+	else{
+		return 0;
 	}
 	return 0;
 }
